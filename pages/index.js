@@ -1,3 +1,5 @@
+import data from "../data.json";
+
 import Head from "next/head";
 
 import styles from "../styles/Home.module.css";
@@ -5,9 +7,9 @@ import styles from "../styles/Home.module.css";
 const axios = require("axios");
 import { DateTime } from "luxon";
 
-export default function Home({}) {
+export default function Home({ data }) {
   let dateTime = DateTime.local();
-  let dateTimeFormatted = dateTime.toLocaleString({
+  let localTime = dateTime.toLocaleString({
     weekday: "short",
     month: "long",
     day: "numeric",
@@ -15,13 +17,42 @@ export default function Home({}) {
     minute: "2-digit",
   });
 
-  var portlandTime = dateTime.setZone("America/Los_Angeles").toLocaleString({
+  let portlandTime = dateTime.setZone("America/Los_Angeles").toLocaleString({
     weekday: "short",
     month: "long",
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
   });
+
+  // Making a date from Supabase Date
+
+  let ISOFromData = DateTime.fromISO(`${data[0].us_date}T${data[0].us_time}`);
+
+  let supaDate = DateTime.fromObject(
+    {
+      day: ISOFromData.c.day,
+      hour: ISOFromData.c.hour,
+      minute: ISOFromData.c.minute,
+      month: ISOFromData.c.month,
+      year: ISOFromData.c.year,
+    },
+    { zone: "America/Los_Angeles", numberingSystem: "beng" }
+  );
+
+  let supaDateNZ = supaDate.setZone("Pacific/Auckland");
+  /**
+   * .toLocaleString({
+    weekday: "short",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+   */
+
+  console.log(supaDate);
+  console.log(dateTime);
 
   /**  */
   return (
@@ -33,23 +64,21 @@ export default function Home({}) {
       </Head>
 
       <main className={styles.main}>
-        <div> New Zealand: {JSON.stringify(dateTimeFormatted)}</div>
-        <div> Portland {JSON.stringify(portlandTime)}</div>
+        <div> New Zealand local time: {localTime}</div>
+        <div> Portland local time: {portlandTime}</div>
+        <div>Date from object in Portland Time: {JSON.stringify(supaDate)}</div>
+        <div>
+          Date from object in New Zealand Time: {JSON.stringify(supaDateNZ)}
+        </div>
       </main>
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const avatarData = await axios.get(
-    "https://last-airbender-api.herokuapp.com/api/v1/characters/random"
-  );
-
-  const avatarCh = await avatarData.data;
-  console.log(avatarCh);
   return {
     props: {
-      avatarCh,
+      data,
     },
   };
 }

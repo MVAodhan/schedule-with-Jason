@@ -1,0 +1,18 @@
+[
+{
+"id": 1,
+"created_at": "2021-10-10T04:16:24+00:00",
+"guest": "Kelly Vaughan",
+"us_date": "2021-10-25",
+"us_time": "10:30:00",
+"description": "in this ep, Kelly Vaughan will teach us Shopify "
+},
+{
+"id": 2,
+"created_at": "2021-10-11T06:32:18+00:00",
+"guest": "Fauna ",
+"us_date": "2021-10-25",
+"us_time": "10:30:00",
+"description": "Fauna w/Rob"
+}
+]
