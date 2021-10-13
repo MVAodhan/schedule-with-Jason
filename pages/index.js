@@ -9,50 +9,35 @@ import { DateTime } from "luxon";
 
 export default function Home({ data }) {
   let dateTime = DateTime.local();
-  let localTime = dateTime.toLocaleString({
-    weekday: "short",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
 
-  let portlandTime = dateTime.setZone("America/Los_Angeles").toLocaleString({
-    weekday: "short",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
+  let localMed = dateTime.toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS);
+
+  let portlandTime = dateTime
+    .setZone("America/Los_Angeles")
+    .toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS);
 
   // Making a date from Supabase Date
 
-  let ISOFromData = DateTime.fromISO(`${data[0].us_date}T${data[0].us_time}`);
+  let objFromData = DateTime.fromISO(`${data[0].us_date}T${data[0].us_time}`);
+  let strFromObj = objFromData.toFormat("ff");
 
-  let supaDate = DateTime.fromObject(
-    {
-      day: ISOFromData.c.day,
-      hour: ISOFromData.c.hour,
-      minute: ISOFromData.c.minute,
-      month: ISOFromData.c.month,
-      year: ISOFromData.c.year,
-    },
-    { zone: "America/Los_Angeles", numberingSystem: "beng" }
-  );
+  // let dateFromDataNZ = dateFromData.setZone("Pacific/Auckland");
 
-  let supaDateNZ = supaDate.setZone("Pacific/Auckland");
-  /**
-   * .toLocaleString({
-    weekday: "short",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-   */
+  // let supaISO = DateTime.fromObject(
+  //   {
+  //     day: ISOFromData.c.day,
+  //     hour: ISOFromData.c.hour,
+  //     minute: ISOFromData.c.minute,
+  //     month: ISOFromData.c.month,
+  //     year: ISOFromData.c.year,
+  //   },
+  //   { zone: "America/Los_Angeles", numberingSystem: "beng" }
+  // );
 
-  console.log(supaDate);
-  console.log(dateTime);
+  // console.log("supaISO", supaISO);
+  // console.log(typeof supaIso);
+
+  // let supaDate = supaISO.toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS);
 
   /**  */
   return (
@@ -64,12 +49,10 @@ export default function Home({ data }) {
       </Head>
 
       <main className={styles.main}>
-        <div> New Zealand local time: {localTime}</div>
+        <div> New Zealand local MED: {localMed}</div>
         <div> Portland local time: {portlandTime}</div>
-        <div>Date from object in Portland Time: {JSON.stringify(supaDate)}</div>
-        <div>
-          Date from object in New Zealand Time: {JSON.stringify(supaDateNZ)}
-        </div>
+        {/* <div>Json Date in Portland Time: {supaDate}</div> */}
+        <div>Date from data: {strFromObj}</div>
       </main>
     </div>
   );
