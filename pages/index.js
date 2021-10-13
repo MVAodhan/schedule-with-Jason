@@ -8,38 +8,30 @@ const axios = require("axios");
 import { DateTime } from "luxon";
 
 export default function Home({ data }) {
-  let dateTime = DateTime.local();
-
-  let localMed = dateTime.toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS);
-
-  let portlandTime = dateTime
-    .setZone("America/Los_Angeles")
-    .toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS);
-
-  // Making a date from Supabase Date
-
+  // Making an object date and timefrom Supabase Date data
   let objFromData = DateTime.fromISO(`${data[0].us_date}T${data[0].us_time}`);
-  let strFromObj = objFromData.toFormat("ff");
 
-  // let dateFromDataNZ = dateFromData.setZone("Pacific/Auckland");
+  //Creating the base date object in PT, so the initial date can be entered into the db as PT
+  let ptObj = DateTime.fromObject(
+    {
+      day: objFromData.c.day,
+      hour: objFromData.c.hour,
+      minute: objFromData.c.minute,
+      month: objFromData.c.month,
+      year: objFromData.c.year,
+    },
+    { zone: "America/Los_Angeles" }
+  );
 
-  // let supaISO = DateTime.fromObject(
-  //   {
-  //     day: ISOFromData.c.day,
-  //     hour: ISOFromData.c.hour,
-  //     minute: ISOFromData.c.minute,
-  //     month: ISOFromData.c.month,
-  //     year: ISOFromData.c.year,
-  //   },
-  //   { zone: "America/Los_Angeles", numberingSystem: "beng" }
-  // );
+  //Formatting the Pt object to a friendly user format
+  let ptObjStr = ptObj.toFormat("ff");
 
-  // console.log("supaISO", supaISO);
-  // console.log(typeof supaIso);
+  // Converting the PT object to a a NZ object
+  let nzObj = ptObj.setZone("Pacific/Auckland");
 
-  // let supaDate = supaISO.toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS);
+  //Formatting the NZ object to a friendly user format
+  let nzObjStr = nzObj.toFormat("ff");
 
-  /**  */
   return (
     <div className={styles.container}>
       <Head>
@@ -49,10 +41,8 @@ export default function Home({ data }) {
       </Head>
 
       <main className={styles.main}>
-        <div> New Zealand local MED: {localMed}</div>
-        <div> Portland local time: {portlandTime}</div>
-        {/* <div>Json Date in Portland Time: {supaDate}</div> */}
-        <div>Date from data: {strFromObj}</div>
+        <div>Date from data: {ptObjStr}</div>
+        <div>NZ date from data: {nzObjStr}</div>
       </main>
     </div>
   );
