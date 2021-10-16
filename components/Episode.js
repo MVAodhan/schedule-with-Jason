@@ -6,7 +6,7 @@ import { useClipboard } from "../hooks/useClipboard";
 import CopyButton from "./CopyButton";
 
 const Episode = ({ data, usDate, nzDate }) => {
-  const { guest, title, description } = data[0];
+  const { guest, title, description } = data;
   const { isCopied, handleCopy } = useClipboard();
   return (
     <Box>

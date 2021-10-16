@@ -5,37 +5,12 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
 const axios = require("axios");
-import { DateTime } from "luxon";
 
 import Header from "../components/Header";
 import Container from "../components/Container";
 
 export default function Home({ data }) {
-  const name = data[0].guest;
-  const description = data[0].description;
   // Making an object date and timefrom Supabase Date data
-  let objFromData = DateTime.fromISO(`${data[0].us_date}T${data[0].us_time}`);
-
-  //Creating the base date object in PT, so the initial date can be entered into the db as PT
-  let ptObj = DateTime.fromObject(
-    {
-      day: objFromData.c.day,
-      hour: objFromData.c.hour,
-      minute: objFromData.c.minute,
-      month: objFromData.c.month,
-      year: objFromData.c.year,
-    },
-    { zone: "America/Los_Angeles" }
-  );
-
-  //Formatting the Pt object to a friendly user format
-  let usDate = ptObj.toFormat("ff");
-
-  // Converting the PT object to a a NZ object
-  let nzObj = ptObj.setZone("Pacific/Auckland");
-
-  //Formatting the NZ object to a friendly user format
-  let nzDate = nzObj.toFormat("ff");
 
   return (
     <div className={styles.container}>
@@ -46,7 +21,7 @@ export default function Home({ data }) {
       </Head>
       <Header />
 
-      <Container usDate={usDate} nzDate={nzDate} data={data} />
+      <Container data={data} />
     </div>
   );
 }
