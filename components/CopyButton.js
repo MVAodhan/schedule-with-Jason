@@ -1,4 +1,3 @@
-import React from "react";
 import { useClipboard } from "../hooks/useClipboard";
 
 import { IconButton } from "@chakra-ui/react";

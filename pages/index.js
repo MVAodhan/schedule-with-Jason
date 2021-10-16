@@ -11,7 +11,8 @@ import Header from "../components/Header";
 import Container from "../components/Container";
 
 export default function Home({ data }) {
-  const name = "Ifiok Jr";
+  const name = data[0].guest;
+  const description = data[0].description;
   // Making an object date and timefrom Supabase Date data
   let objFromData = DateTime.fromISO(`${data[0].us_date}T${data[0].us_time}`);
 
@@ -28,13 +29,13 @@ export default function Home({ data }) {
   );
 
   //Formatting the Pt object to a friendly user format
-  let ptObjStr = ptObj.toFormat("ff");
+  let usDate = ptObj.toFormat("ff");
 
   // Converting the PT object to a a NZ object
   let nzObj = ptObj.setZone("Pacific/Auckland");
 
   //Formatting the NZ object to a friendly user format
-  let nzObjStr = nzObj.toFormat("ff");
+  let nzDate = nzObj.toFormat("ff");
 
   return (
     <div className={styles.container}>
@@ -45,7 +46,7 @@ export default function Home({ data }) {
       </Head>
       <Header />
 
-      <Container usDate={ptObjStr} nzDate={nzObjStr} name={name} />
+      <Container usDate={usDate} nzDate={nzDate} data={data} />
     </div>
   );
 }
