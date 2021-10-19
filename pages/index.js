@@ -1,8 +1,8 @@
-import data from "../data.json";
-
 import Head from "next/head";
 
 import styles from "../styles/Home.module.css";
+
+import { useSupabase } from "../hooks/useSupabase.js";
 
 const axios = require("axios");
 
@@ -10,8 +10,6 @@ import Header from "../components/Header";
 import Container from "../components/Container";
 
 export default function Home({ data }) {
-  // Making an object date and timefrom Supabase Date data
-
   return (
     <div className={styles.container}>
       <Head>
@@ -27,6 +25,10 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
+  const supabase = useSupabase();
+
+  const { data, error } = await supabase.from("episodes").select();
+
   return {
     props: {
       data,

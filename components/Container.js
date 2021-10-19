@@ -8,6 +8,7 @@ const Container = ({ data }) => {
     <Box as="main" h="100%" w="80vw" d="flex" justifyContent="center">
       <Grid templateColumns="repeat(2, 1fr)" gap={8} w="100%" mt="40px">
         {data.map((data) => {
+          // Making an object date and timefrom Supabase Date data
           let objFromData = DateTime.fromISO(`${data.us_date}T${data.us_time}`);
 
           //Creating the base date object in PT, so the initial date can be entered into the db as PT
