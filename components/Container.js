@@ -8,11 +8,17 @@ const Container = ({ data }) => {
     <Box as="main" h="100%" w="80vw" d="flex" justifyContent="center">
       <Grid templateColumns="repeat(2, 1fr)" gap={8} w="100%" mt="40px">
         {data.map((data) => {
-          // Making an object date and timefrom Supabase Date data
-          let objFromData = DateTime.fromISO(`${data.us_date}T${data.us_time}`);
+          // Making a base object date and time from Supabase Date data
+          let objFromData = DateTime.fromISO(
+            `${data.default_date}T${data.default_time}`
+          );
+
+          let zone = data.is_pt ? "America/Los_Angeles" : "Pacific/Auckland";
+          let usDate;
+          let nzDate;
 
           //Creating the base date object in PT, so the initial date can be entered into the db as PT
-          let ptObj = DateTime.fromObject(
+          let zoneISO = DateTime.fromObject(
             {
               day: objFromData.c.day,
               hour: objFromData.c.hour,
@@ -20,17 +26,21 @@ const Container = ({ data }) => {
               month: objFromData.c.month,
               year: objFromData.c.year,
             },
-            { zone: "America/Los_Angeles" }
+            { zone }
           );
 
-          //Formatting the Pt object to a friendly user format
-          let usDate = ptObj.toFormat("ff");
+          if (zoneISO.zone.zoneName === "America/Los_Angeles") {
+            usDate = zoneISO.toFormat("ff");
+          } else {
+            usDate = zoneISO.setZone("America/Los_Angeles").toFormat("ff");
+          }
 
-          // Converting the PT object to a a NZ object
-          let nzObj = ptObj.setZone("Pacific/Auckland");
+          if (zoneISO.zone.zoneName === "Pacific/Auckland") {
+            nzDate = zoneISO.toFormat("ff");
+          } else {
+            nzDate = zoneISO.setZone("Pacific/Auckland").toFormat("ff");
+          }
 
-          // Formatting the NZ object to a friendly user format
-          let nzDate = nzObj.toFormat("ff");
           return (
             <Box w="100%" key={data.id}>
               <Episode
