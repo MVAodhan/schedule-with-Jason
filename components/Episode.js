@@ -1,11 +1,15 @@
-import { useState, useRef } from "react";
-import { Box, Text } from "@chakra-ui/react";
-
+import { Box, Text, Grid } from "@chakra-ui/react";
 import { useClipboard } from "../hooks/useClipboard";
 
 import CopyButton from "./CopyButton";
 
-const Episode = ({ data, usDate, nzDate }) => {
+const Episode = ({
+  data,
+  usDate,
+  nzDate,
+  bufferTwoWeeks,
+  bufferNinetyMinutes,
+}) => {
   const { guest, title, description } = data;
   const { isCopied, handleCopy } = useClipboard();
   return (
@@ -99,6 +103,38 @@ const Episode = ({ data, usDate, nzDate }) => {
               <CopyButton textToCopy={description} />
             </Box>
           </Box>
+          <Box
+            d="flex"
+            flexDir="row"
+            alignItems="center"
+            w="100%"
+            mt="10px"
+            justifyContent="space-around"
+          >
+            Buffer Scheduling Dates & Times
+          </Box>
+          <Grid templateColumns="repeat(3, 1fr)" gap={8} w="100%" mt="10px">
+            <Box d="flex" justifyContent="center">
+              2 weeks before
+            </Box>
+            <Box d="flex" justifyContent="center">
+              90 minutes before
+            </Box>
+            <Box d="flex" justifyContent="center">
+              Going live
+            </Box>
+          </Grid>
+          <Grid templateColumns="repeat(3, 1fr)" gap={8} w="100%">
+            <Box d="flex" justifyContent="center" mt="10px">
+              {bufferTwoWeeks}
+            </Box>
+            <Box d="flex" justifyContent="center" mt="10px">
+              {bufferNinetyMinutes}
+            </Box>
+            <Box d="flex" justifyContent="center" mt="10px">
+              {usDate}
+            </Box>
+          </Grid>
 
           <Box
             w="100%"

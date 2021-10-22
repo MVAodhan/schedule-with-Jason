@@ -41,6 +41,16 @@ const Container = ({ data }) => {
             nzDate = zoneISO.setZone("Pacific/Auckland").toFormat("ff");
           }
 
+          let bufferTwoWeeks = zoneISO
+            .setZone("America/Los_Angeles")
+            .minus({ weeks: 2 })
+            .toFormat("ff");
+
+          let bufferNinetyMinutes = zoneISO
+            .setZone("America/Los_Angeles")
+            .minus({ minutes: 90 })
+            .toFormat("ff");
+
           return (
             <Box w="100%" key={data.id}>
               <Episode
@@ -48,6 +58,8 @@ const Container = ({ data }) => {
                 data={data}
                 usDate={usDate}
                 nzDate={nzDate}
+                bufferTwoWeeks={bufferTwoWeeks}
+                bufferNinetyMinutes={bufferNinetyMinutes}
               />
             </Box>
           );
