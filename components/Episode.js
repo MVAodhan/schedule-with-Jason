@@ -9,6 +9,7 @@ const Episode = ({
   nzDate,
   bufferTwoWeeks,
   bufferNinetyMinutes,
+  altText,
 }) => {
   const { guest, title, description } = data;
   const { isCopied, handleCopy } = useClipboard();
@@ -135,12 +136,13 @@ const Episode = ({
               {usDate}
             </Box>
           </Grid>
+          <Box d="flex" alignItems="center" justifyContent="center" w="100%">
+            <Text id="guest" mr="10px" pl="5%">
+              Alt Text
+            </Text>
 
-          <Box
-            w="100%"
-            h="5px"
-            bgGradient="linear(to-r, #FF96BC, #FFC477, #FBE84A, #C1F3A1, #96FCE4 )"
-          />
+            <CopyButton textToCopy={altText} />
+          </Box>
         </Box>
       </Box>
     </Box>

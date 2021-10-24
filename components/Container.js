@@ -5,7 +5,7 @@ import { DateTime } from "luxon";
 
 const Container = ({ data }) => {
   return (
-    <Box as="main" h="100%" w="80vw" d="flex" justifyContent="center">
+    <Box h="100%" w="80vw">
       <Grid templateColumns="repeat(2, 1fr)" gap={8} w="100%" mt="40px">
         {data.map((data) => {
           // Making a base object date and time from Supabase Date data
@@ -16,6 +16,8 @@ const Container = ({ data }) => {
           let zone = data.is_pt ? "America/Los_Angeles" : "Pacific/Auckland";
           let usDate;
           let nzDate;
+
+          let altText = `${data.title} with ${data.guest}`;
 
           //Creating the base date object in PT, so the initial date can be entered into the db as PT
           let zoneISO = DateTime.fromObject(
@@ -60,6 +62,7 @@ const Container = ({ data }) => {
                 nzDate={nzDate}
                 bufferTwoWeeks={bufferTwoWeeks}
                 bufferNinetyMinutes={bufferNinetyMinutes}
+                altText={altText}
               />
             </Box>
           );
