@@ -10,6 +10,9 @@ const Episode = ({
   bufferTwoWeeks,
   bufferNinetyMinutes,
   altText,
+  twoWeekTweet,
+  NinetyMinTweet,
+  liveTweet,
 }) => {
   const { guest, title, description } = data;
   const { isCopied, handleCopy } = useClipboard();
@@ -136,12 +139,21 @@ const Episode = ({
               {usDate}
             </Box>
           </Grid>
+          <Grid templateColumns="repeat(3, 1fr)" gap={8} w="100%">
+            <Box d="flex" justifyContent="center" mt="10px">
+              <CopyButton textToCopy={twoWeekTweet} />
+            </Box>
+            <Box d="flex" justifyContent="center" mt="10px">
+              <CopyButton textToCopy={NinetyMinTweet} />
+            </Box>
+            <Box d="flex" justifyContent="center" mt="10px">
+              <CopyButton textToCopy={liveTweet} />
+            </Box>
+          </Grid>
           <Box d="flex" alignItems="center" justifyContent="center" w="100%">
             <Text id="guest" mr="10px" pl="5%">
               Alt Text
             </Text>
-
-            <CopyButton textToCopy={altText} />
           </Box>
         </Box>
       </Box>
