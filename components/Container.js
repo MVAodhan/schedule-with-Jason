@@ -10,6 +10,7 @@ const Container = ({ data }) => {
       .replace(/ /g, "-")
       .replace(/[^\w-]+/g, "");
   };
+
   return (
     <Box h="100%" w="80vw">
       <Grid templateColumns="repeat(2, 1fr)" gap={8} w="100%" mt="40px">
@@ -23,33 +24,49 @@ const Container = ({ data }) => {
           let usDate;
           let nzDate;
 
-          let altText = `${data.title} with ${data.guest}`;
+          let slug;
+          let twoWeekTweet;
+          let ninetyMinTweet;
+          let liveTweet;
+          let altText;
 
-          let slug = convertToSlug(data.title);
+          if (data.title && data.guest) {
+            altText = `${data.title} with ${data.guest}`;
+          }
 
-          let twoWeekTweet = `📣 Just Scheduled! 📣
+          if (data.title) {
+            slug = convertToSlug(data.title);
+          }
+
+          if (data.description) {
+            twoWeekTweet = `📣 Just Scheduled! 📣
           
           ${data.description}
           
           ⬇️ Details Here ⬇️
           https://www.learnwithjason.dev/${slug}
           `;
+          }
 
-          let NinetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
+          if (data.description) {
+            ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
           
           ${data.description}
           
           ⬇️ Details Here ⬇️
           https://www.learnwithjason.dev/${slug}
           `;
+          }
 
-          let liveTweet = `🔴 We're Live! 🔴 
-          
-          ${data.description}
-          
-          ⬇️  Watch Live Here  👀
-          https://twitch.tv/jlengstorf
+          if (data.description) {
+            liveTweet = `🔴 We're Live! 🔴  
+            ${data.description} 
+            
+            
+            ⬇️  Watch Live Here  👀 
+             https://twitch.tv/jlengstorf
           `;
+          }
 
           //Creating the base date object in PT, so the initial date can be entered into the db as PT
           let zoneISO = DateTime.fromObject(
@@ -95,9 +112,17 @@ const Container = ({ data }) => {
                 bufferTwoWeeks={bufferTwoWeeks}
                 bufferNinetyMinutes={bufferNinetyMinutes}
                 altText={altText}
-                twoWeekTweet={twoWeekTweet}
-                NinetyMinTweet={NinetyMinTweet}
-                liveTweet={liveTweet}
+                twoWeekTweet={
+                  twoWeekTweet ? twoWeekTweet : "No data from supabase to copy"
+                }
+                ninetyMinTweet={
+                  ninetyMinTweet
+                    ? ninetyMinTweet
+                    : "No data from supabase to copy"
+                }
+                liveTweet={
+                  liveTweet ? liveTweet : "No data from supabase to copy"
+                }
               />
             </Box>
           );

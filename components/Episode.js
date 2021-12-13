@@ -11,11 +11,13 @@ const Episode = ({
   bufferNinetyMinutes,
   altText,
   twoWeekTweet,
-  NinetyMinTweet,
+  ninetyMinTweet,
   liveTweet,
 }) => {
-  const { guest, title, description } = data;
   const { isCopied, handleCopy } = useClipboard();
+
+  console.log(`${data.title}, ${data.description}`);
+
   return (
     <Box>
       <Box w="100%">
@@ -41,17 +43,17 @@ const Episode = ({
               w="50%"
             >
               <Text id="guest" mr="10px" pl="5%">
-                {guest}
+                {data.guest}
               </Text>
 
-              <CopyButton textToCopy={guest} />
+              <CopyButton textToCopy={data.guest} />
             </Box>
             <Box d="flex" justifyContent="flex-start" w="40%">
               <Text>
                 <Box as="span" mr="30px">
                   US Date:
                 </Box>{" "}
-                {usDate}
+                {data.usDate}
               </Text>
             </Box>
           </Box>
@@ -70,11 +72,15 @@ const Episode = ({
               justifyContent="flex-start"
               w="50%"
             >
-              <Text id="guest" mr="10px" pl="5%">
-                {title}
-              </Text>
+              {data.title && (
+                <Box>
+                  <Text id="guest" mr="10px" pl="5%">
+                    {data.title}
+                  </Text>
 
-              <CopyButton textToCopy={title} />
+                  <CopyButton textToCopy={data.title} />
+                </Box>
+              )}
             </Box>
             <Box d="flex" justifyContent="flex-start" w="40%">
               <Text>
@@ -100,11 +106,14 @@ const Episode = ({
               justifyContent="flex-start"
               w="100%"
             >
-              <Text id="guest" mr="10px" pl="5%">
-                {description}
-              </Text>
-
-              <CopyButton textToCopy={description} />
+              {data.description && (
+                <Box>
+                  <Text id="guest" mr="10px" pl="5%">
+                    {data.description}
+                  </Text>
+                  <CopyButton textToCopy={data.description} />
+                </Box>
+              )}
             </Box>
           </Box>
           <Box
@@ -144,16 +153,21 @@ const Episode = ({
               <CopyButton textToCopy={twoWeekTweet} />
             </Box>
             <Box d="flex" justifyContent="center" mt="10px">
-              <CopyButton textToCopy={NinetyMinTweet} />
+              <CopyButton textToCopy={ninetyMinTweet} />
             </Box>
             <Box d="flex" justifyContent="center" mt="10px">
               <CopyButton textToCopy={liveTweet} />
             </Box>
           </Grid>
           <Box d="flex" alignItems="center" justifyContent="center" w="100%">
-            <Text id="guest" mr="10px" pl="5%">
-              Alt Text
-            </Text>
+            {altText && (
+              <Box>
+                <Text id="guest" mr="10px" pl="5%">
+                  Alt Text
+                </Text>
+                <CopyButton textToCopy={altText} />
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
