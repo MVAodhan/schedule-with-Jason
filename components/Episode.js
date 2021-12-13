@@ -53,7 +53,7 @@ const Episode = ({
                 <Box as="span" mr="30px">
                   US Date:
                 </Box>{" "}
-                {data.usDate}
+                {usDate}
               </Text>
             </Box>
           </Box>

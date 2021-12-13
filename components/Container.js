@@ -16,11 +16,9 @@ const Container = ({ data }) => {
       <Grid templateColumns="repeat(2, 1fr)" gap={8} w="100%" mt="40px">
         {data.map((data) => {
           // Making a base object date and time from Supabase Date data
-          let objFromData = DateTime.fromISO(
-            `${data.default_date}T${data.default_time}`
-          );
 
           let zone = data.is_pt ? "America/Los_Angeles" : "Pacific/Auckland";
+
           let usDate;
           let nzDate;
 
@@ -67,6 +65,10 @@ const Container = ({ data }) => {
              https://twitch.tv/jlengstorf
           `;
           }
+
+          let objFromData = DateTime.fromISO(
+            `${data.default_date}T${data.default_time}`
+          );
 
           //Creating the base date object in PT, so the initial date can be entered into the db as PT
           let zoneISO = DateTime.fromObject(
