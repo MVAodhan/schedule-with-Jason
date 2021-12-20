@@ -1,0 +1,28 @@
+.container {
+  /* gradient border with no radius
+  
+   border-image-slice: 1;
+  border-image-source: linear-gradient(
+    to right,
+    #ff96bc 14.59%,
+    #ffc477 32%,
+    #fbe84a 48.62%,
+    #c1f3a1 68.01%,
+    #96fce4 87.79%
+  ); 
+  */
+  border: double 5px transparent;
+
+  background-image: linear-gradient(white, white),
+    linear-gradient(
+      to right,
+      #ff96bc 14.59%,
+      #ffc477 32%,
+      #fbe84a 48.62%,
+      #c1f3a1 68.01%,
+      #96fce4 87.79%
+    );
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  border-radius: 25px;
+}

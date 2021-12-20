@@ -1,7 +1,12 @@
-import { Box, Text, Grid } from "@chakra-ui/react";
-import { useClipboard } from "../hooks/useClipboard";
+import { useState } from "react";
 
-import CopyButton from "./CopyButton";
+import { Box, Text, IconButton, useToast } from "@chakra-ui/react";
+
+import ExpandIcon from "./ExpandIcon";
+
+import copy from "copy-to-clipboard";
+
+import styles from "../styles/Episode.module.css";
 
 const Episode = ({
   data,
@@ -14,162 +19,192 @@ const Episode = ({
   ninetyMinTweet,
   liveTweet,
 }) => {
-  const { isCopied, handleCopy } = useClipboard();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toast = useToast();
 
-  console.log(`${data.title}, ${data.description}`);
+  const handleCopy = (textToCopy) => {
+    let stringToCopy = textToCopy.toString();
+    copy(stringToCopy);
+  };
+
+  console.log(`${data.guest} is expanded: ${isExpanded}`);
 
   return (
-    <Box>
-      <Box w="100%">
+    <Box display="flex" justifyContent="center">
+      <Box
+        w="100%"
+        h="auto"
+        className={styles.container}
+        d="flex"
+        flexDirection="column"
+      >
         <Box
           w="100%"
-          h="5px"
-          bgGradient="linear(to-r, #FF96BC, #FFC477, #FBE84A, #C1F3A1, #96FCE4 )"
-        />
-        <Box>
+          h="auto"
+          bg="primary"
+          borderTopLeftRadius="20px"
+          borderTopRightRadius="20px"
+          borderBottomLeftRadius="20px"
+          borderBottomRightRadius="20px"
+          d="flex"
+          flexDir="column"
+        >
+          {" "}
+          {data.title && (
+            <Box w="100%" d="flex" justifyContent="flex-end">
+              <IconButton
+                aria-label="Expand episode"
+                icon={<ExpandIcon />}
+                bgColor="transparent"
+                _hover={{ bg: "transparent" }}
+                mt="2px"
+                onClick={() => {
+                  setIsExpanded(!isExpanded);
+                }}
+              />
+            </Box>
+          )}
           <Box
-            d="flex"
-            flexDir="row"
-            alignItems="center"
             w="100%"
-            mt="10px"
-            justifyContent="space-around"
-          >
-            <Box
-              d="flex"
-              flexDir="row"
-              alignItems="center"
-              justifyContent="flex-start"
-              w="50%"
-            >
-              <Text id="guest" mr="10px" pl="5%">
-                {data.guest}
-              </Text>
-
-              <CopyButton textToCopy={data.guest} />
-            </Box>
-            <Box d="flex" justifyContent="flex-start" w="40%">
-              <Text>
-                <Box as="span" mr="30px">
-                  US Date:
-                </Box>{" "}
-                {usDate}
-              </Text>
-            </Box>
-          </Box>
-          <Box
+            borderTopLeftRadius="20px"
+            borderTopRightRadius="20px"
             d="flex"
-            flexDir="row"
-            alignItems="center"
-            w="100%"
-            mt="10px"
-            justifyContent="space-around"
+            justifyContent="space-between"
+            pl="5%"
+            pr="5%"
           >
-            <Box
-              d="flex"
-              flexDir="row"
-              alignItems="center"
-              justifyContent="flex-start"
-              w="50%"
-            >
-              {data.title && (
-                <Box>
-                  <Text id="guest" mr="10px" pl="5%">
-                    {data.title}
-                  </Text>
-
-                  <CopyButton textToCopy={data.title} />
-                </Box>
-              )}
-            </Box>
-            <Box d="flex" justifyContent="flex-start" w="40%">
-              <Text>
-                <Box as="span" mr="30px">
-                  NZ Date:
-                </Box>{" "}
-                {nzDate}
-              </Text>
-            </Box>
-          </Box>
-          <Box
-            d="flex"
-            flexDir="row"
-            alignItems="center"
-            w="100%"
-            mt="10px"
-            justifyContent="space-around"
-          >
-            <Box
-              d="flex"
-              flexDir="row"
-              alignItems="center"
-              justifyContent="flex-start"
+            <Text
+              color="white"
               w="100%"
+              d="flex"
+              justifyContent="center"
+              cursor="pointer"
+              bgGradient="linear(to-r, #FF96BC, #FFC477, )"
+              fontFamily="Alfa Slab One"
+              fontSize="1.2rem"
+              bgClip="text"
+              onClick={() => {
+                handleCopy(data.title);
+                toast({
+                  title: "Text copied.",
+                  description: "The text has been copied to your clipboard.",
+                  status: "success",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              }}
             >
-              {data.description && (
-                <Box>
-                  <Text id="guest" mr="10px" pl="5%">
-                    {data.description}
-                  </Text>
-                  <CopyButton textToCopy={data.description} />
-                </Box>
-              )}
-            </Box>
+              {data.title}
+            </Text>
           </Box>
           <Box
-            d="flex"
-            flexDir="row"
-            alignItems="center"
             w="100%"
-            mt="10px"
+            color="white"
+            d="flex"
             justifyContent="space-around"
+            mt="10px"
+            fontFamily="Railway"
+            fontSize="1.3rem"
           >
-            Buffer Scheduling Dates & Times
-          </Box>
-          <Grid templateColumns="repeat(3, 1fr)" gap={8} w="100%" mt="10px">
-            <Box d="flex" justifyContent="center">
-              2 weeks before
-            </Box>
-            <Box d="flex" justifyContent="center">
-              90 minutes before
-            </Box>
-            <Box d="flex" justifyContent="center">
-              Going live
-            </Box>
-          </Grid>
-          <Grid templateColumns="repeat(3, 1fr)" gap={8} w="100%">
-            <Box d="flex" justifyContent="center" mt="10px">
-              {bufferTwoWeeks}
-            </Box>
-            <Box d="flex" justifyContent="center" mt="10px">
-              {bufferNinetyMinutes}
-            </Box>
-            <Box d="flex" justifyContent="center" mt="10px">
-              {usDate}
-            </Box>
-          </Grid>
-          <Grid templateColumns="repeat(3, 1fr)" gap={8} w="100%">
-            <Box d="flex" justifyContent="center" mt="10px">
-              <CopyButton textToCopy={twoWeekTweet} />
-            </Box>
-            <Box d="flex" justifyContent="center" mt="10px">
-              <CopyButton textToCopy={ninetyMinTweet} />
-            </Box>
-            <Box d="flex" justifyContent="center" mt="10px">
-              <CopyButton textToCopy={liveTweet} />
-            </Box>
-          </Grid>
-          <Box d="flex" alignItems="center" justifyContent="center" w="100%">
-            {altText && (
-              <Box>
-                <Text id="guest" mr="10px" pl="5%">
-                  Alt Text
-                </Text>
-                <CopyButton textToCopy={altText} />
-              </Box>
-            )}
+            <Text>Us Date: {usDate}</Text>
+            <Text>NZ Date: {nzDate}</Text>
           </Box>
         </Box>
+        {isExpanded && (
+          <Box
+            w="100%"
+            display="flex"
+            flexDir="column"
+            alignItems="center"
+            fontFamily="Railway"
+            fontSize="1.2rem"
+          >
+            <Box w="100%" d="flex" justifyContent="center">
+              <Text>Tweets</Text>
+            </Box>
+            <Box w="100%" d="flex" justifyContent="center" mt="10px">
+              <Box w="100%" h="20px" d="flex" justifyContent="space-between">
+                <Text
+                  w="33%"
+                  d="flex"
+                  justifyContent="center"
+                  cursor="pointer"
+                  onClick={() => {
+                    handleCopy(twoWeekTweet);
+                    toast({
+                      title: "Text copied.",
+                      description: "Copied two week tweet to your clipboard.",
+                      status: "success",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }}
+                >
+                  Two Weeks
+                </Text>
+                <Text
+                  w="33%"
+                  d="flex"
+                  justifyContent="center"
+                  cursor="pointer"
+                  onClick={() => {
+                    handleCopy(ninetyMinTweet);
+                    toast({
+                      title: "Text copied.",
+                      description:
+                        "Copied ninety minute tweet to your clipboard.",
+                      status: "success",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }}
+                >
+                  Ninety Minutes
+                </Text>
+                <Text
+                  w="33%"
+                  d="flex"
+                  justifyContent="center"
+                  cursor="pointer"
+                  onClick={() => {
+                    handleCopy(liveTweet);
+                    toast({
+                      title: "Text copied.",
+                      description: "Copied live tweet to your clipboard.",
+                      status: "success",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }}
+                >
+                  Live
+                </Text>
+              </Box>
+            </Box>
+            <Box w="100%" d="flex" justifyContent="space-around" mt="10px">
+              <Text>{bufferTwoWeeks}</Text>
+              <Text>{bufferNinetyMinutes}</Text>
+              <Text>{usDate}</Text>
+            </Box>
+            <Box w="100%" d="flex" justifyContent="space-around" mt="10px">
+              <Text
+                cursor="pointer"
+                onClick={() => {
+                  handleCopy(altText);
+                  toast({
+                    title: "Text copied.",
+                    description: "Copied alt text to your clipboard.",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                }}
+              >
+                Alt Text
+              </Text>
+            </Box>
+          </Box>
+        )}
       </Box>
     </Box>
   );

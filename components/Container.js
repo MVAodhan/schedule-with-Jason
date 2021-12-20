@@ -104,30 +104,34 @@ const Container = ({ data }) => {
             .minus({ minutes: 90 })
             .toFormat("ff");
 
-          return (
-            <Box w="100%" key={data.id}>
-              <Episode
-                key={data.id}
-                data={data}
-                usDate={usDate}
-                nzDate={nzDate}
-                bufferTwoWeeks={bufferTwoWeeks}
-                bufferNinetyMinutes={bufferNinetyMinutes}
-                altText={altText}
-                twoWeekTweet={
-                  twoWeekTweet ? twoWeekTweet : "No data from supabase to copy"
-                }
-                ninetyMinTweet={
-                  ninetyMinTweet
-                    ? ninetyMinTweet
-                    : "No data from supabase to copy"
-                }
-                liveTweet={
-                  liveTweet ? liveTweet : "No data from supabase to copy"
-                }
-              />
-            </Box>
-          );
+          if (data.title) {
+            return (
+              <Box w="100%" key={data.id}>
+                <Episode
+                  key={data.id}
+                  data={data}
+                  usDate={usDate}
+                  nzDate={nzDate}
+                  bufferTwoWeeks={bufferTwoWeeks}
+                  bufferNinetyMinutes={bufferNinetyMinutes}
+                  altText={altText}
+                  twoWeekTweet={
+                    twoWeekTweet
+                      ? twoWeekTweet
+                      : "No data from supabase to copy"
+                  }
+                  ninetyMinTweet={
+                    ninetyMinTweet
+                      ? ninetyMinTweet
+                      : "No data from supabase to copy"
+                  }
+                  liveTweet={
+                    liveTweet ? liveTweet : "No data from supabase to copy"
+                  }
+                />
+              </Box>
+            );
+          }
         })}
 
         <Box w="100%" h="10"></Box>
