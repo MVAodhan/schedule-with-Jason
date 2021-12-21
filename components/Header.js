@@ -11,6 +11,7 @@ const Header = () => {
         alignItems="center"
         justifyContent="center"
         w="100vw"
+        h="10vh"
         pt="30px"
         pb="30px"
       >

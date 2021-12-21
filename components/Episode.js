@@ -51,18 +51,42 @@ const Episode = ({
         >
           {" "}
           {data.title && (
-            <Box w="100%" d="flex" justifyContent="flex-end">
-              <IconButton
-                aria-label="Expand episode"
-                icon={<ExpandIcon />}
-                bgColor="transparent"
-                _hover={{ bg: "transparent" }}
-                mt="2px"
-                onClick={() => {
-                  setIsExpanded(!isExpanded);
-                }}
-              />
-            </Box>
+            <>
+              <Box w="100%" d="flex" justifyContent="flex-end">
+                <Box w="100%" d="flex" justifyContent="flex-end"></Box>
+                <IconButton
+                  aria-label="Expand episode"
+                  icon={<ExpandIcon />}
+                  bgColor="transparent"
+                  _hover={{ bg: "transparent" }}
+                  mt="2px"
+                  onClick={() => {
+                    setIsExpanded(!isExpanded);
+                  }}
+                />
+              </Box>
+              <Box w="100%" d="flex" justifyContent="center">
+                <Text
+                  color="white"
+                  cursor="pointer"
+                  fontFamily="Alfa Slab One"
+                  fontSize="1.2rem"
+                  onClick={() => {
+                    handleCopy(data.guest);
+                    toast({
+                      title: "Guest copied.",
+                      description:
+                        "The Guest has been copied to your clipboard.",
+                      status: "success",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }}
+                >
+                  {data.guest}
+                </Text>
+              </Box>
+            </>
           )}
           <Box
             w="100%"
@@ -104,10 +128,10 @@ const Episode = ({
             justifyContent="space-around"
             mt="10px"
             fontFamily="Railway"
-            fontSize="1.3rem"
+            fontSize="1.1rem"
           >
-            <Text>Us Date: {usDate}</Text>
-            <Text>NZ Date: {nzDate}</Text>
+            <Text>PST: {usDate}</Text>
+            <Text>NZT: {nzDate}</Text>
           </Box>
         </Box>
         {isExpanded && (

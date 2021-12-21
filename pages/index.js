@@ -19,7 +19,7 @@ export default function Home({ data }) {
       <Header />
       <Box
         as="main"
-        h="100%"
+        h="90vh"
         w="100vw"
         d="flex"
         justifyContent="center"
