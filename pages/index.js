@@ -2,13 +2,31 @@ import Head from "next/head";
 
 import { Box } from "@chakra-ui/react";
 
+import { useEffect, useState } from "react";
+
 import { useSupabase } from "../hooks/useSupabase.js";
 
 import Header from "../components/Header";
 import Container from "../components/Container";
 
-export default function Home({ data }) {
-  console.log(data);
+export default function Home() {
+  const [eps, setEps] = useState([]);
+  // const supabase = useSupabase();
+
+  // const { data, error } = await supabase
+  //   .from("episodes")
+  //   .select()
+  //   .order("default_date", { ascending: true });
+
+  useEffect(async () => {
+    const supabase = useSupabase();
+    const { data, error } = await supabase
+      .from("episodes")
+      .select()
+      .order("default_date", { ascending: true });
+
+    setEps(data);
+  }, []);
   return (
     <Box>
       <Head>
@@ -25,23 +43,23 @@ export default function Home({ data }) {
         justifyContent="center"
         alignItems="center"
       >
-        <Container data={data} />
+        <Container data={eps ? eps : []} />
       </Box>
     </Box>
   );
 }
 
-export async function getStaticProps() {
-  const supabase = useSupabase();
+// export async function getStaticProps() {
+//   const supabase = useSupabase();
 
-  const { data, error } = await supabase
-    .from("episodes")
-    .select()
-    .order("default_date", { ascending: true });
+//   const { data, error } = await supabase
+//     .from("episodes")
+//     .select()
+//     .order("default_date", { ascending: true });
 
-  return {
-    props: {
-      data,
-    },
-  };
-}
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// }
