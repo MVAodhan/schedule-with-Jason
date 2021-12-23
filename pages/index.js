@@ -7,19 +7,28 @@ import { useEffect, useState } from "react";
 import { useSupabase } from "../hooks/useSupabase.js";
 
 import Header from "../components/Header";
+import Hero from "../components/Hero";
 import Container from "../components/Container";
 
 export default function Home() {
   const [eps, setEps] = useState([]);
-  // const supabase = useSupabase();
+  const [user, setUser] = useState([]);
 
-  // const { data, error } = await supabase
-  //   .from("episodes")
-  //   .select()
-  //   .order("default_date", { ascending: true });
+  const supabase = useSupabase();
+
+  useEffect(() => {
+    setUser(supabase.auth.session());
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(supabase.auth.session());
+    });
+  }, []);
+
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+  }
 
   useEffect(async () => {
-    const supabase = useSupabase();
     const { data, error } = await supabase
       .from("episodes")
       .select()
@@ -35,6 +44,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+
+      <Hero />
       <Box
         as="main"
         h="90vh"
@@ -48,18 +59,3 @@ export default function Home() {
     </Box>
   );
 }
-
-// export async function getStaticProps() {
-//   const supabase = useSupabase();
-
-//   const { data, error } = await supabase
-//     .from("episodes")
-//     .select()
-//     .order("default_date", { ascending: true });
-
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// }
