@@ -1,4 +1,6 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text } from '@chakra-ui/react';
+
+import Header from '../components/Header';
 
 const Hero = () => {
   return (
@@ -13,10 +15,9 @@ const Hero = () => {
       pt="10px"
       pb="30px"
     >
-      <Text w="55%" textAlign="center">
-        Scheduled with Jason, accompanies{" "}
-        <a href="https://www.learnwithjason.dev/"> Learn with Jason </a>
-        and started as an internal tool, to make scheduling episodes easier.
+      <Text w="50%" textAlign="center">
+        Scheduled with Jason, is an internal tool, for scheduling episodes, for
+        Learn with Jason
       </Text>
     </Box>
   );

@@ -1,14 +1,14 @@
-import { Box, Grid } from "@chakra-ui/react";
+import { Box, Grid } from '@chakra-ui/react';
 
-import Episode from "./Episode";
-import { DateTime } from "luxon";
+import Episode from './Episode';
+import { DateTime } from 'luxon';
 
 const Container = ({ data }) => {
   const convertToSlug = (text) => {
     return text
       .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, "");
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '');
   };
 
   return (
@@ -17,7 +17,7 @@ const Container = ({ data }) => {
         {data.map((data) => {
           // Making a base object date and time from Supabase Date data
 
-          let zone = data.is_pt ? "America/Los_Angeles" : "Pacific/Auckland";
+          let zone = data.is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
 
           let usDate;
           let nzDate;
@@ -82,27 +82,27 @@ const Container = ({ data }) => {
             { zone }
           );
 
-          if (zoneISO.zone.zoneName === "America/Los_Angeles") {
-            usDate = zoneISO.toFormat("ff");
+          if (zoneISO.zone.zoneName === 'America/Los_Angeles') {
+            usDate = zoneISO.toFormat('ff');
           } else {
-            usDate = zoneISO.setZone("America/Los_Angeles").toFormat("ff");
+            usDate = zoneISO.setZone('America/Los_Angeles').toFormat('ff');
           }
 
-          if (zoneISO.zone.zoneName === "Pacific/Auckland") {
-            nzDate = zoneISO.toFormat("ff");
+          if (zoneISO.zone.zoneName === 'Pacific/Auckland') {
+            nzDate = zoneISO.toFormat('ff');
           } else {
-            nzDate = zoneISO.setZone("Pacific/Auckland").toFormat("ff");
+            nzDate = zoneISO.setZone('Pacific/Auckland').toFormat('ff');
           }
 
           let bufferTwoWeeks = zoneISO
-            .setZone("America/Los_Angeles")
+            .setZone('America/Los_Angeles')
             .minus({ weeks: 2 })
-            .toFormat("ff");
+            .toFormat('ff');
 
           let bufferNinetyMinutes = zoneISO
-            .setZone("America/Los_Angeles")
+            .setZone('America/Los_Angeles')
             .minus({ minutes: 90 })
-            .toFormat("ff");
+            .toFormat('ff');
 
           if (data.title) {
             return (
@@ -118,15 +118,15 @@ const Container = ({ data }) => {
                   twoWeekTweet={
                     twoWeekTweet
                       ? twoWeekTweet
-                      : "No data from supabase to copy"
+                      : 'No data from supabase to copy'
                   }
                   ninetyMinTweet={
                     ninetyMinTweet
                       ? ninetyMinTweet
-                      : "No data from supabase to copy"
+                      : 'No data from supabase to copy'
                   }
                   liveTweet={
-                    liveTweet ? liveTweet : "No data from supabase to copy"
+                    liveTweet ? liveTweet : 'No data from supabase to copy'
                   }
                 />
               </Box>
