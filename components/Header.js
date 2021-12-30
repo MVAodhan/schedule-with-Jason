@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
 
-const Header = ({ text }) => {
+const Header = ({ text, hProp }) => {
   return (
     <>
       <Box
@@ -11,7 +11,7 @@ const Header = ({ text }) => {
         alignItems="center"
         justifyContent="center"
         w="100vw"
-        h="10vh"
+        h={hProp}
         pt="30px"
         pb="30px"
       >

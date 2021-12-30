@@ -2,11 +2,11 @@ import { Box, Text } from '@chakra-ui/react';
 
 import Header from '../components/Header';
 
-const Hero = () => {
+const Hero = ({ hProp }) => {
   return (
     <Box
       w="100vw"
-      h="15vh"
+      h={hProp}
       bgColor="primary"
       d="flex"
       justifyContent="center"
