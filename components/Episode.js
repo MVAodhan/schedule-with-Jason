@@ -56,12 +56,7 @@ const Episode = ({
           {' '}
           {data.title && (
             <>
-              <Box
-                w="100%"
-                d="flex"
-                justifyContent="flex-end"
-                onClick={() => router.push(`/edit/${data.id}`)}
-              >
+              <Box w="100%" d="flex" justifyContent="flex-end">
                 <Box w="100%" d="flex" justifyContent="flex-end"></Box>
                 <IconButton
                   aria-label="Expand episode"
@@ -69,9 +64,10 @@ const Episode = ({
                   bgColor="transparent"
                   _hover={{ bg: 'transparent' }}
                   mt="2px"
-                  onClick={() => {
-                    setIsExpanded(!isExpanded);
-                  }}
+                  onClick={() => router.push(`/edit/${data.id}`)}
+                  // onClick={() => {
+                  //   setIsExpanded(!isExpanded);
+                  // }}
                 />
               </Box>
               <Box w="100%" d="flex" justifyContent="center">

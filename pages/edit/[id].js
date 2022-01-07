@@ -10,6 +10,7 @@ import { useSupabase } from '../../hooks/useSupabase.js';
 
 import Header from '../../components/Header';
 import Nav from '../../components/Nav';
+import EditEpisodes from '../../components/EditEpisodes';
 
 import { sessionAtom } from '../../atoms';
 import { useAtom } from 'jotai';
@@ -22,7 +23,7 @@ export default function Home() {
   const router = useRouter();
   const { id: pid } = router.query;
 
-  console.log(pid);
+  console.log('dynamic pid', pid);
   // useEffect(() => {
   //   setSession(supabase.auth.session());
 
@@ -51,7 +52,7 @@ export default function Home() {
       <Header text="Edit Episode" />
 
       <Box as="main" h="100%" w="100vw" d="flex" justifyContent="center">
-        {pid}
+        <EditEpisodes pid={pid} />
       </Box>
     </Box>
   );
