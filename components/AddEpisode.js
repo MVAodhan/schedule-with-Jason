@@ -7,6 +7,7 @@ import {
   Box,
   Checkbox,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 
 import { sessionAtom } from '../atoms';
@@ -20,6 +21,8 @@ const AddEpisode = () => {
   const router = useRouter();
   const [session, setSession] = useAtom(sessionAtom);
 
+  const toast = useToast();
+
   const guestRef = useRef('');
   const dateRef = useRef('');
   const timeRef = useRef('');
@@ -30,6 +33,10 @@ const AddEpisode = () => {
 
   const supabase = useSupabase();
 
+  const handleLog = () => {
+    console.log(dateRef.current.value);
+    console.log(timeRef.current.value);
+  };
   const handleSubmit = async () => {
     const { data, error } = await supabase.from('episodes').insert([
       {
@@ -57,10 +64,25 @@ const AddEpisode = () => {
     titleRef.current.value = '';
     descriptionRef.current.value = '';
     twitterRef.current.value = '';
+
+    toast({
+      title: 'Episode Saved',
+      description: 'This episode has been saved to the database.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   return (
-    <FormControl w="40%" d="flex" flexDir="column" mt="50px">
+    <FormControl
+      w="40%"
+      d="flex"
+      flexDir="column"
+      mt="50px"
+      bgColor="#ededed"
+      borderRadius="10px"
+    >
       <FormLabel id="guest" htmlFor="guest" d="flex" justifyContent="center">
         Guest Name
       </FormLabel>
@@ -112,7 +134,13 @@ const AddEpisode = () => {
           />
         </Box>
       </Box>
-      <FormLabel id="title" htmlFor="title" d="flex" justifyContent="center">
+      <FormLabel
+        id="title"
+        htmlFor="title"
+        d="flex"
+        justifyContent="center"
+        mt="10px"
+      >
         Episode title
       </FormLabel>
       <Input id="title" type="text" ref={titleRef} />
@@ -121,6 +149,7 @@ const AddEpisode = () => {
         htmlFor="description"
         d="flex"
         justifyContent="center"
+        mt="10px"
       >
         Episode Description
       </FormLabel>
@@ -130,11 +159,12 @@ const AddEpisode = () => {
         htmlFor="twitter"
         d="flex"
         justifyContent="center"
+        mt="10px"
       >
         Guest Twitter
       </FormLabel>
       <Input id="twitter" type="text" ref={twitterRef} />
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Button onClick={handleSubmit}>Save</Button>
     </FormControl>
   );
 };

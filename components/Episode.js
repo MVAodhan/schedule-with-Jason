@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import { Box, Text, IconButton, useToast } from "@chakra-ui/react";
+import { useRouter } from 'next/router';
 
-import ExpandIcon from "./ExpandIcon";
+import { Box, Text, IconButton, useToast } from '@chakra-ui/react';
 
-import copy from "copy-to-clipboard";
+import ExpandIcon from './ExpandIcon';
 
-import styles from "../styles/Episode.module.css";
+import copy from 'copy-to-clipboard';
+
+import styles from '../styles/Episode.module.css';
 
 const Episode = ({
   data,
@@ -19,6 +21,8 @@ const Episode = ({
   ninetyMinTweet,
   liveTweet,
 }) => {
+  const router = useRouter();
+
   const [isExpanded, setIsExpanded] = useState(false);
   const toast = useToast();
 
@@ -49,16 +53,21 @@ const Episode = ({
           d="flex"
           flexDir="column"
         >
-          {" "}
+          {' '}
           {data.title && (
             <>
-              <Box w="100%" d="flex" justifyContent="flex-end">
+              <Box
+                w="100%"
+                d="flex"
+                justifyContent="flex-end"
+                onClick={() => router.push(`/edit/${data.id}`)}
+              >
                 <Box w="100%" d="flex" justifyContent="flex-end"></Box>
                 <IconButton
                   aria-label="Expand episode"
                   icon={<ExpandIcon />}
                   bgColor="transparent"
-                  _hover={{ bg: "transparent" }}
+                  _hover={{ bg: 'transparent' }}
                   mt="2px"
                   onClick={() => {
                     setIsExpanded(!isExpanded);
@@ -74,10 +83,10 @@ const Episode = ({
                   onClick={() => {
                     handleCopy(data.guest);
                     toast({
-                      title: "Guest copied.",
+                      title: 'Guest copied.',
                       description:
-                        "The Guest has been copied to your clipboard.",
-                      status: "success",
+                        'The Guest has been copied to your clipboard.',
+                      status: 'success',
                       duration: 3000,
                       isClosable: true,
                     });
@@ -110,9 +119,9 @@ const Episode = ({
               onClick={() => {
                 handleCopy(data.title);
                 toast({
-                  title: "Text copied.",
-                  description: "The text has been copied to your clipboard.",
-                  status: "success",
+                  title: 'Text copied.',
+                  description: 'The text has been copied to your clipboard.',
+                  status: 'success',
                   duration: 3000,
                   isClosable: true,
                 });
@@ -156,9 +165,9 @@ const Episode = ({
                   onClick={() => {
                     handleCopy(twoWeekTweet);
                     toast({
-                      title: "Text copied.",
-                      description: "Copied two week tweet to your clipboard.",
-                      status: "success",
+                      title: 'Text copied.',
+                      description: 'Copied two week tweet to your clipboard.',
+                      status: 'success',
                       duration: 3000,
                       isClosable: true,
                     });
@@ -174,10 +183,10 @@ const Episode = ({
                   onClick={() => {
                     handleCopy(ninetyMinTweet);
                     toast({
-                      title: "Text copied.",
+                      title: 'Text copied.',
                       description:
-                        "Copied ninety minute tweet to your clipboard.",
-                      status: "success",
+                        'Copied ninety minute tweet to your clipboard.',
+                      status: 'success',
                       duration: 3000,
                       isClosable: true,
                     });
@@ -193,9 +202,9 @@ const Episode = ({
                   onClick={() => {
                     handleCopy(liveTweet);
                     toast({
-                      title: "Text copied.",
-                      description: "Copied live tweet to your clipboard.",
-                      status: "success",
+                      title: 'Text copied.',
+                      description: 'Copied live tweet to your clipboard.',
+                      status: 'success',
                       duration: 3000,
                       isClosable: true,
                     });
@@ -216,9 +225,9 @@ const Episode = ({
                 onClick={() => {
                   handleCopy(altText);
                   toast({
-                    title: "Text copied.",
-                    description: "Copied alt text to your clipboard.",
-                    status: "success",
+                    title: 'Text copied.',
+                    description: 'Copied alt text to your clipboard.',
+                    status: 'success',
                     duration: 3000,
                     isClosable: true,
                   });
