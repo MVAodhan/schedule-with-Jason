@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { Box, Text, IconButton, useToast } from '@chakra-ui/react';
 
-import ExpandIcon from './ExpandIcon';
+import { BiEditAlt } from 'react-icons/bi';
 
 import copy from 'copy-to-clipboard';
 
@@ -23,15 +23,12 @@ const Episode = ({
 }) => {
   const router = useRouter();
 
-  const [isExpanded, setIsExpanded] = useState(false);
   const toast = useToast();
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
     copy(stringToCopy);
   };
-
-  console.log(`${data.guest} is expanded: ${isExpanded}`);
 
   return (
     <Box display="flex" justifyContent="center">
@@ -60,14 +57,12 @@ const Episode = ({
                 <Box w="100%" d="flex" justifyContent="flex-end"></Box>
                 <IconButton
                   aria-label="Expand episode"
-                  icon={<ExpandIcon />}
+                  icon={<BiEditAlt fill="white" />}
                   bgColor="transparent"
+                  fontSize="20px"
                   _hover={{ bg: 'transparent' }}
                   mt="2px"
                   onClick={() => router.push(`/edit/${data.id}`)}
-                  // onClick={() => {
-                  //   setIsExpanded(!isExpanded);
-                  // }}
                 />
               </Box>
               <Box w="100%" d="flex" justifyContent="center">
@@ -139,7 +134,7 @@ const Episode = ({
             <Text>NZT: {nzDate}</Text>
           </Box>
         </Box>
-        {isExpanded && (
+        {/* {isExpanded && (
           <Box
             w="100%"
             display="flex"
@@ -233,7 +228,7 @@ const Episode = ({
               </Text>
             </Box>
           </Box>
-        )}
+        )} */}
       </Box>
     </Box>
   );
