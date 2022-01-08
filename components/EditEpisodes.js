@@ -21,6 +21,7 @@ const AddEpisode = ({ pid }) => {
   const router = useRouter();
   const [session, setSession] = useAtom(sessionAtom);
   const [episode, setEpisode] = useState('');
+  const [isPt, setIsPt] = useState('');
 
   const toast = useToast();
 
@@ -40,8 +41,23 @@ const AddEpisode = ({ pid }) => {
       .select('*')
       .eq('id', pid);
 
+    if (error) {
+      console.log(error);
+    }
+    if (data) {
+      setIsPt(data[0].is_pt);
+      console.log(data[0]);
+    }
+
     setEpisode(data);
   }, []);
+
+  // if (episode && episode[0].is_pt) {
+  //   setIsPt(episode[0].is_pt);
+  // }
+
+  console.log('is pt', episode && episode[0].is_pt);
+  console.log('is pt state', isPt);
 
   const handleSubmit = async () => {
     const { data, error } = await supabase.from('episodes').insert([
@@ -152,7 +168,10 @@ const AddEpisode = ({ pid }) => {
             w="100%"
             d="flex"
             justifyContent="center"
-            checked={episode && episode[0].is_pt}
+            isChecked={isPt}
+            onChange={() => {
+              setIsPt(!isPt);
+            }}
           />
         </Box>
       </Box>
