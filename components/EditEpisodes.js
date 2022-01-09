@@ -8,7 +8,9 @@ import {
   Checkbox,
   Textarea,
   useToast,
+  IconButton,
 } from '@chakra-ui/react';
+import { BiCopyAlt } from 'react-icons/bi';
 
 import { DateTime } from 'luxon';
 
@@ -124,22 +126,24 @@ const AddEpisode = ({ pid }) => {
       bgColor="#ededed"
       borderRadius="10px"
     >
-      <FormLabel
-        id="guest"
-        htmlFor="guest"
-        d="flex"
-        justifyContent="center"
-        cursor="pointer"
-        onClick={() => handleCopyText(guestRef)}
-      >
+      <FormLabel id="guest" htmlFor="guest" d="flex" justifyContent="center">
         Guest Name
       </FormLabel>
-      <Input
-        id="guest"
-        type="text"
-        ref={guestRef}
-        defaultValue={episode ? episode[0].guest : null}
-      />
+      <Box w="100%" d="flex" justifyContent="space-around">
+        <Input
+          id="guest"
+          type="text"
+          ref={guestRef}
+          defaultValue={episode ? episode[0].guest : null}
+          width="80%"
+        />
+        <IconButton
+          aria-label="Copy guest"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopyText(guestRef)}
+        />
+      </Box>
+
       <Box
         width="100%"
         d="flex"
@@ -225,16 +229,29 @@ const AddEpisode = ({ pid }) => {
         justifyContent="center"
         mt="10px"
         cursor="pointer"
-        onClick={() => handleCopyText(descriptionRef)}
       >
         Episode Description
       </FormLabel>
-      <Textarea
-        id="description"
-        type="text"
-        ref={descriptionRef}
-        defaultValue={episode ? episode[0].description : null}
-      />
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        alignItems="center"
+      >
+        <Textarea
+          id="description"
+          type="text"
+          ref={descriptionRef}
+          defaultValue={episode ? episode[0].description : null}
+          width="80%"
+        />
+        <IconButton
+          aria-label="Copy decription"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopyText(descriptionRef)}
+        />
+      </Box>
+
       <FormLabel
         id="twitter"
         htmlFor="twitter"
@@ -252,9 +269,143 @@ const AddEpisode = ({ pid }) => {
         ref={twitterRef}
         defaultValue={episode ? episode[0].twitter : null}
       />
-      <Button onClick={handleSubmit}>Save</Button>
+      <Button>Save</Button>
     </FormControl>
   );
 };
 
 export default AddEpisode;
+
+/** 
+ *  let zone = data.is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
+
+          let usDate;
+          let nzDate;
+
+          let slug;
+          let twoWeekTweet;
+          let ninetyMinTweet;
+          let liveTweet;
+          let altText;
+
+          if (data.title && data.guest) {
+            altText = `${data.title} with ${data.guest}`;
+          }
+
+          if (data.title) {
+            slug = convertToSlug(data.title);
+          }
+
+          if (data.description) {
+            twoWeekTweet = `📣 Just Scheduled! 📣
+          
+          ${data.description}
+          
+          ⬇️ Details Here ⬇️
+          https://www.learnwithjason.dev/${slug}
+          `;
+          }
+
+          if (data.description) {
+            ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
+          
+          ${data.description}
+          
+          ⬇️ Details Here ⬇️
+          https://www.learnwithjason.dev/${slug}
+          `;
+          }
+
+          if (data.description) {
+            liveTweet = `🔴 We're Live! 🔴  
+            ${data.description} 
+            
+            
+            ⬇️  Watch Live Here  👀 
+             https://twitch.tv/jlengstorf
+          `;
+          }
+
+          let objFromData = DateTime.fromISO(
+            `${data.default_date}T${data.default_time}`
+          );
+
+          //Creating the base date object in PT, so the initial date can be entered into the db as PT
+          let zoneISO = DateTime.fromObject(
+            {
+              day: objFromData.c.day,
+              hour: objFromData.c.hour,
+              minute: objFromData.c.minute,
+              month: objFromData.c.month,
+              year: objFromData.c.year,
+            },
+            { zone }
+          );
+
+          if (zoneISO.zone.zoneName === 'America/Los_Angeles') {
+            usDate = zoneISO.toFormat('ff');
+          } else {
+            usDate = zoneISO.setZone('America/Los_Angeles').toFormat('ff');
+          }
+
+          if (zoneISO.zone.zoneName === 'Pacific/Auckland') {
+            nzDate = zoneISO.toFormat('ff');
+          } else {
+            nzDate = zoneISO.setZone('Pacific/Auckland').toFormat('ff');
+          }
+
+          let bufferTwoWeeks = zoneISO
+            .setZone('America/Los_Angeles')
+            .minus({ weeks: 2 })
+            .toFormat('ff');
+
+          let bufferNinetyMinutes = zoneISO
+            .setZone('America/Los_Angeles')
+            .minus({ minutes: 90 })
+            .toFormat('ff');
+ */
+
+/** 
+ *           
+                  onClick={() => {
+                    handleCopy(twoWeekTweet);
+                    toast({
+                      title: 'Text copied.',
+                      description: 'Copied two week tweet to your clipboard.',
+                      status: 'success',
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                    handleCopy(ninetyMinTweet);
+                    toast({
+                      title: 'Text copied.',
+                      description:
+                        'Copied ninety minute tweet to your clipboard.',
+                      status: 'success',
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }}
+                  onClick={() => {
+                    handleCopy(liveTweet);
+                    toast({
+                      title: 'Text copied.',
+                      description: 'Copied live tweet to your clipboard.',
+                      status: 'success',
+                      duration: 3000,
+                      isClosable: true,
+                    });
+              <Text>{bufferTwoWeeks}</Text>
+              <Text>{bufferNinetyMinutes}</Text>
+              <Text>{usDate}</Text>
+                onClick={() => {
+                  handleCopy(altText);
+                  toast({
+                    title: 'Text copied.',
+                    description: 'Copied text to your clipboard.',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                }}     
+ */
