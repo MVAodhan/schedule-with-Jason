@@ -40,9 +40,29 @@ const AddEpisode = ({ pid }) => {
 
   const supabase = useSupabase();
 
+  let zone;
+  let objFromData;
+  let usDate;
+  let nzDate;
+  let slug;
+  let twoWeekTweet;
+  let ninetyMinTweet;
+  let liveTweet;
+  let altText;
+  let zoneISO;
+  let bufferTwoWeeks;
+  let bufferNinetyMinutes;
+
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
     copy(stringToCopy);
+  };
+
+  const convertToSlug = (text) => {
+    return text
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '');
   };
 
   const handleCopyText = (ref) => {
@@ -73,15 +93,84 @@ const AddEpisode = ({ pid }) => {
     setEpisode(data);
   }, []);
 
-  // if (episode && episode[0].is_pt) {
-  //   setIsPt(episode[0].is_pt);
-  // }
+  if (episode && episode[0]) {
+    zone = episode[0].is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
 
-  console.log('is pt', episode && episode[0].is_pt);
-  console.log('is pt state', isPt);
+    if (episode[0].title && episode[0].guest) {
+      altText = `${episode[0].title} with ${episode[0].guest}`;
+    }
 
+    if (episode[0].title) {
+      slug = convertToSlug(episode[0].title);
+    }
+
+    if (episode[0].description) {
+      twoWeekTweet = `📣 Just Scheduled! 📣
+          
+          ${episode[0].description}
+          
+          ⬇️ Details Here ⬇️
+          https://www.learnwithjason.dev/${slug}
+          `;
+
+      ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
+          
+          ${episode[0].description}
+          
+          ⬇️ Details Here ⬇️
+          https://www.learnwithjason.dev/${slug}
+          `;
+
+      liveTweet = `🔴 We're Live! 🔴  
+            ${episode[0].description} 
+            
+            
+            ⬇️  Watch Live Here  👀 
+             https://twitch.tv/jlengstorf
+          `;
+
+      objFromData = DateTime.fromISO(
+        `${episode[0].default_date}T${episode[0].default_time}`
+      );
+
+      zoneISO = DateTime.fromObject(
+        {
+          day: objFromData.c.day,
+          hour: objFromData.c.hour,
+          minute: objFromData.c.minute,
+          month: objFromData.c.month,
+          year: objFromData.c.year,
+        },
+        { zone }
+      );
+
+      if (zoneISO.zone.zoneName === 'America/Los_Angeles') {
+        usDate = zoneISO.toFormat('ff');
+      } else {
+        usDate = zoneISO.setZone('America/Los_Angeles').toFormat('ff');
+      }
+
+      if (zoneISO.zone.zoneName === 'Pacific/Auckland') {
+        nzDate = zoneISO.toFormat('ff');
+      } else {
+        nzDate = zoneISO.setZone('Pacific/Auckland').toFormat('ff');
+      }
+
+      bufferTwoWeeks = zoneISO
+        .setZone('America/Los_Angeles')
+        .minus({ weeks: 2 })
+        .toFormat('ff');
+
+      bufferNinetyMinutes = zoneISO
+        .setZone('America/Los_Angeles')
+        .minus({ minutes: 90 })
+        .toFormat('ff');
+    }
+  }
+
+  // Needs updating...
   const handleEdit = async () => {
-    const { data, error } = await supabase.from('episodes').insert([
+    const { data, error } = await supabase.from('episodes').upload([
       {
         guest: guestRef.current.value,
         default_date: dateRef.current.value,
@@ -211,24 +300,34 @@ const AddEpisode = ({ pid }) => {
         d="flex"
         justifyContent="center"
         mt="10px"
-        cursor="pointer"
-        onClick={() => handleCopyText(titleRef)}
       >
         Episode title
       </FormLabel>
-      <Input
-        id="title"
-        type="text"
-        ref={titleRef}
-        defaultValue={episode ? episode[0].title : null}
-      />
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        alignItems="center"
+      >
+        <Input
+          id="title"
+          type="text"
+          ref={titleRef}
+          defaultValue={episode ? episode[0].title : null}
+          w="80%"
+        />
+        <IconButton
+          aria-label="Copy title"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopyText(titleRef)}
+        />
+      </Box>
       <FormLabel
         id="description"
         htmlFor="description"
         d="flex"
         justifyContent="center"
         mt="10px"
-        cursor="pointer"
       >
         Episode Description
       </FormLabel>
@@ -258,112 +357,31 @@ const AddEpisode = ({ pid }) => {
         d="flex"
         justifyContent="center"
         mt="10px"
-        cursor="pointer"
-        onClick={() => handleCopyText(twitterRef)}
       >
         Guest Twitter
       </FormLabel>
-      <Input
-        id="twitter"
-        type="text"
-        ref={twitterRef}
-        defaultValue={episode ? episode[0].twitter : null}
-      />
-      <Button>Save</Button>
+      <Box w="100%" display="flex" justifyContent="space-around" mb="10px">
+        <Input
+          id="twitter"
+          type="text"
+          ref={twitterRef}
+          defaultValue={episode ? episode[0].twitter : null}
+          w="80%"
+        />
+        <IconButton
+          aria-label="Copy decription"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopyText(twitterRef)}
+        />
+      </Box>
+      <Box w="100%" d="flex" justifyContent="center">
+        <Button w="30%">Save</Button>
+      </Box>
     </FormControl>
   );
 };
 
 export default AddEpisode;
-
-/** 
- *  let zone = data.is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
-
-          let usDate;
-          let nzDate;
-
-          let slug;
-          let twoWeekTweet;
-          let ninetyMinTweet;
-          let liveTweet;
-          let altText;
-
-          if (data.title && data.guest) {
-            altText = `${data.title} with ${data.guest}`;
-          }
-
-          if (data.title) {
-            slug = convertToSlug(data.title);
-          }
-
-          if (data.description) {
-            twoWeekTweet = `📣 Just Scheduled! 📣
-          
-          ${data.description}
-          
-          ⬇️ Details Here ⬇️
-          https://www.learnwithjason.dev/${slug}
-          `;
-          }
-
-          if (data.description) {
-            ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
-          
-          ${data.description}
-          
-          ⬇️ Details Here ⬇️
-          https://www.learnwithjason.dev/${slug}
-          `;
-          }
-
-          if (data.description) {
-            liveTweet = `🔴 We're Live! 🔴  
-            ${data.description} 
-            
-            
-            ⬇️  Watch Live Here  👀 
-             https://twitch.tv/jlengstorf
-          `;
-          }
-
-          let objFromData = DateTime.fromISO(
-            `${data.default_date}T${data.default_time}`
-          );
-
-          //Creating the base date object in PT, so the initial date can be entered into the db as PT
-          let zoneISO = DateTime.fromObject(
-            {
-              day: objFromData.c.day,
-              hour: objFromData.c.hour,
-              minute: objFromData.c.minute,
-              month: objFromData.c.month,
-              year: objFromData.c.year,
-            },
-            { zone }
-          );
-
-          if (zoneISO.zone.zoneName === 'America/Los_Angeles') {
-            usDate = zoneISO.toFormat('ff');
-          } else {
-            usDate = zoneISO.setZone('America/Los_Angeles').toFormat('ff');
-          }
-
-          if (zoneISO.zone.zoneName === 'Pacific/Auckland') {
-            nzDate = zoneISO.toFormat('ff');
-          } else {
-            nzDate = zoneISO.setZone('Pacific/Auckland').toFormat('ff');
-          }
-
-          let bufferTwoWeeks = zoneISO
-            .setZone('America/Los_Angeles')
-            .minus({ weeks: 2 })
-            .toFormat('ff');
-
-          let bufferNinetyMinutes = zoneISO
-            .setZone('America/Los_Angeles')
-            .minus({ minutes: 90 })
-            .toFormat('ff');
- */
 
 /** 
  *           

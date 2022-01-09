@@ -4,13 +4,6 @@ import Episode from './Episode';
 import { DateTime } from 'luxon';
 
 const Container = ({ data }) => {
-  const convertToSlug = (text) => {
-    return text
-      .toLowerCase()
-      .replace(/ /g, '-')
-      .replace(/[^\w-]+/g, '');
-  };
-
   return (
     <Box h="100%" w="80vw">
       <Grid templateColumns="repeat(2, 1fr)" gap={8} w="100%" mt="40px">
@@ -27,6 +20,13 @@ const Container = ({ data }) => {
           let ninetyMinTweet;
           let liveTweet;
           let altText;
+
+          const convertToSlug = (text) => {
+            return text
+              .toLowerCase()
+              .replace(/ /g, '-')
+              .replace(/[^\w-]+/g, '');
+          };
 
           if (data.title && data.guest) {
             altText = `${data.title} with ${data.guest}`;
