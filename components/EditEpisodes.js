@@ -7,6 +7,7 @@ import {
   Box,
   Checkbox,
   Textarea,
+  Text,
   useToast,
   IconButton,
 } from '@chakra-ui/react';
@@ -374,56 +375,113 @@ const AddEpisode = ({ pid }) => {
           onClick={() => handleCopyText(twitterRef)}
         />
       </Box>
-      <Box w="100%" d="flex" justifyContent="center">
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
         <Button w="30%">Save</Button>
+      </Box>
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+        <FormLabel>Alt Text</FormLabel>
+      </Box>
+      <Box
+        w="100%"
+        d="flex"
+        justifyContent="center"
+        alignItems="center"
+        mb="10px"
+      >
+        <Text>{altText}</Text>
+        <IconButton
+          aria-label="Copy alt text"
+          icon={<BiCopyAlt />}
+          onClick={() => {
+            handleCopy(altText);
+            toast({
+              title: 'Text copied.',
+              description: 'Copied alt textto your clipboard.',
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+            });
+          }}
+        />
+      </Box>
+
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+        <FormLabel>Aring times</FormLabel>
+      </Box>
+      <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
+        <Text>PST: {usDate}</Text>
+        <Text>NZST: {nzDate}</Text>
+      </Box>
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+        <FormLabel>Tweets</FormLabel>
+      </Box>
+
+      <Box
+        w="100%"
+        d="flex"
+        justifyContent="space-around"
+        mb="10px"
+        alignItems="center"
+      >
+        <Box d="flex" alignItems="center">
+          <Text>Two Weeks</Text>
+          <IconButton
+            aria-label="Copy tweet"
+            icon={<BiCopyAlt />}
+            onClick={() => {
+              handleCopy(twoWeekTweet);
+              toast({
+                title: 'Text copied.',
+                description: 'Copied two week tweet to your clipboard.',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          />
+        </Box>
+        <Box d="flex" alignItems="center">
+          <Text>Ninety minutes</Text>
+          <IconButton
+            aria-label="Copy tweet"
+            icon={<BiCopyAlt />}
+            onClick={() => {
+              handleCopy(ninetyMinTweet);
+              toast({
+                title: 'Text copied.',
+                description: 'Copied ninety minute tweet to your clipboard.',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          />
+        </Box>
+        <Box d="flex" alignItems="center">
+          <Text>Live</Text>
+          <IconButton
+            aria-label="Copy tweet"
+            icon={<BiCopyAlt />}
+            onClick={() => {
+              handleCopy(liveTweet);
+              toast({
+                title: 'Text copied.',
+                description: 'Copied live tweet to your clipboard.',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          />
+        </Box>
+      </Box>
+      <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
+        <Text>PST: {bufferTwoWeeks}</Text>
+        <Text>NZST: {bufferNinetyMinutes}</Text>
+        <Text>{usDate}</Text>
       </Box>
     </FormControl>
   );
 };
 
 export default AddEpisode;
-
-/** 
- *           
-                  onClick={() => {
-                    handleCopy(twoWeekTweet);
-                    toast({
-                      title: 'Text copied.',
-                      description: 'Copied two week tweet to your clipboard.',
-                      status: 'success',
-                      duration: 3000,
-                      isClosable: true,
-                    });
-                    handleCopy(ninetyMinTweet);
-                    toast({
-                      title: 'Text copied.',
-                      description:
-                        'Copied ninety minute tweet to your clipboard.',
-                      status: 'success',
-                      duration: 3000,
-                      isClosable: true,
-                    });
-                  }}
-                  onClick={() => {
-                    handleCopy(liveTweet);
-                    toast({
-                      title: 'Text copied.',
-                      description: 'Copied live tweet to your clipboard.',
-                      status: 'success',
-                      duration: 3000,
-                      isClosable: true,
-                    });
-              <Text>{bufferTwoWeeks}</Text>
-              <Text>{bufferNinetyMinutes}</Text>
-              <Text>{usDate}</Text>
-                onClick={() => {
-                  handleCopy(altText);
-                  toast({
-                    title: 'Text copied.',
-                    description: 'Copied text to your clipboard.',
-                    status: 'success',
-                    duration: 3000,
-                    isClosable: true,
-                  });
-                }}     
- */

@@ -62,8 +62,8 @@ export default function Home() {
       <Hero hProp="20vh" />
       <Box
         as="main"
-        h="59vh"
-        w="100%"
+        h="auto"
+        w="100vw"
         d="flex"
         justifyContent="center"
         alignItems="center"
