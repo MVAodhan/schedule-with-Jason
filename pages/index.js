@@ -59,7 +59,7 @@ export default function Home() {
       #96fce4 )"
       />
       <Header text="Scheduled with Jason" hProp="10vh" />
-      <Hero hProp="20vh" />
+      <Hero hProp="auto" />
       <Box
         as="main"
         h="auto"

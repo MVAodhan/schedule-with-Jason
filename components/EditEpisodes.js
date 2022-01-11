@@ -171,40 +171,22 @@ const AddEpisode = ({ pid }) => {
 
   // Needs updating...
   const handleEdit = async () => {
-    const { data, error } = await supabase.from('episodes').upload([
-      {
+    const { data, error } = await supabase
+      .from('episodes')
+      .update({
         guest: guestRef.current.value,
         default_date: dateRef.current.value,
         default_time: timeRef.current.value,
-        is_pt: checkboxRef.current.checked,
+        is_pt: isPt,
         title: titleRef.current.value,
         description: descriptionRef.current.value,
         twitter: twitterRef.current.value,
-      },
-    ]);
+      })
+      .eq('guest', episode?.[0].guest);
 
     if (error) {
       console.log(error);
     }
-    if (data) {
-      console.log(data);
-    }
-
-    guestRef.current.value = '';
-    dateRef.current.value = '';
-    timeRef.current.value = '';
-    checkboxRef.current.checked = '';
-    titleRef.current.value = '';
-    descriptionRef.current.value = '';
-    twitterRef.current.value = '';
-
-    toast({
-      title: 'Episode updated',
-      description: 'This episode has been edited in the database.',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
   };
 
   return (
@@ -376,7 +358,9 @@ const AddEpisode = ({ pid }) => {
         />
       </Box>
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <Button w="30%">Save</Button>
+        <Button w="30%" onClick={handleEdit}>
+          Edit Episode
+        </Button>
       </Box>
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
         <FormLabel>Alt Text</FormLabel>
