@@ -164,7 +164,7 @@ const AddEpisode = () => {
         Guest Twitter
       </FormLabel>
       <Input id="twitter" type="text" ref={twitterRef} />
-      <Button onClick={handleSubmit}>Save</Button>
+      <Button onClick={handleSubmit}>Add Episode</Button>
     </FormControl>
   );
 };
