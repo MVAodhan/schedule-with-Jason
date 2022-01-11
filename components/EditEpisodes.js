@@ -460,8 +460,8 @@ const AddEpisode = ({ pid }) => {
         </Box>
       </Box>
       <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
-        <Text>PST: {bufferTwoWeeks}</Text>
-        <Text>NZST: {bufferNinetyMinutes}</Text>
+        <Text>{bufferTwoWeeks}</Text>
+        <Text>{bufferNinetyMinutes}</Text>
         <Text>{usDate}</Text>
       </Box>
     </FormControl>
