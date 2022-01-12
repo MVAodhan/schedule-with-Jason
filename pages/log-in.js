@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 
 import { useSupabase } from '../hooks/useSupabase.js';
 
+import Link from 'next/link';
+
 import Header from '../components/Header';
 import Auth from '../components/Auth';
 
@@ -43,8 +45,12 @@ export default function Home() {
         d="flex"
         justifyContent="center"
         alignItems="center"
+        flexDirection="column"
       >
         <Auth />
+        <Link href="/forgot-password">
+          <a>Forgot Password</a>
+        </Link>
       </Box>
     </Box>
   );
