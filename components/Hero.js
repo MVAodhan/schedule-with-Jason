@@ -17,9 +17,7 @@ const Hero = ({ hProp }) => {
     >
       <Text w="50%" textAlign="center">
         Scheduled with Jason, is an internal tool, for scheduling episodes, for
-        Learn with Jason. Some of the text below is clickable, to make it easier
-        to paste elsewhere. It's a work in progress and is invite only to add
-        episodes
+        Learn with Jason.
       </Text>
     </Box>
   );

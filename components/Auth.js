@@ -18,8 +18,6 @@ const Auth = () => {
 
   const handleSubmit = async () => {
     if (router.pathname == '/log-in') {
-      console.log(emailRef.current.value);
-      console.log(passwordRef.current.value);
       const { user, session, error } = await supabase.auth.signIn({
         email: emailRef.current.value,
         password: passwordRef.current.value,
