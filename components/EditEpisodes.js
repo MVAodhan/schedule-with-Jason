@@ -38,6 +38,7 @@ const AddEpisode = ({ pid }) => {
   const titleRef = useRef('');
   const descriptionRef = useRef('');
   const twitterRef = useRef('');
+  const techRef = useRef('');
 
   const supabase = useSupabase();
 
@@ -53,11 +54,37 @@ const AddEpisode = ({ pid }) => {
   let zoneISO;
   let bufferTwoWeeks;
   let bufferNinetyMinutes;
+  let hightlightsTweet;
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
     copy(stringToCopy);
   };
+
+  const captionsBlurb = `*Captions provided by White Coat Captioning (https://whitecoatcaptioning.com/). 
+Communication Access Realtime Translation (CART) is provided in order to facilitate
+communication accessibility and may not be a totally verbatim record of the proceedings.*`;
+
+  const credits = `Watch future episodes live at https://twitch.tv/jlengstorf
+
+This episode was sponsored by:
+- Netlify (https://lwj.dev/netlify)
+- Fauna (https://lwj.dev/fauna)
+- Auth0 (https://lwj.dev/auth0)
+
+Live transcription by White Coat Captioning (https://whitecoatcaptioning.com/)
+
+Credits:
+
+Local Elevator by Kevin MacLeod is licensed under a Creative Commons Attribution license (https://creativecommons.org/licenses/by/4.0/)
+Source: http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1300012
+Artist: http://incompetech.com/
+
+Busybody by Audionautix is licensed under a Creative Commons Attribution license (https://creativecommons.org/licenses/by/4.0/)
+Artist: http://audionautix.com/
+
+Additional sound effects obtained from https://www.zapsplat.com
+`;
 
   const convertToSlug = (text) => {
     return text
@@ -101,33 +128,35 @@ const AddEpisode = ({ pid }) => {
       altText = `${episode[0].title} with ${episode[0].guest}`;
     }
 
-    if (episode[0].title) {
-      slug = convertToSlug(episode[0].title);
-    }
+    slug = convertToSlug(episode[0].title);
+
+    hightlightsTweet = `Did you miss ${episode[0].guest} teaching us about ${episode[0].technology}  live on LWJ?
+No worries! Watch highlights from the episode here, then check out the full episode replay https://www.learnwithjason.dev/${slug}`;
 
     if (episode[0].description) {
       twoWeekTweet = `📣 Just Scheduled! 📣
           
-          ${episode[0].description}
+${episode[0].description}
           
-          ⬇️ Details Here ⬇️
-          https://www.learnwithjason.dev/${slug}
+⬇️ Details Here ⬇️
+https://www.learnwithjason.dev/${slug}
           `;
 
       ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
           
-          ${episode[0].description}
+${episode[0].description}
           
-          ⬇️ Details Here ⬇️
-          https://www.learnwithjason.dev/${slug}
+⬇️ Details Here ⬇️
+https://www.learnwithjason.dev/${slug}
           `;
 
       liveTweet = `🔴 We're Live! 🔴  
-            ${episode[0].description} 
+            
+${episode[0].description} 
             
             
-            ⬇️  Watch Live Here  👀 
-             https://twitch.tv/jlengstorf
+⬇️  Watch Live Here  👀 
+https://twitch.tv/jlengstorf
           `;
 
       objFromData = DateTime.fromISO(
@@ -181,6 +210,7 @@ const AddEpisode = ({ pid }) => {
         title: titleRef.current.value,
         description: descriptionRef.current.value,
         twitter: twitterRef.current.value,
+        tech: techRef.current.value,
       })
       .eq('guest', episode?.[0].guest);
 
@@ -357,6 +387,29 @@ const AddEpisode = ({ pid }) => {
           onClick={() => handleCopyText(twitterRef)}
         />
       </Box>
+      <FormLabel
+        id="twitter"
+        htmlFor="twitter"
+        d="flex"
+        justifyContent="center"
+        mt="10px"
+      >
+        Technology
+      </FormLabel>
+      <Box w="100%" display="flex" justifyContent="space-around" mb="10px">
+        <Input
+          id="twitter"
+          type="text"
+          ref={techRef}
+          defaultValue={episode ? episode[0].technology : null}
+          w="80%"
+        />
+        <IconButton
+          aria-label="Copy decription"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopyText(techRef)}
+        />
+      </Box>
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
         <Button w="30%" onClick={handleEdit}>
           Edit Episode
@@ -463,6 +516,60 @@ const AddEpisode = ({ pid }) => {
         <Text>{bufferTwoWeeks}</Text>
         <Text>{bufferNinetyMinutes}</Text>
         <Text>{usDate}</Text>
+      </Box>
+      <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
+        <Box d="flex" alignItems="center">
+          <Text>Highlights tweet</Text>
+          <IconButton
+            aria-label="Copy tweet"
+            icon={<BiCopyAlt />}
+            onClick={() => {
+              handleCopy(hightlightsTweet);
+              toast({
+                title: 'Text copied.',
+                description:
+                  'Copied hightlights tweet tweet to your clipboard.',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          />
+        </Box>
+        <Box d="flex" alignItems="center">
+          <Text>Captions Blurb</Text>
+          <IconButton
+            aria-label="Copy tweet"
+            icon={<BiCopyAlt />}
+            onClick={() => {
+              handleCopy(captionsBlurb);
+              toast({
+                title: 'Text copied.',
+                description: 'Copied captions blurb to your clipboard.',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          />
+        </Box>
+        <Box d="flex" alignItems="center">
+          <Text>Credits</Text>
+          <IconButton
+            aria-label="Copy tweet"
+            icon={<BiCopyAlt />}
+            onClick={() => {
+              handleCopy(credits);
+              toast({
+                title: 'Text copied.',
+                description: 'Copied credits to your clipboard.',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          />
+        </Box>
       </Box>
     </FormControl>
   );
