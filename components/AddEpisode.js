@@ -30,13 +30,10 @@ const AddEpisode = () => {
   const titleRef = useRef('');
   const descriptionRef = useRef('');
   const twitterRef = useRef('');
+  const techRef = useRef('');
 
   const supabase = useSupabase();
 
-  const handleLog = () => {
-    console.log(dateRef.current.value);
-    console.log(timeRef.current.value);
-  };
   const handleSubmit = async () => {
     const { data, error } = await supabase.from('episodes').insert([
       {
@@ -47,6 +44,7 @@ const AddEpisode = () => {
         title: titleRef.current.value,
         description: descriptionRef.current.value,
         twitter: twitterRef.current.value,
+        technology: techRef.current.value,
       },
     ]);
 
@@ -164,6 +162,16 @@ const AddEpisode = () => {
         Guest Twitter
       </FormLabel>
       <Input id="twitter" type="text" ref={twitterRef} />
+      <FormLabel
+        id="technology"
+        htmlFor="technology"
+        d="flex"
+        justifyContent="center"
+        mt="10px"
+      >
+        Technology
+      </FormLabel>
+      <Input id="technology" type="text" ref={techRef} />
       <Button onClick={handleSubmit}>Add Episode</Button>
     </FormControl>
   );

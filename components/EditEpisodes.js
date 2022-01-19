@@ -39,6 +39,7 @@ const AddEpisode = ({ pid }) => {
   const descriptionRef = useRef('');
   const twitterRef = useRef('');
   const techRef = useRef('');
+  const chaptersRef = useRef('');
 
   const supabase = useSupabase();
 
@@ -55,6 +56,7 @@ const AddEpisode = ({ pid }) => {
   let bufferTwoWeeks;
   let bufferNinetyMinutes;
   let hightlightsTweet;
+  let chapters;
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
@@ -128,6 +130,8 @@ Additional sound effects obtained from https://www.zapsplat.com
       altText = `${episode[0].title} with ${episode[0].guest}`;
     }
 
+    chapters = episode && episode[0].extracted_chapters;
+
     slug = convertToSlug(episode[0].title);
 
     hightlightsTweet = `Did you miss ${episode[0].guest} teaching us about ${episode[0].technology}  live on LWJ?
@@ -198,7 +202,6 @@ https://twitch.tv/jlengstorf
     }
   }
 
-  // Needs updating...
   const handleEdit = async () => {
     const { data, error } = await supabase
       .from('episodes')
@@ -211,6 +214,7 @@ https://twitch.tv/jlengstorf
         description: descriptionRef.current.value,
         twitter: twitterRef.current.value,
         tech: techRef.current.value,
+        extracted_chapters: chaptersRef.current.value,
       })
       .eq('guest', episode?.[0].guest);
 
@@ -408,6 +412,25 @@ https://twitch.tv/jlengstorf
           aria-label="Copy decription"
           icon={<BiCopyAlt />}
           onClick={() => handleCopyText(techRef)}
+        />
+      </Box>
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        alignItems="center"
+      >
+        <Textarea
+          id="description"
+          type="text"
+          ref={chaptersRef}
+          defaultValue={episode ? episode[0].extracted_chapters : null}
+          width="80%"
+        />
+        <IconButton
+          aria-label="Copy decription"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopyText(chaptersRef)}
         />
       </Box>
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
