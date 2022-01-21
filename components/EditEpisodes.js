@@ -215,7 +215,7 @@ https://twitch.tv/jlengstorf
         title: titleRef.current.value,
         description: descriptionRef.current.value,
         twitter: twitterRef.current.value,
-        tech: techRef.current.value,
+        technology: techRef.current.value,
         extracted_chapters: chaptersRef.current.value,
       })
       .eq('guest', episode?.[0].guest);
