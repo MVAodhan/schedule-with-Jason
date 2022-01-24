@@ -343,6 +343,7 @@ https://twitch.tv/jlengstorf`;
           ref={titleRef}
           defaultValue={episode ? episode[0].title : null}
           w="80%"
+          textAlign="center"
         />
         <IconButton
           aria-label="Copy title"
@@ -350,6 +351,33 @@ https://twitch.tv/jlengstorf`;
           onClick={() => handleCopyText(titleRef)}
         />
       </Box>
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+        <FormLabel>Alt Text</FormLabel>
+      </Box>
+      <Box
+        w="100%"
+        d="flex"
+        justifyContent="space-around"
+        alignItems="center"
+        mb="10px"
+      >
+        <Text textAlign="center">{altText}</Text>
+        <IconButton
+          aria-label="Copy alt text"
+          icon={<BiCopyAlt />}
+          onClick={() => {
+            handleCopy(altText);
+            toast({
+              title: 'Text copied.',
+              description: 'Copied alt textto your clipboard.',
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+            });
+          }}
+        />
+      </Box>
+
       <FormLabel
         id="description"
         htmlFor="description"
@@ -430,32 +458,6 @@ https://twitch.tv/jlengstorf`;
         <Button w="30%" onClick={handleEdit}>
           Edit Episode
         </Button>
-      </Box>
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <FormLabel>Alt Text</FormLabel>
-      </Box>
-      <Box
-        w="100%"
-        d="flex"
-        justifyContent="center"
-        alignItems="center"
-        mb="10px"
-      >
-        <Text>{altText}</Text>
-        <IconButton
-          aria-label="Copy alt text"
-          icon={<BiCopyAlt />}
-          onClick={() => {
-            handleCopy(altText);
-            toast({
-              title: 'Text copied.',
-              description: 'Copied alt textto your clipboard.',
-              status: 'success',
-              duration: 3000,
-              isClosable: true,
-            });
-          }}
-        />
       </Box>
 
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
