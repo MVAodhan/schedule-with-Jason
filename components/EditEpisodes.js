@@ -152,16 +152,16 @@ ${episode[0].description}
 https://www.learnwithjason.dev/${slug}`;
 
       ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
-          
+
 ${episode[0].description}
-          
+
 ⬇️ Details Here ⬇️
 https://www.learnwithjason.dev/${slug}`;
 
       liveTweet = `🔴 We're Live! 🔴  
-            
+
 ${episode[0].description} 
-    
+
 ⬇️  Watch Live Here  👀 
 https://twitch.tv/jlengstorf`;
 
