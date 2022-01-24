@@ -145,20 +145,18 @@ No worries! Watch highlights from the episode here, then check out the full epis
 
     if (episode[0].description) {
       twoWeekTweet = `📣 Just Scheduled! 📣
-          
+
 ${episode[0].description}
           
 ⬇️ Details Here ⬇️
-https://www.learnwithjason.dev/${slug}
-          `;
+https://www.learnwithjason.dev/${slug}`;
 
       ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
           
 ${episode[0].description}
           
 ⬇️ Details Here ⬇️
-https://www.learnwithjason.dev/${slug}
-          `;
+https://www.learnwithjason.dev/${slug}`;
 
       liveTweet = `🔴 We're Live! 🔴  
             
@@ -166,8 +164,7 @@ ${episode[0].description}
             
             
 ⬇️  Watch Live Here  👀 
-https://twitch.tv/jlengstorf
-          `;
+https://twitch.tv/jlengstorf`;
 
       objFromData = DateTime.fromISO(
         `${episode[0].default_date}T${episode[0].default_time}`
