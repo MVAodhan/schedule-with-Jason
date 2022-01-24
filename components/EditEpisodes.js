@@ -91,7 +91,7 @@ Additional sound effects obtained from https://www.zapsplat.com
   const convertToSlug = (text) => {
     return text
       .toLowerCase()
-      .replace(/ /g, '-')
+      .replace(/[\. ]/g, '-')
       .replace(/[^\w-]+/g, '');
   };
 
@@ -223,6 +223,14 @@ https://twitch.tv/jlengstorf
     if (error) {
       console.log(error);
     }
+
+    toast({
+      title: 'Episode updated.',
+      description: 'Edit successful.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   return (
