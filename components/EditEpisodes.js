@@ -40,6 +40,7 @@ const AddEpisode = ({ pid }) => {
   const twitterRef = useRef('');
   const techRef = useRef('');
   const chaptersRef = useRef('');
+  const twitchRef = useRef('');
 
   const supabase = useSupabase();
 
@@ -88,6 +89,10 @@ Artist: http://audionautix.com/
 Additional sound effects obtained from https://www.zapsplat.com
 `;
 
+  const handleTwitchLinks = (text) => {
+    return text.replace(/ *\([^)]*\) */g, '').replace(/([[\]])/g, '');
+  };
+
   const convertToSlug = (text) => {
     return text
       .toLowerCase()
@@ -117,7 +122,6 @@ Additional sound effects obtained from https://www.zapsplat.com
     }
     if (data) {
       setIsPt(data[0].is_pt);
-      console.log(data[0]);
     }
 
     setEpisode(data);
@@ -217,6 +221,7 @@ https://twitch.tv/jlengstorf
         twitter: twitterRef.current.value,
         technology: techRef.current.value,
         extracted_chapters: chaptersRef.current.value,
+        twitch_links: twitchRef.current.value,
       })
       .eq('guest', episode?.[0].guest);
 
@@ -424,25 +429,7 @@ https://twitch.tv/jlengstorf
           onClick={() => handleCopyText(techRef)}
         />
       </Box>
-      <Box
-        display="flex"
-        width="100%"
-        justifyContent="space-around"
-        alignItems="center"
-      >
-        <Textarea
-          id="description"
-          type="text"
-          ref={chaptersRef}
-          defaultValue={episode ? episode[0].extracted_chapters : null}
-          width="80%"
-        />
-        <IconButton
-          aria-label="Copy decription"
-          icon={<BiCopyAlt />}
-          onClick={() => handleCopyText(chaptersRef)}
-        />
-      </Box>
+
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
         <Button w="30%" onClick={handleEdit}>
           Edit Episode
@@ -603,6 +590,50 @@ https://twitch.tv/jlengstorf
             }}
           />
         </Box>
+      </Box>
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+        <FormLabel>Twitch Links</FormLabel>
+      </Box>
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        alignItems="center"
+      >
+        <Textarea
+          id="description"
+          type="text"
+          ref={twitchRef}
+          defaultValue={episode ? episode[0].twitch_links : null}
+          width="80%"
+        />
+        <IconButton
+          aria-label="Copy twitch links"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopy(handleTwitchLinks(episode[0].twitch_links))}
+        />
+      </Box>
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+        <FormLabel>Extracted Chapters</FormLabel>
+      </Box>
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        alignItems="center"
+      >
+        <Textarea
+          id="description"
+          type="text"
+          ref={chaptersRef}
+          defaultValue={episode ? episode[0].extracted_chapters : null}
+          width="80%"
+        />
+        <IconButton
+          aria-label="Copy decription"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopyText(chaptersRef)}
+        />
       </Box>
     </FormControl>
   );
