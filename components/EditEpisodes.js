@@ -161,8 +161,7 @@ https://www.learnwithjason.dev/${slug}`;
       liveTweet = `🔴 We're Live! 🔴  
             
 ${episode[0].description} 
-            
-            
+    
 ⬇️  Watch Live Here  👀 
 https://twitch.tv/jlengstorf`;
 
