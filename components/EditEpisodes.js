@@ -58,6 +58,7 @@ const AddEpisode = ({ pid }) => {
   let bufferNinetyMinutes;
   let hightlightsTweet;
   let chapters;
+  let ytDescription;
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
@@ -202,6 +203,22 @@ https://twitch.tv/jlengstorf`;
         .minus({ minutes: 90 })
         .toFormat('ff');
     }
+  }
+
+  if (
+    episode &&
+    episode[0] &&
+    episode[0].description &&
+    episode[0].extracted_chapters
+  ) {
+    ytDescription = `${episode[0].description}
+
+${episode[0].extracted_chapters}
+
+
+${handleTwitchLinks(episode[0].twitch_links)}
+
+${credits}`;
   }
 
   const handleEdit = async () => {
@@ -631,6 +648,24 @@ https://twitch.tv/jlengstorf`;
           aria-label="Copy decription"
           icon={<BiCopyAlt />}
           onClick={() => handleCopyText(chaptersRef)}
+        />
+      </Box>
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        alignItems="center"
+        mt="20px"
+      >
+        <FormLabel>Youtube Description</FormLabel>
+        <IconButton
+          aria-label="Copy youtube decription"
+          icon={<BiCopyAlt />}
+          onClick={() =>
+            ytDescription
+              ? handleCopy(ytDescription)
+              : handleCopy('No description available.')
+          }
         />
       </Box>
     </FormControl>
