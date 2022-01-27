@@ -73,8 +73,8 @@ communication accessibility and may not be a totally verbatim record of the proc
 
 This episode was sponsored by:
 - Netlify (https://lwj.dev/netlify)
-- Fauna (https://lwj.dev/fauna)
-- Auth0 (https://lwj.dev/auth0)
+- Nx (https://lwj.dev/nx)
+- Backlight (https://lwj.dev/backlight)
 
 Live transcription by White Coat Captioning (https://whitecoatcaptioning.com/)
 
