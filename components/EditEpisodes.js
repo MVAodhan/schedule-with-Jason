@@ -41,6 +41,7 @@ const AddEpisode = ({ pid }) => {
   const techRef = useRef('');
   const chaptersRef = useRef('');
   const twitchRef = useRef('');
+  const twitterDescriptionRef = useRef('');
 
   const supabase = useSupabase();
 
@@ -147,21 +148,21 @@ No worries! Watch highlights from the episode here, then check out the full epis
     if (episode[0].description) {
       twoWeekTweet = `📣 Just Scheduled! 📣
 
-${episode[0].description}
+${episode[0].twitter_description}
           
 ⬇️ Details Here ⬇️
 https://www.learnwithjason.dev/${slug}`;
 
       ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
 
-${episode[0].description}
+${episode[0].twitter_description}
 
 ⬇️ Details Here ⬇️
 https://www.learnwithjason.dev/${slug}`;
 
       liveTweet = `🔴 We're Live! 🔴  
 
-${episode[0].description} 
+${episode[0].twitter_description} 
 
 ⬇️  Watch Live Here  👀 
 https://twitch.tv/jlengstorf`;
@@ -235,6 +236,7 @@ ${credits}`;
         technology: techRef.current.value,
         extracted_chapters: chaptersRef.current.value,
         twitch_links: twitchRef.current.value,
+        twitter_description: twitterDescriptionRef.current.value,
       })
       .eq('guest', episode?.[0].guest);
 
@@ -394,6 +396,34 @@ ${credits}`;
           }}
         />
       </Box>
+      <FormLabel
+        id="twitter_description"
+        htmlFor="twitter_description"
+        d="flex"
+        justifyContent="center"
+        mt="10px"
+      >
+        Episode Description with Twitter @
+      </FormLabel>
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        alignItems="center"
+      >
+        <Textarea
+          id="twitter_description"
+          type="text"
+          ref={twitterDescriptionRef}
+          defaultValue={episode ? episode[0].twitter_description : null}
+          width="80%"
+        />
+        <IconButton
+          aria-label="Copy decription"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopyText(twitterDescriptionRef)}
+        />
+      </Box>
 
       <FormLabel
         id="description"
@@ -402,7 +432,7 @@ ${credits}`;
         justifyContent="center"
         mt="10px"
       >
-        Episode Description
+        Episode Description in Text
       </FormLabel>
       <Box
         display="flex"

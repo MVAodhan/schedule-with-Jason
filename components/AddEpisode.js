@@ -29,6 +29,7 @@ const AddEpisode = () => {
   const checkboxRef = useRef('');
   const titleRef = useRef('');
   const descriptionRef = useRef('');
+  const twitterDescriptionRef = useRef('');
   const twitterRef = useRef('');
   const techRef = useRef('');
 
@@ -45,6 +46,7 @@ const AddEpisode = () => {
         description: descriptionRef.current.value,
         twitter: twitterRef.current.value,
         technology: techRef.current.value,
+        twitter_description: twitterDescriptionRef.current.value,
       },
     ]);
 
@@ -143,13 +145,27 @@ const AddEpisode = () => {
       </FormLabel>
       <Input id="title" type="text" ref={titleRef} />
       <FormLabel
+        id="description with twitter at's"
+        htmlFor="description_with_twitter"
+        d="flex"
+        justifyContent="center"
+        mt="10px"
+      >
+        Episode Description Twitter @
+      </FormLabel>
+      <Textarea
+        id="description_with_twitter"
+        type="text"
+        ref={twitterDescriptionRef}
+      />
+      <FormLabel
         id="description"
         htmlFor="description"
         d="flex"
         justifyContent="center"
         mt="10px"
       >
-        Episode Description
+        Episode Description in Text
       </FormLabel>
       <Textarea id="description" type="text" ref={descriptionRef} />
       <FormLabel
