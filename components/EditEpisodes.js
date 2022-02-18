@@ -13,6 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { BiCopyAlt } from 'react-icons/bi';
 
+import HelperText from './HelperText';
+
 import { DateTime } from 'luxon';
 
 import copy from 'copy-to-clipboard';
@@ -506,7 +508,7 @@ ${credits}`;
           Edit Episode
         </Button>
       </Box>
-
+      <HelperText />
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
         <FormLabel>Aring times</FormLabel>
       </Box>
