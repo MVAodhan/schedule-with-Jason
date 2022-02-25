@@ -2,7 +2,23 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Box, Text, IconButton, useToast } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  IconButton,
+  useToast,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+  Button,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 import { BiEditAlt } from 'react-icons/bi';
 
@@ -10,18 +26,9 @@ import copy from 'copy-to-clipboard';
 
 import styles from '../styles/Episode.module.css';
 
-const Episode = ({
-  data,
-  usDate,
-  nzDate,
-  bufferTwoWeeks,
-  bufferNinetyMinutes,
-  altText,
-  twoWeekTweet,
-  ninetyMinTweet,
-  liveTweet,
-}) => {
+const Episode = ({ data, usDate, nzDate }) => {
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const toast = useToast();
 
@@ -53,17 +60,39 @@ const Episode = ({
           {' '}
           {data.title && (
             <>
-              <Box w="100%" d="flex" justifyContent="flex-end">
-                <Box w="100%" d="flex" justifyContent="flex-end"></Box>
-                <IconButton
-                  aria-label="Expand episode"
-                  icon={<BiEditAlt fill="white" />}
-                  bgColor="transparent"
-                  fontSize="20px"
-                  _hover={{ bg: 'transparent' }}
-                  mt="2px"
-                  onClick={() => router.push(`/edit/${data.id}`)}
-                />
+              <Box w="100%" d="flex">
+                <Box w="100%" d="flex" justifyContent="space-between">
+                  <Popover>
+                    <PopoverTrigger>
+                      <IconButton
+                        aria-label="Expand episode"
+                        icon={<BiEditAlt fill="white" />}
+                        bgColor="transparent"
+                        fontSize="20px"
+                        _hover={{ bg: 'transparent' }}
+                        mt="2px"
+                      />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <PopoverArrow />
+                      <PopoverCloseButton />
+                      <PopoverHeader>Confirmation!</PopoverHeader>
+                      <PopoverBody>
+                        Are you sure you want to have that milkshake?
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Popover>
+
+                  <IconButton
+                    aria-label="Expand episode"
+                    icon={<BiEditAlt fill="white" />}
+                    bgColor="transparent"
+                    fontSize="20px"
+                    _hover={{ bg: 'transparent' }}
+                    mt="2px"
+                    onClick={() => router.push(`/edit/${data.id}`)}
+                  />
+                </Box>
               </Box>
               <Box w="100%" d="flex" justifyContent="center">
                 <Text
