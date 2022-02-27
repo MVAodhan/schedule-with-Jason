@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { useSupabase } from '../hooks/useSupabase';
+
 import {
   Box,
   Text,
@@ -20,21 +22,31 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { BiEditAlt } from 'react-icons/bi';
+import { BiEditAlt, BiTrash } from 'react-icons/bi';
 
 import copy from 'copy-to-clipboard';
 
 import styles from '../styles/Episode.module.css';
 
-const Episode = ({ data, usDate, nzDate }) => {
+const Episode = ({ data, usDate, nzDate, title }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const supabase = useSupabase();
   const toast = useToast();
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
     copy(stringToCopy);
+  };
+
+  const handleDelete = async () => {
+    const { data, error } = await supabase
+      .from('episodes')
+      .delete()
+      .match({ title: title });
+
+    router.reload();
   };
 
   return (
@@ -58,7 +70,7 @@ const Episode = ({ data, usDate, nzDate }) => {
           flexDir="column"
         >
           {' '}
-          {data.title && (
+          {data && (
             <>
               <Box w="100%" d="flex">
                 <Box w="100%" d="flex" justifyContent="space-between">
@@ -66,7 +78,7 @@ const Episode = ({ data, usDate, nzDate }) => {
                     <PopoverTrigger>
                       <IconButton
                         aria-label="Expand episode"
-                        icon={<BiEditAlt fill="white" />}
+                        icon={<BiTrash fill="red" />}
                         bgColor="transparent"
                         fontSize="20px"
                         _hover={{ bg: 'transparent' }}
@@ -78,7 +90,18 @@ const Episode = ({ data, usDate, nzDate }) => {
                       <PopoverCloseButton />
                       <PopoverHeader>Confirmation!</PopoverHeader>
                       <PopoverBody>
-                        Are you sure you want to have that milkshake?
+                        <Box display="flex" flexDir="column">
+                          Are you sure you want to delete <br></br>
+                          {data.title}?
+                          <Button
+                            leftIcon={<BiTrash />}
+                            bgColor="red"
+                            color="white"
+                            onClick={handleDelete}
+                          >
+                            Delete Episode
+                          </Button>
+                        </Box>
                       </PopoverBody>
                     </PopoverContent>
                   </Popover>

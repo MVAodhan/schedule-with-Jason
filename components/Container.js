@@ -109,6 +109,7 @@ const Container = ({ data }) => {
               <Box w="100%" key={data.id}>
                 <Episode
                   key={data.id}
+                  title={data.title}
                   data={data}
                   usDate={usDate}
                   nzDate={nzDate}
