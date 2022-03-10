@@ -100,8 +100,8 @@ Additional sound effects obtained from https://www.zapsplat.com
   const convertToSlug = (text) => {
     return text
       .toLowerCase()
-      .replace(/[\. ]/g, '-')
-      .replace(/[^\w-]+/g, '');
+      .replace(/[^\w!-]+/g, '-')
+      .replace(/[!]/g, '');
   };
 
   const handleCopyText = (ref) => {
@@ -135,12 +135,13 @@ Additional sound effects obtained from https://www.zapsplat.com
     zone = episode[0].is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
 
     if (episode[0].title && episode[0].guest) {
+      slug = convertToSlug(episode[0].title);
+      console.log('title: ' + episode[0].title);
+      console.log(slug);
       altText = `${episode[0].title} with ${episode[0].guest}`;
     }
 
     chapters = episode && episode[0].extracted_chapters;
-
-    slug = convertToSlug(episode[0].title);
 
     hightlightsTweet = `Did you miss ${episode[0].twitter} teaching us about ${
       episode[0].technology !== null ? episode[0].technology : ''
@@ -151,7 +152,7 @@ No worries! Watch highlights from the episode here, then check out the full epis
       twoWeekTweet = `📣 Just Scheduled! 📣
 
 ${episode[0].twitter_description}
-          
+
 ⬇️ Details Here ⬇️
 https://www.learnwithjason.dev/${slug}`;
 
