@@ -40,7 +40,11 @@ const HelperText = () => {
           <IconButton
             aria-label="Copy decription"
             icon={<BiCopyAlt />}
-            onClick={() => handleCopy('https://twitch.tv/jlengstorf')}
+            onClick={() =>
+              handleCopy(
+                'lengstorf.com_9plj1m6u9vtddldoinl0hs2vgk@group.calendar.google.com'
+              )
+            }
           />
         </Box>
       </Box>
