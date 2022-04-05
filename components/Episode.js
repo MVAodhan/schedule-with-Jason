@@ -4,6 +4,9 @@ import { useRouter } from 'next/router';
 
 import { useSupabase } from '../hooks/useSupabase';
 
+import { sessionAtom } from '../atoms';
+import { useAtom } from 'jotai';
+
 import {
   Box,
   Text,
@@ -31,6 +34,9 @@ import styles from '../styles/Episode.module.css';
 const Episode = ({ data, usDate, nzDate, title }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [session, setSession] = useAtom(sessionAtom);
+
+  console.log('session from atom', session);
 
   const supabase = useSupabase();
   const toast = useToast();
@@ -74,37 +80,39 @@ const Episode = ({ data, usDate, nzDate, title }) => {
             <>
               <Box w="100%" d="flex">
                 <Box w="100%" d="flex" justifyContent="space-between">
-                  <Popover>
-                    <PopoverTrigger>
-                      <IconButton
-                        aria-label="Expand episode"
-                        icon={<BiTrash fill="red" />}
-                        bgColor="transparent"
-                        fontSize="20px"
-                        _hover={{ bg: 'transparent' }}
-                        mt="2px"
-                      />
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <PopoverArrow />
-                      <PopoverCloseButton />
-                      <PopoverHeader>Confirmation!</PopoverHeader>
-                      <PopoverBody>
-                        <Box display="flex" flexDir="column">
-                          Are you sure you want to delete <br></br>
-                          {data.title}?
-                          <Button
-                            leftIcon={<BiTrash />}
-                            bgColor="red"
-                            color="white"
-                            onClick={handleDelete}
-                          >
-                            Delete Episode
-                          </Button>
-                        </Box>
-                      </PopoverBody>
-                    </PopoverContent>
-                  </Popover>
+                  {session && (
+                    <Popover>
+                      <PopoverTrigger>
+                        <IconButton
+                          aria-label="Expand episode"
+                          icon={<BiTrash fill="red" />}
+                          bgColor="transparent"
+                          fontSize="20px"
+                          _hover={{ bg: 'transparent' }}
+                          mt="2px"
+                        />
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader>Confirmation!</PopoverHeader>
+                        <PopoverBody>
+                          <Box display="flex" flexDir="column">
+                            Are you sure you want to delete <br></br>
+                            {data.title}?
+                            <Button
+                              leftIcon={<BiTrash />}
+                              bgColor="red"
+                              color="white"
+                              onClick={handleDelete}
+                            >
+                              Delete Episode
+                            </Button>
+                          </Box>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Popover>
+                  )}
 
                   <IconButton
                     aria-label="Expand episode"
