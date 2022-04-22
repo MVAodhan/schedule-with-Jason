@@ -4,13 +4,12 @@ import { useRouter } from 'next/router';
 
 import { Box } from '@chakra-ui/react';
 
-import { useEffect } from 'react';
-
 import { useSupabase } from '../../hooks/useSupabase.js';
 
 import Header from '../../components/Header';
 import Nav from '../../components/Nav';
 import EditEpisodes from '../../components/EditEpisodes';
+import Published from '../../components/Published';
 
 import { sessionAtom } from '../../atoms';
 import { useAtom } from 'jotai';
@@ -22,15 +21,6 @@ export default function Home() {
 
   const router = useRouter();
   const { id: pid } = router.query;
-
-  console.log('dynamic pid', pid);
-  // useEffect(() => {
-  //   setSession(supabase.auth.session());
-
-  //   supabase.auth.onAuthStateChange((_event, session) => {
-  //     setSession(supabase.auth.session());
-  //   });
-  // }, []);
 
   return (
     <Box>
@@ -51,8 +41,16 @@ export default function Home() {
       />
       <Header text="Edit Episode" />
 
-      <Box as="main" h="100%" w="100vw" d="flex" justifyContent="center">
+      <Box
+        as="main"
+        h="100%"
+        w="100vw"
+        d="flex"
+        justifyContent="space-around"
+        mb="50px"
+      >
         <EditEpisodes pid={pid} />
+        <Published pid={pid} />
       </Box>
     </Box>
   );

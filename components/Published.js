@@ -23,7 +23,7 @@ import { useSupabase } from '../hooks/useSupabase.js';
 
 import { useRouter } from 'next/router';
 
-const AddEpisode = ({ pid, marginLeft }) => {
+const Published = ({ pid, marginLeft }) => {
   const router = useRouter();
 
   const [episode, setEpisode] = useState('');
@@ -31,32 +31,17 @@ const AddEpisode = ({ pid, marginLeft }) => {
 
   const toast = useToast();
 
-  const guestRef = useRef('');
-  const dateRef = useRef('');
-  const timeRef = useRef('');
-
   const titleRef = useRef('');
-  const descriptionRef = useRef('');
-  const twitterRef = useRef('');
-  const techRef = useRef('');
+
   const chaptersRef = useRef('');
   const twitchRef = useRef('');
-  const twitterDescriptionRef = useRef('');
 
   const supabase = useSupabase();
 
-  let zone;
-  let objFromData;
-  let usDate;
-  let nzDate;
   let slug;
-  let twoWeekTweet;
-  let ninetyMinTweet;
-  let liveTweet;
+
   let altText;
-  let zoneISO;
-  let bufferTwoWeeks;
-  let bufferNinetyMinutes;
+
   let hightlightsTweet;
   let chapters;
   let ytDescription;
@@ -65,6 +50,10 @@ const AddEpisode = ({ pid, marginLeft }) => {
     let stringToCopy = textToCopy.toString();
     copy(stringToCopy);
   };
+
+  const captionsBlurb = `*Captions provided by White Coat Captioning (https://whitecoatcaptioning.com/). 
+Communication Access Realtime Translation (CART) is provided in order to facilitate
+communication accessibility and may not be a totally verbatim record of the proceedings.*`;
 
   const credits = `Watch future episodes live at https://twitch.tv/jlengstorf
 
@@ -126,8 +115,6 @@ Additional sound effects obtained from https://www.zapsplat.com
   }, []);
 
   if (episode && episode[0]) {
-    zone = episode[0].is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
-
     if (episode[0].title && episode[0].guest) {
       slug = convertToSlug(episode[0].title);
       console.log('title: ' + episode[0].title);
@@ -141,66 +128,6 @@ Additional sound effects obtained from https://www.zapsplat.com
       episode[0].technology !== null ? episode[0].technology : ''
     } live on LWJ?
 No worries! Watch highlights from the episode here, then check out the full episode replay https://www.learnwithjason.dev/${slug}`;
-
-    if (episode[0].description) {
-      twoWeekTweet = `📣 Just Scheduled! 📣
-
-${episode[0].twitter_description}
-
-⬇️ Details Here ⬇️
-https://www.learnwithjason.dev/${slug}`;
-
-      ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
-
-${episode[0].twitter_description}
-
-⬇️ Details Here ⬇️
-https://www.learnwithjason.dev/${slug}`;
-
-      liveTweet = `🔴 We're Live! 🔴  
-
-${episode[0].twitter_description} 
-
-⬇️  Watch Live Here  👀 
-https://twitch.tv/jlengstorf`;
-
-      objFromData = DateTime.fromISO(
-        `${episode[0].default_date}T${episode[0].default_time}`
-      );
-
-      zoneISO = DateTime.fromObject(
-        {
-          day: objFromData.c.day,
-          hour: objFromData.c.hour,
-          minute: objFromData.c.minute,
-          month: objFromData.c.month,
-          year: objFromData.c.year,
-        },
-        { zone }
-      );
-
-      if (zoneISO.zone.zoneName === 'America/Los_Angeles') {
-        usDate = zoneISO.toFormat('ff');
-      } else {
-        usDate = zoneISO.setZone('America/Los_Angeles').toFormat('ff');
-      }
-
-      if (zoneISO.zone.zoneName === 'Pacific/Auckland') {
-        nzDate = zoneISO.toFormat('ff');
-      } else {
-        nzDate = zoneISO.setZone('Pacific/Auckland').toFormat('ff');
-      }
-
-      bufferTwoWeeks = zoneISO
-        .setZone('America/Los_Angeles')
-        .minus({ weeks: 2 })
-        .toFormat('ff');
-
-      bufferNinetyMinutes = zoneISO
-        .setZone('America/Los_Angeles')
-        .minus({ minutes: 90 })
-        .toFormat('ff');
-    }
   }
 
   if (
@@ -223,17 +150,8 @@ ${credits}`;
     const { data, error } = await supabase
       .from('episodes')
       .update({
-        guest: guestRef.current.value,
-        default_date: dateRef.current.value,
-        default_time: timeRef.current.value,
-        is_pt: isPt,
-        title: titleRef.current.value,
-        description: descriptionRef.current.value,
-        twitter: twitterRef.current.value,
-        technology: techRef.current.value,
         extracted_chapters: chaptersRef.current.value,
         twitch_links: twitchRef.current.value,
-        twitter_description: twitterDescriptionRef.current.value,
       })
       .eq('guest', episode?.[0].guest);
 
@@ -255,31 +173,14 @@ ${credits}`;
       w="40%"
       d="flex"
       flexDir="column"
+      alignItems="space-around"
       mt="50px"
       bgColor="#ededed"
       borderRadius="10px"
       ml={marginLeft}
     >
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <Heading as="h2">Setup</Heading>
-      </Box>
-
-      <FormLabel id="guest" htmlFor="guest" d="flex" justifyContent="center">
-        Guest Name
-      </FormLabel>
-      <Box w="100%" d="flex" justifyContent="space-around">
-        <Input
-          id="guest"
-          type="text"
-          ref={guestRef}
-          defaultValue={episode ? episode[0].guest : null}
-          width="80%"
-        />
-        <IconButton
-          aria-label="Copy guest"
-          icon={<BiCopyAlt />}
-          onClick={() => handleCopyText(guestRef)}
-        />
+        <Heading as="h2">Publishing Details</Heading>
       </Box>
       <FormLabel
         id="title"
@@ -310,49 +211,66 @@ ${credits}`;
           onClick={() => handleCopyText(titleRef)}
         />
       </Box>
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <FormLabel>Alt Text</FormLabel>
-      </Box>
       <Box
-        w="100%"
-        d="flex"
+        display="flex"
+        width="100%"
         justifyContent="space-around"
         alignItems="center"
-        mb="10px"
+        mt="20px"
       >
-        <Text textAlign="center">{altText}</Text>
+        <FormLabel>Youtube Description</FormLabel>
         <IconButton
-          aria-label="Copy alt text"
+          aria-label="Copy youtube decription"
           icon={<BiCopyAlt />}
-          onClick={() => {
-            handleCopy(altText);
-            toast({
-              title: 'Text copied.',
-              description: 'Copied alt textto your clipboard.',
-              status: 'success',
-              duration: 3000,
-              isClosable: true,
-            });
-          }}
+          onClick={() =>
+            ytDescription
+              ? handleCopy(ytDescription)
+              : handleCopy('No description available.')
+          }
         />
       </Box>
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <FormLabel>Aring times</FormLabel>
-      </Box>
-      <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
-        <Text>PST: {usDate}</Text>
-        <Text>NZST: {nzDate}</Text>
-      </Box>
 
-      <FormLabel
-        id="description"
-        htmlFor="description"
-        d="flex"
-        justifyContent="center"
-        mt="10px"
-      >
-        Episode Description in Text
-      </FormLabel>
+      <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
+        <Box d="flex" alignItems="center">
+          <Text>Highlights tweet</Text>
+          <IconButton
+            aria-label="Copy tweet"
+            icon={<BiCopyAlt />}
+            onClick={() => {
+              handleCopy(hightlightsTweet);
+              toast({
+                title: 'Text copied.',
+                description:
+                  'Copied hightlights tweet tweet to your clipboard.',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          />
+        </Box>
+        <Box d="flex" alignItems="center">
+          <Text>Captions Blurb</Text>
+          <IconButton
+            aria-label="Copy tweet"
+            icon={<BiCopyAlt />}
+            onClick={() => {
+              handleCopy(captionsBlurb);
+              toast({
+                title: 'Text copied.',
+                description: 'Copied captions blurb to your clipboard.',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          />
+        </Box>
+        <Box d="flex" alignItems="center"></Box>
+      </Box>
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+        <FormLabel>Twitch Links</FormLabel>
+      </Box>
       <Box
         display="flex"
         width="100%"
@@ -362,100 +280,51 @@ ${credits}`;
         <Textarea
           id="description"
           type="text"
-          ref={descriptionRef}
-          defaultValue={episode ? episode[0].description : null}
+          ref={twitchRef}
+          defaultValue={episode ? episode[0].twitch_links : null}
+          width="80%"
+          height="200px"
+        />
+        <IconButton
+          aria-label="Copy twitch links"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopy(handleTwitchLinks(episode[0].twitch_links))}
+        />
+      </Box>
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+        <FormLabel>Extracted Chapters</FormLabel>
+      </Box>
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        alignItems="center"
+      >
+        <Textarea
+          id="description"
+          type="text"
+          ref={chaptersRef}
+          defaultValue={episode ? episode[0].extracted_chapters : null}
           width="80%"
         />
         <IconButton
           aria-label="Copy decription"
           icon={<BiCopyAlt />}
-          onClick={() => handleCopyText(descriptionRef)}
+          onClick={() => handleCopyText(chaptersRef)}
         />
       </Box>
-
-      <HelperText />
-
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <FormLabel>Tweets</FormLabel>
-      </Box>
-
-      <Box
-        w="100%"
-        d="flex"
-        justifyContent="space-around"
-        mb="10px"
-        alignItems="center"
-      >
-        <Box d="flex" alignItems="center">
-          <Text>Two Weeks</Text>
-          <IconButton
-            aria-label="Copy tweet"
-            icon={<BiCopyAlt />}
-            onClick={() => {
-              handleCopy(twoWeekTweet);
-              toast({
-                title: 'Text copied.',
-                description: 'Copied two week tweet to your clipboard.',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          />
-        </Box>
-        <Box d="flex" alignItems="center">
-          <Text>Ninety minutes</Text>
-          <IconButton
-            aria-label="Copy tweet"
-            icon={<BiCopyAlt />}
-            onClick={() => {
-              handleCopy(ninetyMinTweet);
-              toast({
-                title: 'Text copied.',
-                description: 'Copied ninety minute tweet to your clipboard.',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          />
-        </Box>
-        <Box d="flex" alignItems="center">
-          <Text>Live</Text>
-          <IconButton
-            aria-label="Copy tweet"
-            icon={<BiCopyAlt />}
-            onClick={() => {
-              handleCopy(liveTweet);
-              toast({
-                title: 'Text copied.',
-                description: 'Copied live tweet to your clipboard.',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          />
-        </Box>
-      </Box>
-      <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
-        <Text>{bufferTwoWeeks}</Text>
-        <Text>{bufferNinetyMinutes}</Text>
-        <Text>{usDate}</Text>
-      </Box>
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+      <Box w="100%" d="flex" justifyContent="center" mt="20px" mb="10px">
         <Button
+          color="white"
           w="fit-content"
           bgColor="limegreen"
-          color="white"
-          mt="20px"
           onClick={handleEdit}
         >
-          Edit Episode
+          Edit Publishing Details
         </Button>
       </Box>
     </FormControl>
   );
 };
 
-export default AddEpisode;
+export default Published;
