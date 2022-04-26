@@ -166,6 +166,8 @@ ${credits}`;
       duration: 3000,
       isClosable: true,
     });
+
+    router.push('/');
   };
 
   return (
