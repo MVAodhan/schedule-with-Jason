@@ -124,7 +124,7 @@ Additional sound effects obtained from https://www.zapsplat.com
 
     chapters = episode && episode[0].extracted_chapters;
 
-    hightlightsTweet = `Did you miss ${episode[0].twitter} teaching us about ${
+    hightlightsTweet = `Did you miss @${episode[0].twitter} teaching us about ${
       episode[0].technology !== null ? episode[0].technology : ''
     } live on LWJ?
 No worries! Watch highlights from the episode here, then check out the full episode replay https://www.learnwithjason.dev/${slug}`;

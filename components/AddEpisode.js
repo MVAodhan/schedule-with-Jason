@@ -8,6 +8,7 @@ import {
   Checkbox,
   Textarea,
   useToast,
+  Text,
 } from '@chakra-ui/react';
 
 import { sessionAtom } from '../atoms';
@@ -36,6 +37,17 @@ const AddEpisode = () => {
   const supabase = useSupabase();
 
   const handleSubmit = async () => {
+    if (!dateRef.current.value || !timeRef.current.value) {
+      toast({
+        title: 'No date or time',
+        description: 'Please add a dat and time',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      return;
+    }
     const { data, error } = await supabase.from('episodes').insert([
       {
         guest: guestRef.current.value,
@@ -79,14 +91,28 @@ const AddEpisode = () => {
       w="40%"
       d="flex"
       flexDir="column"
+      justifyContent="center"
+      alignItems="center"
       mt="50px"
       bgColor="#ededed"
       borderRadius="10px"
+      mb="50px"
     >
       <FormLabel id="guest" htmlFor="guest" d="flex" justifyContent="center">
         Guest Name
       </FormLabel>
       <Input id="guest" type="text" ref={guestRef} />
+      <FormLabel
+        id="twitter"
+        htmlFor="twitter"
+        d="flex"
+        justifyContent="center"
+        mt="10px"
+      >
+        Guest Twitter
+      </FormLabel>
+      <Text> Just the username, no @ or URL (e.g. “jlengstorf”).</Text>
+      <Input id="twitter" type="text" ref={twitterRef} />
       <Box
         width="100%"
         d="flex"
@@ -168,16 +194,7 @@ const AddEpisode = () => {
         Episode Description in Text
       </FormLabel>
       <Textarea id="description" type="text" ref={descriptionRef} />
-      <FormLabel
-        id="twitter"
-        htmlFor="twitter"
-        d="flex"
-        justifyContent="center"
-        mt="10px"
-      >
-        Guest Twitter
-      </FormLabel>
-      <Input id="twitter" type="text" ref={twitterRef} />
+
       <FormLabel
         id="technology"
         htmlFor="technology"
@@ -188,7 +205,9 @@ const AddEpisode = () => {
         Technology
       </FormLabel>
       <Input id="technology" type="text" ref={techRef} />
-      <Button onClick={handleSubmit}>Add Episode</Button>
+      <Button bgColor="limegreen" onClick={handleSubmit}>
+        Add Episode
+      </Button>
     </FormControl>
   );
 };

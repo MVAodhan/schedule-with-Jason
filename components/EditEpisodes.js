@@ -285,6 +285,7 @@ ${credits}`;
       <FormLabel id="guest" htmlFor="guest" d="flex" justifyContent="center">
         Guest Twitter
       </FormLabel>
+      <Text> Just the username, no @ or URL (e.g. “jlengstorf”).</Text>
       <Box w="100%" d="flex" justifyContent="space-around">
         <Input
           id="guest"
@@ -461,7 +462,7 @@ ${credits}`;
         <Text>{bufferNinetyMinutes}</Text>
         <Text>{usDate}</Text>
       </Box>
-      {/* <Box w="100%" d="flex" justifyContent="center" mb="10px">
+      <Box w="100%" d="flex" justifyContent="center" mb="10px">
         <Button
           w="fit-content"
           bgColor="limegreen"
@@ -471,7 +472,7 @@ ${credits}`;
         >
           Edit Episode
         </Button>
-      </Box> */}
+      </Box>
     </FormControl>
   );
 };
