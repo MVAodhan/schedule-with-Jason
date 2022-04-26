@@ -307,7 +307,7 @@ ${credits}`;
           onClick={() => handleCopyText(chaptersRef)}
         />
       </Box>
-      {/* <Box w="100%" d="flex" justifyContent="center" mt="20px" mb="10px">
+      <Box w="100%" d="flex" justifyContent="center" mt="20px" mb="10px">
         <Button
           color="white"
           w="fit-content"
@@ -316,7 +316,7 @@ ${credits}`;
         >
           Edit Publishing Details
         </Button>
-      </Box> */}
+      </Box>
     </FormControl>
   );
 };
