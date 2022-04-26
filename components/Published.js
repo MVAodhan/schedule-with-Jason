@@ -173,22 +173,16 @@ ${credits}`;
       w="40%"
       d="flex"
       flexDir="column"
-      alignItems="space-around"
+      justifyContent="space-around"
+      alignItems="center"
       mt="50px"
       bgColor="#ededed"
       borderRadius="10px"
-      ml={marginLeft}
     >
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+      <Box w="100%" d="flex" justifyContent="center">
         <Heading as="h2">Publishing Details</Heading>
       </Box>
-      <FormLabel
-        id="title"
-        htmlFor="title"
-        d="flex"
-        justifyContent="center"
-        mt="10px"
-      >
+      <FormLabel id="title" htmlFor="title" d="flex" justifyContent="center">
         Episode title
       </FormLabel>
       <Box
@@ -230,8 +224,8 @@ ${credits}`;
         />
       </Box>
 
-      <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
-        <Box d="flex" alignItems="center">
+      <Box w="70%" d="flex" justifyContent="space-around">
+        <Box d="flex" w="fit-content" alignItems="center">
           <Text>Highlights tweet</Text>
           <IconButton
             aria-label="Copy tweet"
@@ -283,7 +277,7 @@ ${credits}`;
           ref={twitchRef}
           defaultValue={episode ? episode[0].twitch_links : null}
           width="80%"
-          height="200px"
+          height="150px"
         />
         <IconButton
           aria-label="Copy twitch links"
@@ -313,7 +307,7 @@ ${credits}`;
           onClick={() => handleCopyText(chaptersRef)}
         />
       </Box>
-      <Box w="100%" d="flex" justifyContent="center" mt="20px" mb="10px">
+      {/* <Box w="100%" d="flex" justifyContent="center" mt="20px" mb="10px">
         <Button
           color="white"
           w="fit-content"
@@ -322,7 +316,7 @@ ${credits}`;
         >
           Edit Publishing Details
         </Button>
-      </Box>
+      </Box> */}
     </FormControl>
   );
 };

@@ -258,10 +258,11 @@ ${credits}`;
       mt="50px"
       bgColor="#ededed"
       borderRadius="10px"
-      ml={marginLeft}
+      justifyContent="space-around"
+      alignItems="center"
     >
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <Heading as="h2">Setup</Heading>
+        <Heading as="h2">Setup Details</Heading>
       </Box>
 
       <FormLabel id="guest" htmlFor="guest" d="flex" justifyContent="center">
@@ -279,6 +280,23 @@ ${credits}`;
           aria-label="Copy guest"
           icon={<BiCopyAlt />}
           onClick={() => handleCopyText(guestRef)}
+        />
+      </Box>
+      <FormLabel id="guest" htmlFor="guest" d="flex" justifyContent="center">
+        Guest Twitter
+      </FormLabel>
+      <Box w="100%" d="flex" justifyContent="space-around">
+        <Input
+          id="guest"
+          type="text"
+          ref={twitterRef}
+          defaultValue={episode ? episode[0].twitter : null}
+          width="80%"
+        />
+        <IconButton
+          aria-label="Copy guest"
+          icon={<BiCopyAlt />}
+          onClick={() => handleCopyText(twitterRef)}
         />
       </Box>
       <FormLabel
@@ -443,7 +461,7 @@ ${credits}`;
         <Text>{bufferNinetyMinutes}</Text>
         <Text>{usDate}</Text>
       </Box>
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
+      {/* <Box w="100%" d="flex" justifyContent="center" mb="10px">
         <Button
           w="fit-content"
           bgColor="limegreen"
@@ -453,7 +471,7 @@ ${credits}`;
         >
           Edit Episode
         </Button>
-      </Box>
+      </Box> */}
     </FormControl>
   );
 };
