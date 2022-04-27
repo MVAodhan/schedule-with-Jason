@@ -252,7 +252,7 @@ ${credits}`;
 
   return (
     <FormControl
-      w="40%"
+      w="80%"
       d="flex"
       flexDir="column"
       mt="50px"

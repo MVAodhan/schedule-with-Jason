@@ -48,6 +48,7 @@ const AddEpisode = () => {
 
       return;
     }
+
     const { data, error } = await supabase.from('episodes').insert([
       {
         guest: guestRef.current.value,

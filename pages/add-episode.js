@@ -45,7 +45,7 @@ export default function Home() {
       />
       <Header text="Add Episode" />
 
-      <Box as="main" h="100%" w="100vw" d="flex" justifyContent="center">
+      <Box as="main" h="100%" w="50vw" d="flex" justifyContent="center">
         <AddEpisode />
       </Box>
     </Box>
