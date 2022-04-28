@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   ButtonGroup,
@@ -13,10 +13,26 @@ import { AiFillPlusSquare } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
 
 import Link from './Link';
-const AddLinks = () => {
+const AddLinks = ({ pid }) => {
   const supabase = useSupabase();
 
   const [links, setLinks] = useState([]);
+
+  useEffect(async () => {
+    let { data, error } = await supabase
+      .from('episodes')
+      .select('*')
+      .eq('id', pid)
+      .single();
+
+    if (error) {
+      console.log(error);
+    }
+
+    setLinks(data.links);
+  }, []);
+
+  console.log(links);
 
   const addLink = (links) => {
     const id = uuidv4();
@@ -24,7 +40,7 @@ const AddLinks = () => {
     let link = { id, link: '' };
     setLinks([...links, link]);
   };
-  console.log(links);
+  console.log('links', links);
 
   return (
     <Box w="80%" d="flex" flexDir="column" alignItems="center">
@@ -45,7 +61,11 @@ const AddLinks = () => {
         flexDir="column"
         alignItems="center"
       >
-        {links.length > 0 && links.map((link) => <Link key={link.id} />)}
+        {links
+          ? links.map((link) => (
+              <Link key={link.id} defaultValue={link.value} />
+            ))
+          : null}
       </Box>
       <ButtonGroup isAttached>
         <Button onClick={() => addLink(links)}> Add Link</Button>
