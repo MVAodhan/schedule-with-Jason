@@ -36,8 +36,6 @@ const Episode = ({ data, usDate, nzDate, title }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [session, setSession] = useAtom(sessionAtom);
 
-  console.log('session from atom', session);
-
   const supabase = useSupabase();
   const toast = useToast();
 
