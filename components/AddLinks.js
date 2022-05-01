@@ -12,11 +12,15 @@ import { AiFillPlusSquare } from 'react-icons/ai';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import { useRouter } from 'next/router';
+
 import Link from './Link';
 const AddLinks = ({ pid }) => {
   const supabase = useSupabase();
 
   const [links, setLinks] = useState([]);
+
+  const router = useRouter();
 
   useEffect(async () => {
     let { data, error } = await supabase
@@ -54,9 +58,8 @@ const AddLinks = ({ pid }) => {
     if (error) {
       console.log(error);
     }
-    if (data) {
-      console.log(data);
-    }
+
+    router.push('/');
   };
 
   return (
