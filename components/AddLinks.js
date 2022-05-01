@@ -63,11 +63,6 @@ const AddLinks = ({ pid }) => {
     <Box w="80%" d="flex" flexDir="column" alignItems="center">
       <Box w="100%" d="flex" justifyContent="space-around">
         <Heading as="h2">Twitch Links</Heading>
-        <IconButton
-          aria-label="Copy twitch links"
-          size="lg"
-          icon={<BiCopyAlt />}
-        />
       </Box>
       <Box
         h="300px"

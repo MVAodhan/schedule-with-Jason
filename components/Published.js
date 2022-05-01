@@ -24,7 +24,7 @@ import { useSupabase } from '../hooks/useSupabase.js';
 import { useRouter } from 'next/router';
 import AddLinks from './AddLinks';
 
-const Published = ({ pid, marginLeft }) => {
+const Published = ({ pid }) => {
   const router = useRouter();
 
   const [episode, setEpisode] = useState('');
@@ -118,8 +118,7 @@ Additional sound effects obtained from https://www.zapsplat.com
   if (episode && episode[0]) {
     if (episode[0].title && episode[0].guest) {
       slug = convertToSlug(episode[0].title);
-      console.log('title: ' + episode[0].title);
-      console.log(slug);
+
       altText = `${episode[0].title} with ${episode[0].guest}`;
     }
 
@@ -131,6 +130,18 @@ Additional sound effects obtained from https://www.zapsplat.com
 No worries! Watch highlights from the episode here, then check out the full episode replay https://www.learnwithjason.dev/${slug}`;
   }
 
+  let linksString;
+
+  if (episode[0]?.links) {
+    let links = episode[0].links;
+
+    let linkValues = links.map((link, i) => link.value);
+
+    linksString = `Links
+
+${linkValues.join('\n\n')}`;
+  }
+  let testDesc;
   if (
     episode &&
     episode[0] &&
@@ -143,6 +154,14 @@ ${episode[0].extracted_chapters}
 
 
 ${handleTwitchLinks(episode[0].twitch_links)}
+
+${credits}`;
+
+    testDesc = `${episode[0].description}
+    
+${episode[0].extracted_chapters}
+
+${linksString ? linksString : ''}
 
 ${credits}`;
   }
@@ -223,7 +242,7 @@ ${credits}`;
             icon={<BiCopyAlt />}
             onClick={() =>
               ytDescription
-                ? handleCopy(ytDescription)
+                ? handleCopy(testDesc) //ytDescription
                 : handleCopy('No description available.')
             }
           />

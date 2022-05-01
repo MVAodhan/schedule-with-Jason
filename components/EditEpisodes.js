@@ -130,8 +130,6 @@ Additional sound effects obtained from https://www.zapsplat.com
 
     if (episode[0].title && episode[0].guest) {
       slug = convertToSlug(episode[0].title);
-      console.log('title: ' + episode[0].title);
-      console.log(slug);
       altText = `${episode[0].title} with ${episode[0].guest}`;
     }
 
