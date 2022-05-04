@@ -87,10 +87,6 @@ Artist: http://audionautix.com/
 Additional sound effects obtained from https://www.zapsplat.com
 `;
 
-  const handleTwitchLinks = (text) => {
-    return text.replace(/ *\([^)]*\) */g, '').replace(/([[\]])/g, '');
-  };
-
   const convertToSlug = (text) => {
     return text
       .toLowerCase()
@@ -211,8 +207,6 @@ https://twitch.tv/jlengstorf`;
 
 ${episode[0].extracted_chapters}
 
-
-${handleTwitchLinks(episode[0].twitch_links)}
 
 ${credits}`;
   }

@@ -41,11 +41,7 @@ const Published = ({ pid }) => {
 
   let slug;
 
-  let altText;
-
   let hightlightsTweet;
-  let chapters;
-  let ytDescription;
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
@@ -76,10 +72,6 @@ Artist: http://audionautix.com/
 
 Additional sound effects obtained from https://www.zapsplat.com
 `;
-
-  const handleTwitchLinks = (text) => {
-    return text.replace(/ *\([^)]*\) */g, '').replace(/([[\]])/g, '');
-  };
 
   const convertToSlug = (text) => {
     return text
@@ -118,11 +110,7 @@ Additional sound effects obtained from https://www.zapsplat.com
   if (episode && episode[0]) {
     if (episode[0].title && episode[0].guest) {
       slug = convertToSlug(episode[0].title);
-
-      altText = `${episode[0].title} with ${episode[0].guest}`;
     }
-
-    chapters = episode && episode[0].extracted_chapters;
 
     hightlightsTweet = `Did you miss @${episode[0].twitter} teaching us about ${
       episode[0].technology !== null ? episode[0].technology : ''
@@ -141,23 +129,14 @@ No worries! Watch highlights from the episode here, then check out the full epis
 
 ${linkValues.join('\n\n')}`;
   }
-  let testDesc;
+  let yTDesc;
   if (
     episode &&
     episode[0] &&
     episode[0].description &&
     episode[0].extracted_chapters
   ) {
-    ytDescription = `${episode[0].description}
-
-${episode[0].extracted_chapters}
-
-
-${handleTwitchLinks(episode[0].twitch_links)}
-
-${credits}`;
-
-    testDesc = `${episode[0].description}
+    yTDesc = `${episode[0].description}
     
 ${episode[0].extracted_chapters}
 
@@ -171,7 +150,6 @@ ${credits}`;
       .from('episodes')
       .update({
         extracted_chapters: chaptersRef.current.value,
-        twitch_links: twitchRef.current.value,
       })
       .eq('guest', episode?.[0].guest);
 
@@ -241,8 +219,8 @@ ${credits}`;
             aria-label="Copy youtube decription"
             icon={<BiCopyAlt />}
             onClick={() =>
-              ytDescription
-                ? handleCopy(testDesc) //ytDescription
+              yTDesc
+                ? handleCopy(yTDesc) //ytDescription
                 : handleCopy('No description available.')
             }
           />
