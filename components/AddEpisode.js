@@ -11,16 +11,12 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { sessionAtom } from '../atoms';
-import { useAtom } from 'jotai';
-
 import { useSupabase } from '../hooks/useSupabase.js';
 
 import { useRouter } from 'next/router';
 
 const AddEpisode = () => {
   const router = useRouter();
-  const [session, setSession] = useAtom(sessionAtom);
 
   const toast = useToast();
 
@@ -40,7 +36,7 @@ const AddEpisode = () => {
     if (!dateRef.current.value || !timeRef.current.value) {
       toast({
         title: 'No date or time',
-        description: 'Please add a dat and time',
+        description: 'Please add a date and time',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -48,6 +44,7 @@ const AddEpisode = () => {
 
       return;
     }
+
     const { data, error } = await supabase.from('episodes').insert([
       {
         guest: guestRef.current.value,

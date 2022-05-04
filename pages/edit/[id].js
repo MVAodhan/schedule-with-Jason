@@ -13,6 +13,7 @@ import Published from '../../components/Published';
 
 import { sessionAtom } from '../../atoms';
 import { useAtom } from 'jotai';
+import AddLinks from '../../components/AddLinks.js';
 
 export default function Home() {
   const [session, setSession] = useAtom(sessionAtom);
@@ -49,8 +50,13 @@ export default function Home() {
         justifyContent="space-around"
         mb="50px"
       >
-        <EditEpisodes pid={pid} />
-        <Published pid={pid} />
+        <Box w="50%" d="flex" justifyContent="center">
+          <EditEpisodes pid={pid} />
+        </Box>
+        <Box w="50%" d="flex" flexDir="column" alignItems="center">
+          <Published pid={pid} />
+          <AddLinks pid={pid} />
+        </Box>
       </Box>
     </Box>
   );

@@ -22,8 +22,9 @@ import copy from 'copy-to-clipboard';
 import { useSupabase } from '../hooks/useSupabase.js';
 
 import { useRouter } from 'next/router';
+import AddLinks from './AddLinks';
 
-const Published = ({ pid, marginLeft }) => {
+const Published = ({ pid }) => {
   const router = useRouter();
 
   const [episode, setEpisode] = useState('');
@@ -40,11 +41,7 @@ const Published = ({ pid, marginLeft }) => {
 
   let slug;
 
-  let altText;
-
   let hightlightsTweet;
-  let chapters;
-  let ytDescription;
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
@@ -75,10 +72,6 @@ Artist: http://audionautix.com/
 
 Additional sound effects obtained from https://www.zapsplat.com
 `;
-
-  const handleTwitchLinks = (text) => {
-    return text.replace(/ *\([^)]*\) */g, '').replace(/([[\]])/g, '');
-  };
 
   const convertToSlug = (text) => {
     return text
@@ -117,12 +110,7 @@ Additional sound effects obtained from https://www.zapsplat.com
   if (episode && episode[0]) {
     if (episode[0].title && episode[0].guest) {
       slug = convertToSlug(episode[0].title);
-      console.log('title: ' + episode[0].title);
-      console.log(slug);
-      altText = `${episode[0].title} with ${episode[0].guest}`;
     }
-
-    chapters = episode && episode[0].extracted_chapters;
 
     hightlightsTweet = `Did you miss @${episode[0].twitter} teaching us about ${
       episode[0].technology !== null ? episode[0].technology : ''
@@ -130,18 +118,29 @@ Additional sound effects obtained from https://www.zapsplat.com
 No worries! Watch highlights from the episode here, then check out the full episode replay https://www.learnwithjason.dev/${slug}`;
   }
 
+  let linksString;
+
+  if (episode[0]?.links) {
+    let links = episode[0].links;
+
+    let linkValues = links.map((link, i) => link.value);
+
+    linksString = `Links
+
+${linkValues.join('\n\n')}`;
+  }
+  let yTDesc;
   if (
     episode &&
     episode[0] &&
     episode[0].description &&
     episode[0].extracted_chapters
   ) {
-    ytDescription = `${episode[0].description}
-
+    yTDesc = `${episode[0].description}
+    
 ${episode[0].extracted_chapters}
 
-
-${handleTwitchLinks(episode[0].twitch_links)}
+${linksString ? linksString : ''}
 
 ${credits}`;
   }
@@ -151,7 +150,6 @@ ${credits}`;
       .from('episodes')
       .update({
         extracted_chapters: chaptersRef.current.value,
-        twitch_links: twitchRef.current.value,
       })
       .eq('guest', episode?.[0].guest);
 
@@ -171,155 +169,136 @@ ${credits}`;
   };
 
   return (
-    <FormControl
-      w="40%"
-      d="flex"
-      flexDir="column"
-      justifyContent="space-around"
-      alignItems="center"
-      mt="50px"
-      bgColor="#ededed"
-      borderRadius="10px"
-    >
-      <Box w="100%" d="flex" justifyContent="center">
-        <Heading as="h2">Publishing Details</Heading>
-      </Box>
-      <FormLabel id="title" htmlFor="title" d="flex" justifyContent="center">
-        Episode title
-      </FormLabel>
-      <Box
-        display="flex"
-        width="100%"
+    <Box w="80%">
+      <FormControl
+        w="100%"
+        h="fit-content"
+        d="flex"
+        flexDir="column"
         justifyContent="space-around"
         alignItems="center"
+        mt="50px"
+        bgColor="#ededed"
+        borderRadius="10px"
       >
-        <Input
-          id="title"
-          type="text"
-          ref={titleRef}
-          defaultValue={episode ? episode[0].title : null}
-          w="80%"
-          textAlign="center"
-        />
-        <IconButton
-          aria-label="Copy title"
-          icon={<BiCopyAlt />}
-          onClick={() => handleCopyText(titleRef)}
-        />
-      </Box>
-      <Box
-        display="flex"
-        width="100%"
-        justifyContent="space-around"
-        alignItems="center"
-        mt="20px"
-      >
-        <FormLabel>Youtube Description</FormLabel>
-        <IconButton
-          aria-label="Copy youtube decription"
-          icon={<BiCopyAlt />}
-          onClick={() =>
-            ytDescription
-              ? handleCopy(ytDescription)
-              : handleCopy('No description available.')
-          }
-        />
-      </Box>
-
-      <Box w="70%" d="flex" justifyContent="space-around">
-        <Box d="flex" w="fit-content" alignItems="center">
-          <Text>Highlights tweet</Text>
-          <IconButton
-            aria-label="Copy tweet"
-            icon={<BiCopyAlt />}
-            onClick={() => {
-              handleCopy(hightlightsTweet);
-              toast({
-                title: 'Text copied.',
-                description:
-                  'Copied hightlights tweet tweet to your clipboard.',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          />
+        <Box w="100%" d="flex" justifyContent="center">
+          <Heading as="h2">Publishing Details</Heading>
         </Box>
-        <Box d="flex" alignItems="center">
-          <Text>Captions Blurb</Text>
-          <IconButton
-            aria-label="Copy tweet"
-            icon={<BiCopyAlt />}
-            onClick={() => {
-              handleCopy(captionsBlurb);
-              toast({
-                title: 'Text copied.',
-                description: 'Copied captions blurb to your clipboard.',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          />
-        </Box>
-        <Box d="flex" alignItems="center"></Box>
-      </Box>
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <FormLabel>Twitch Links</FormLabel>
-      </Box>
-      <Box
-        display="flex"
-        width="100%"
-        justifyContent="space-around"
-        alignItems="center"
-      >
-        <Textarea
-          id="description"
-          type="text"
-          ref={twitchRef}
-          defaultValue={episode ? episode[0].twitch_links : null}
-          width="80%"
-          height="150px"
-        />
-        <IconButton
-          aria-label="Copy twitch links"
-          icon={<BiCopyAlt />}
-          onClick={() => handleCopy(handleTwitchLinks(episode[0].twitch_links))}
-        />
-      </Box>
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <FormLabel>Extracted Chapters</FormLabel>
-      </Box>
-      <Box
-        display="flex"
-        width="100%"
-        justifyContent="space-around"
-        alignItems="center"
-      >
-        <Textarea
-          id="description"
-          type="text"
-          ref={chaptersRef}
-          defaultValue={episode ? episode[0].extracted_chapters : null}
-          width="80%"
-        />
-        <IconButton
-          aria-label="Copy decription"
-          icon={<BiCopyAlt />}
-          onClick={() => handleCopyText(chaptersRef)}
-        />
-      </Box>
-      <Box w="100%" d="flex" justifyContent="center" mt="20px" mb="10px">
-        <Button
-          color="white"
-          w="fit-content"
-          bgColor="limegreen"
-          onClick={handleEdit}
+        <FormLabel id="title" htmlFor="title" d="flex" justifyContent="center">
+          Episode title
+        </FormLabel>
+        <Box
+          display="flex"
+          width="100%"
+          justifyContent="space-around"
+          alignItems="center"
         >
-          Edit Publishing Details
-        </Button>
-      </Box>
-    </FormControl>
+          <Input
+            id="title"
+            type="text"
+            ref={titleRef}
+            defaultValue={episode ? episode[0].title : null}
+            w="80%"
+            textAlign="center"
+          />
+          <IconButton
+            aria-label="Copy title"
+            icon={<BiCopyAlt />}
+            onClick={() => handleCopyText(titleRef)}
+          />
+        </Box>
+        <Box
+          display="flex"
+          width="100%"
+          justifyContent="space-around"
+          alignItems="center"
+          mt="20px"
+        >
+          <FormLabel>Youtube Description</FormLabel>
+          <IconButton
+            aria-label="Copy youtube decription"
+            icon={<BiCopyAlt />}
+            onClick={() =>
+              yTDesc
+                ? handleCopy(yTDesc) //ytDescription
+                : handleCopy('No description available.')
+            }
+          />
+        </Box>
+
+        <Box w="70%" d="flex" justifyContent="space-around">
+          <Box d="flex" w="fit-content" alignItems="center">
+            <Text>Highlights tweet</Text>
+            <IconButton
+              aria-label="Copy tweet"
+              icon={<BiCopyAlt />}
+              onClick={() => {
+                handleCopy(hightlightsTweet);
+                toast({
+                  title: 'Text copied.',
+                  description:
+                    'Copied hightlights tweet tweet to your clipboard.',
+                  status: 'success',
+                  duration: 3000,
+                  isClosable: true,
+                });
+              }}
+            />
+          </Box>
+          <Box d="flex" alignItems="center">
+            <Text>Captions Blurb</Text>
+            <IconButton
+              aria-label="Copy tweet"
+              icon={<BiCopyAlt />}
+              onClick={() => {
+                handleCopy(captionsBlurb);
+                toast({
+                  title: 'Text copied.',
+                  description: 'Copied captions blurb to your clipboard.',
+                  status: 'success',
+                  duration: 3000,
+                  isClosable: true,
+                });
+              }}
+            />
+          </Box>
+          <Box d="flex" alignItems="center"></Box>
+        </Box>
+
+        <Box w="100%" d="flex" justifyContent="center" mb="10px">
+          <FormLabel>Extracted Chapters</FormLabel>
+        </Box>
+        <Box
+          display="flex"
+          width="100%"
+          justifyContent="space-around"
+          alignItems="center"
+        >
+          <Textarea
+            id="description"
+            type="text"
+            ref={chaptersRef}
+            defaultValue={episode ? episode[0].extracted_chapters : null}
+            width="80%"
+          />
+          <IconButton
+            aria-label="Copy decription"
+            icon={<BiCopyAlt />}
+            onClick={() => handleCopyText(chaptersRef)}
+          />
+        </Box>
+        <Box w="100%" d="flex" justifyContent="center" mt="20px" mb="10px">
+          <Button
+            color="white"
+            w="fit-content"
+            bgColor="limegreen"
+            onClick={handleEdit}
+          >
+            Edit Publishing Details
+          </Button>
+        </Box>
+      </FormControl>
+    </Box>
   );
 };
 
