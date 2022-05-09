@@ -39,7 +39,6 @@ const AddEpisode = ({ pid, marginLeft }) => {
   const technologyRef = useRef('');
   const descriptionRef = useRef('');
   const twitterRef = useRef('');
-  const techRef = useRef('');
   const chaptersRef = useRef('');
   const twitchRef = useRef('');
   const twitterDescriptionRef = useRef('');
@@ -406,11 +405,6 @@ ${credits}`;
           defaultValue={episode ? episode[0].technology : null}
           w="80%"
           textAlign="center"
-        />
-        <IconButton
-          aria-label="Copy title"
-          icon={<BiCopyAlt />}
-          onClick={() => handleCopyText(titleRef)}
         />
       </Box>
 

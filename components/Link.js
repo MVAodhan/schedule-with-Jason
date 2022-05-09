@@ -1,13 +1,9 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import React, { useEffect, useState, useRef } from 'react';
 
-const Link = ({ defaultValue, links, id }) => {
+const Link = ({ defaultValue, links, id, heading = 'Url' }) => {
   const [value, setValue] = useState('');
   let linkRef = useRef();
-
-  useEffect(() => {
-    defaultValue ? setValue(defaultValue) : setValue('');
-  }, []);
 
   const handleChange = () => {
     for (const link in links) {
@@ -18,10 +14,10 @@ const Link = ({ defaultValue, links, id }) => {
   };
   return (
     <Box w="80%" d="flex" flexDir="column" alignItems="flex-start">
-      <Text>Url</Text>
+      <Text>{heading}</Text>
       <Input
         id={id}
-        defaultValue={value}
+        defaultValue={defaultValue ? defaultValue : ''}
         ref={linkRef}
         onChange={() => handleChange(links)}
       ></Input>
