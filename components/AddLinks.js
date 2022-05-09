@@ -54,23 +54,6 @@ const AddLinks = ({ pid }) => {
   };
 
   const handleLinksEdit = async (links) => {
-    // const repoObj = {
-    //   id: repoLinkRef.current.id,
-    //   value: repoLinkRef.current.value,
-    // };
-    // const demoObj = {
-    //   id: demoLinkRef.current.id,
-    //   value: demoLinkRef.current.value,
-    // };
-    // const nonRepoDemo = links.filter(
-    //   (link, i) => link[i].id !== 'repo ' || link[i].id !== 'demo '
-    // );
-
-    // const allLinks = [repoObj, demoObj];
-    // console.log(allLinks);
-    // console.log(links);
-    // console.log(nonRepoDemo);
-
     const { data, error } = await supabase
       .from('episodes')
       .update({ links })

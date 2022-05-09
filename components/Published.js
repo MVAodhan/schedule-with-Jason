@@ -125,6 +125,8 @@ No worries! Watch highlights from the episode here, then check out the full epis
 
     let linkValues = links.map((link, i) => link.value);
 
+    //need to add Repo and Demo prefix to the value respectively
+
     linksString = `Links
 
 ${linkValues.join('\n\n')}`;
