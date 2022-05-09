@@ -4,21 +4,20 @@ import { useRouter } from 'next/router';
 
 import { Box } from '@chakra-ui/react';
 
-import { useSupabase } from '../../hooks/useSupabase.js';
-
 import Header from '../../components/Header';
 import Nav from '../../components/Nav';
 import EditEpisodes from '../../components/EditEpisodes';
 import Published from '../../components/Published';
 
-import { sessionAtom } from '../../atoms';
-import { useAtom } from 'jotai';
+// import { useSupabase } from '../../hooks/useSupabase.js';
+// import { sessionAtom } from '../../atoms';
+// import { useAtom } from 'jotai';
+
 import AddLinks from '../../components/AddLinks.js';
 
 export default function Home() {
-  const [session, setSession] = useAtom(sessionAtom);
-
-  const supabase = useSupabase();
+  // const [session, setSession] = useAtom(sessionAtom);
+  // const supabase = useSupabase();
 
   const router = useRouter();
   const { id: pid } = router.query;

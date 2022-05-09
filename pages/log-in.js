@@ -27,8 +27,6 @@ export default function Home() {
     });
   }, []);
 
-  console.log(session?.user?.email);
-
   return (
     <Box>
       <Head>
