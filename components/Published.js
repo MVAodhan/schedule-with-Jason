@@ -123,11 +123,38 @@ No worries! Watch highlights from the episode here, then check out the full epis
   if (episode[0]?.links) {
     let links = episode[0].links;
 
-    let linkValues = links.map((link, i) => link.value);
+    const findRepo = () => {
+      if (links !== undefined) {
+        for (const link in links) {
+          if (links[link].id === 'repo') {
+            return links[link].value;
+          }
+        }
+      }
+    };
 
-    //need to add Repo and Demo prefix to the value respectively
+    const findDemo = () => {
+      if (links !== undefined) {
+        for (const link in links) {
+          if (links[link].id === 'demo') {
+            return links[link].value;
+          }
+        }
+      }
+    };
 
-    linksString = `Links
+    let linksMinusDemoRepo = links.filter((link) => {
+      return link.id !== 'repo' && link.id !== 'demo';
+    });
+
+    let linkValues = linksMinusDemoRepo.map((link) => link.value);
+
+    linksString = `
+Repo: ${findRepo()}    
+
+Demo: ${findDemo()}
+
+Links
 
 ${linkValues.join('\n\n')}`;
   }
