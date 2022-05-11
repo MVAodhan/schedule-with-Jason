@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, createRef } from 'react';
 import {
   Box,
   ButtonGroup,
   IconButton,
   Heading,
   Button,
+  Checkbox,
 } from '@chakra-ui/react';
 import { useSupabase } from '../hooks/useSupabase';
-import { BiCopyAlt } from 'react-icons/bi';
 import { AiFillPlusSquare } from 'react-icons/ai';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -15,12 +15,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 
 import Link from './Link';
+import RepoLink from './RepoLink';
+import DemoLink from './DemoLink';
 const AddLinks = ({ pid }) => {
   const supabase = useSupabase();
 
-  const [links, setLinks] = useState([]);
-
+  const [links, setLinks] = useState();
+  const [demoRepo, setDemoRepo] = useState(false);
   const router = useRouter();
+
+  const repoLinkRef = createRef();
+  const demoLinkRef = createRef('');
 
   useEffect(async () => {
     let { data, error } = await supabase
@@ -47,7 +52,6 @@ const AddLinks = ({ pid }) => {
       setLinks([link]);
     }
   };
-  // console.log('links', links);
 
   const handleLinksEdit = async (links) => {
     const { data, error } = await supabase
@@ -59,7 +63,31 @@ const AddLinks = ({ pid }) => {
       console.log(error);
     }
 
-    router.push('/');
+    // router.push('/');
+  };
+
+  const toggleDemoRepo = () => {
+    setDemoRepo((prev) => !prev);
+  };
+
+  const findRepo = () => {
+    if (links !== undefined) {
+      for (const link in links) {
+        if (links[link].id === 'repo') {
+          return links[link].value;
+        }
+      }
+    }
+  };
+
+  const findDemo = () => {
+    if (links !== undefined) {
+      for (const link in links) {
+        if (links[link].id === 'demo') {
+          return links[link].value;
+        }
+      }
+    }
   };
 
   return (
@@ -76,15 +104,30 @@ const AddLinks = ({ pid }) => {
         flexDir="column"
         alignItems="center"
       >
+        <Checkbox mt="5px" onChange={toggleDemoRepo}>
+          Add Repo/Demo
+        </Checkbox>
+
+        {demoRepo && (
+          <>
+            <RepoLink defaultValue={findRepo()} ref={repoLinkRef} />
+            <DemoLink defaultValue={findDemo()} ref={demoLinkRef} />
+          </>
+        )}
         {links
-          ? links.map((link) => (
-              <Link
-                key={link.id}
-                id={link.id}
-                defaultValue={link.value}
-                links={links}
-              />
-            ))
+          ? links.map((link) => {
+              if (link.id === 'repo' || link.id === 'demo') {
+                return;
+              }
+              return (
+                <Link
+                  key={link.id}
+                  id={link.id}
+                  defaultValue={link.value}
+                  links={links}
+                />
+              );
+            })
           : null}
       </Box>
       <ButtonGroup isAttached>

@@ -36,9 +36,9 @@ const AddEpisode = ({ pid, marginLeft }) => {
   const timeRef = useRef('');
 
   const titleRef = useRef('');
+  const technologyRef = useRef('');
   const descriptionRef = useRef('');
   const twitterRef = useRef('');
-  const techRef = useRef('');
   const chaptersRef = useRef('');
   const twitchRef = useRef('');
   const twitterDescriptionRef = useRef('');
@@ -222,7 +222,7 @@ ${credits}`;
         title: titleRef.current.value,
         description: descriptionRef.current.value,
         twitter: twitterRef.current.value,
-        technology: techRef.current.value,
+        technology: technologyRef.current.value,
         extracted_chapters: chaptersRef.current.value,
         twitch_links: twitchRef.current.value,
         twitter_description: twitterDescriptionRef.current.value,
@@ -381,6 +381,30 @@ ${credits}`;
           aria-label="Copy decription"
           icon={<BiCopyAlt />}
           onClick={() => handleCopyText(descriptionRef)}
+        />
+      </Box>
+      <FormLabel
+        id="title"
+        htmlFor="title"
+        d="flex"
+        justifyContent="center"
+        mt="10px"
+      >
+        Technology
+      </FormLabel>
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        alignItems="center"
+      >
+        <Input
+          id="title"
+          type="text"
+          ref={technologyRef}
+          defaultValue={episode ? episode[0].technology : null}
+          w="80%"
+          textAlign="center"
         />
       </Box>
 
