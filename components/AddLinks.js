@@ -53,17 +53,61 @@ const AddLinks = ({ pid }) => {
     }
   };
 
+  const handleUpdateLinks = () => {
+    let repoObj;
+    let demoObj;
+    let highlightedLinks;
+    if (repoLinkRef.current.value !== '') {
+      repoObj = {
+        id: 'repo',
+        value: repoLinkRef.current.value,
+      };
+    } else {
+      repoObj = null;
+    }
+    if (demoLinkRef.current.value !== '') {
+      demoObj = {
+        id: 'demo',
+        value: demoLinkRef.current.value,
+      };
+    } else {
+      demoObj = null;
+    }
+    if (repoObj !== null && demoObj !== null) {
+      highlightedLinks = [repoObj, demoObj];
+    }
+
+    if (repoObj !== null && demoObj === null) {
+      highlightedLinks = [repoObj];
+    }
+    if (repoObj === null && demoObj !== null) {
+      highlightedLinks = [demoObj];
+    }
+    if (repoObj === null && demoObj === null) {
+      highlightedLinks = null;
+    }
+
+    return highlightedLinks;
+  };
+
   const handleLinksEdit = async (links) => {
+    let updatedLinks = handleUpdateLinks();
+    let newLinks;
+    if (updatedLinks !== null) {
+      newLinks = [...updatedLinks, ...links];
+    }
+    if (updatedLinks === null) {
+      newLinks = [...links];
+    }
+
     const { data, error } = await supabase
       .from('episodes')
-      .update({ links })
+      .update({ links: newLinks })
       .eq('id', pid);
-
     if (error) {
       console.log(error);
     }
-
-    // router.push('/');
+    router.push('/');
   };
 
   const toggleDemoRepo = () => {
