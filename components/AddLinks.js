@@ -53,10 +53,13 @@ const AddLinks = ({ pid }) => {
     }
   };
 
-  const handleUpdateLinks = () => {
+  const handleUpdateLinks = (links) => {
     let repoObj;
     let demoObj;
+
+    if (findRepo() === undefined && findDemo() === undefined) return null;
     let highlightedLinks;
+
     if (repoLinkRef.current.value !== '') {
       repoObj = {
         id: 'repo',
@@ -91,7 +94,7 @@ const AddLinks = ({ pid }) => {
   };
 
   const handleLinksEdit = async (links) => {
-    let updatedLinks = handleUpdateLinks();
+    let updatedLinks = handleUpdateLinks(links);
     let newLinks;
     if (updatedLinks !== null) {
       newLinks = [...updatedLinks, ...links];
