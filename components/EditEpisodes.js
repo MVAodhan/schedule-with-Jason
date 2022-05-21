@@ -23,7 +23,11 @@ import { useSupabase } from '../hooks/useSupabase.js';
 
 import { useRouter } from 'next/router';
 
+import { sessionAtom } from '../atoms';
+import { useAtom } from 'jotai';
+
 const AddEpisode = ({ pid, marginLeft }) => {
+  const [session] = useAtom(sessionAtom);
   const router = useRouter();
 
   const [episode, setEpisode] = useState('');
@@ -254,7 +258,9 @@ ${credits}`;
       alignItems="center"
     >
       <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <Heading as="h2">Setup Details</Heading>
+        <Heading as="h2" fontSize={{ base: '18px', md: '24px', lg: '32px' }}>
+          Setup Details
+        </Heading>
       </Box>
 
       <FormLabel id="guest" htmlFor="guest" d="flex" justifyContent="center">
@@ -485,6 +491,7 @@ ${credits}`;
           color="white"
           mt="20px"
           onClick={handleEdit}
+          disabled={!session ? true : false}
         >
           Edit Episode
         </Button>

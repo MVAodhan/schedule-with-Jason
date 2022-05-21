@@ -4,9 +4,18 @@ import Episode from './Episode';
 import { DateTime } from 'luxon';
 
 const Container = ({ data }) => {
+  const templateRowsBreakpoints = {
+    base: '1fr',
+    lg: '1fr 1fr',
+  };
   return (
     <Box h="100%" w="80vw">
-      <Grid templateColumns="repeat(2, 1fr)" gap={8} w="100%" mt="40px">
+      <Grid
+        templateColumns={templateRowsBreakpoints}
+        gap={8}
+        w="100%"
+        mt="40px"
+      >
         {data.map((data) => {
           // Making a base object date and time from Supabase Date data
 

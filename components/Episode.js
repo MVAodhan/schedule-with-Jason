@@ -78,50 +78,46 @@ const Episode = ({ data, usDate, nzDate, title }) => {
             <>
               <Box w="100%" d="flex">
                 <Box w="100%" d="flex" justifyContent="space-between">
-                  {session && (
-                    <>
-                      <Popover>
-                        <PopoverTrigger>
-                          <IconButton
-                            aria-label="Expand episode"
-                            icon={<BiTrash fill="red" />}
-                            bgColor="transparent"
-                            fontSize="20px"
-                            _hover={{ bg: 'transparent' }}
-                            mt="2px"
-                          />
-                        </PopoverTrigger>
-                        <PopoverContent>
-                          <PopoverArrow />
-                          <PopoverCloseButton />
-                          <PopoverHeader>Confirmation!</PopoverHeader>
-                          <PopoverBody>
-                            <Box display="flex" flexDir="column">
-                              Are you sure you want to delete <br></br>
-                              {data.title}?
-                              <Button
-                                leftIcon={<BiTrash />}
-                                bgColor="red"
-                                color="white"
-                                onClick={handleDelete}
-                              >
-                                Delete Episode
-                              </Button>
-                            </Box>
-                          </PopoverBody>
-                        </PopoverContent>
-                      </Popover>
+                  <Popover>
+                    <PopoverTrigger>
                       <IconButton
                         aria-label="Expand episode"
-                        icon={<BiEditAlt fill="white" />}
+                        icon={<BiTrash fill="red" />}
                         bgColor="transparent"
                         fontSize="20px"
                         _hover={{ bg: 'transparent' }}
                         mt="2px"
-                        onClick={() => router.push(`/edit/${data.id}`)}
                       />
-                    </>
-                  )}
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <PopoverArrow />
+                      <PopoverCloseButton />
+                      <PopoverHeader>Confirmation!</PopoverHeader>
+                      <PopoverBody>
+                        <Box display="flex" flexDir="column">
+                          Are you sure you want to delete <br></br>
+                          {data.title}?
+                          <Button
+                            leftIcon={<BiTrash />}
+                            bgColor="red"
+                            color="white"
+                            onClick={handleDelete}
+                          >
+                            Delete Episode
+                          </Button>
+                        </Box>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Popover>
+                  <IconButton
+                    aria-label="Expand episode"
+                    icon={<BiEditAlt fill="white" />}
+                    bgColor="transparent"
+                    fontSize="20px"
+                    _hover={{ bg: 'transparent' }}
+                    mt="2px"
+                    onClick={() => router.push(`/edit/${data.id}`)}
+                  />
                 </Box>
               </Box>
               <Box w="100%" d="flex" justifyContent="center">

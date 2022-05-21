@@ -2,6 +2,12 @@ import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
 
 const Header = ({ text, hProp }) => {
+  const fontSizeBreakpoints = {
+    base: '16px',
+    sm: '20px',
+    md: '24px',
+    lg: '32px',
+  };
   return (
     <>
       <Box
@@ -15,7 +21,12 @@ const Header = ({ text, hProp }) => {
         pt="30px"
         pb="30px"
       >
-        <Text as="h1" color="white" fontFamily="Alfa Slab One" fontSize="36px">
+        <Text
+          as="h1"
+          color="white"
+          fontFamily="Alfa Slab One"
+          fontSize={fontSizeBreakpoints}
+        >
           {text}
         </Text>
       </Box>

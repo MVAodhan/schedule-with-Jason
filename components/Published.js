@@ -24,7 +24,11 @@ import { useSupabase } from '../hooks/useSupabase.js';
 import { useRouter } from 'next/router';
 import AddLinks from './AddLinks';
 
+import { sessionAtom } from '../atoms';
+import { useAtom } from 'jotai';
+
 const Published = ({ pid }) => {
+  const [session] = useAtom(sessionAtom);
   const router = useRouter();
 
   const [episode, setEpisode] = useState('');
@@ -211,7 +215,9 @@ ${credits}`;
         borderRadius="10px"
       >
         <Box w="100%" d="flex" justifyContent="center">
-          <Heading as="h2">Publishing Details</Heading>
+          <Heading as="h2" fontSize={{ base: '18px', md: '24px', lg: '32px' }}>
+            Publishing Details
+          </Heading>
         </Box>
         <FormLabel id="title" htmlFor="title" d="flex" justifyContent="center">
           Episode title
@@ -322,6 +328,7 @@ ${credits}`;
             w="fit-content"
             bgColor="limegreen"
             onClick={handleEdit}
+            disabled={!session ? true : false}
           >
             Edit Publishing Details
           </Button>
