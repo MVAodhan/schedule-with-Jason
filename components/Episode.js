@@ -87,6 +87,7 @@ const Episode = ({ data, usDate, nzDate, title }) => {
                         fontSize="20px"
                         _hover={{ bg: 'transparent' }}
                         mt="2px"
+                        disabled={!session ? true : false}
                       />
                     </PopoverTrigger>
                     <PopoverContent>
