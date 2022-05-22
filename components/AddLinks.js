@@ -17,7 +17,12 @@ import { useRouter } from 'next/router';
 import Link from './Link';
 import RepoLink from './RepoLink';
 import DemoLink from './DemoLink';
+
+import { sessionAtom } from '../atoms';
+import { useAtom } from 'jotai';
+
 const AddLinks = ({ pid }) => {
+  const [session] = useAtom(sessionAtom);
   const supabase = useSupabase();
 
   const [links, setLinks] = useState();
@@ -194,6 +199,7 @@ const AddLinks = ({ pid }) => {
           w="fit-content"
           bgColor="limegreen"
           onClick={() => handleLinksEdit(links)}
+          disabled={!session ? true : false}
         >
           Edit Links
         </Button>

@@ -28,6 +28,25 @@ const Nav = ({ hProp }) => {
       router.reload();
     }
   };
+
+  const linkFontSizeBreakpoints = {
+    base: '12px',
+    md: '16px',
+    lg: '18px',
+  };
+
+  const buttonFontSizeBreakpoints = {
+    base: '12px',
+    md: '18px',
+    lg: '24px',
+  };
+
+  const buttonMarginLeftBreakpoints = {
+    base: '5px',
+    md: '20px',
+    lg: '30px',
+  };
+
   return (
     <>
       <Box
@@ -41,25 +60,25 @@ const Nav = ({ hProp }) => {
         pt="20px"
         pb="20px"
       >
-        <Box w="50%" h="100%" d="flex" justifyContent="flex-start" pl="50px">
-          <Button onClick={handleLogin} color="black">
+        <Box w="50%" h="100%" d="flex" justifyContent="flex-start">
+          <Button
+            onClick={handleLogin}
+            variant="lwj"
+            fontSize={buttonFontSizeBreakpoints}
+            ml={buttonMarginLeftBreakpoints}
+          >
             {!session ? 'Log in' : 'Log out'}
           </Button>
         </Box>
         <Box w="50%" d="flex" justifyContent="flex-end">
-          <UnorderedList
-            styleType="none"
-            d="flex"
-            pr="50px"
-            fontFamily="Alfa Slab One"
-          >
-            <ListItem pr="50px">
+          <UnorderedList styleType="none" d="flex" fontFamily="Alfa Slab One">
+            <ListItem pr="30px" fontSize={linkFontSizeBreakpoints}>
               <Link href="/">
                 <a>Home</a>
               </Link>
             </ListItem>
             {session && (
-              <ListItem>
+              <ListItem pr="30px" fontSize={linkFontSizeBreakpoints}>
                 <Link href="/add-episode">
                   <a>Add Episode</a>
                 </Link>
