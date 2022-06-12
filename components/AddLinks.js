@@ -31,6 +31,7 @@ const AddLinks = ({ pid }) => {
 
   const repoLinkRef = createRef();
   const demoLinkRef = createRef('');
+  let demoRepoObj;
 
   useEffect(async () => {
     let { data, error } = await supabase
@@ -62,7 +63,7 @@ const AddLinks = ({ pid }) => {
     let repoObj;
     let demoObj;
 
-    if (findRepo() === undefined && findDemo() === undefined) return null;
+    if (!repoLinkRef.current.value && !demoLinkRef.current.value) return null;
     let highlightedLinks;
 
     if (repoLinkRef.current.value !== '') {
@@ -107,6 +108,9 @@ const AddLinks = ({ pid }) => {
     if (updatedLinks === null) {
       newLinks = [...links];
     }
+    newLinks = [
+      ...new Map(newLinks.map((link) => [link['value'], link])).values(),
+    ];
 
     const { data, error } = await supabase
       .from('episodes')
@@ -193,6 +197,7 @@ const AddLinks = ({ pid }) => {
         justifyContent="space-around"
         alignItems="center"
       ></Box>
+
       <Box w="100%" d="flex" justifyContent="center" mt="20px" mb="10px">
         <Button
           color="white"
