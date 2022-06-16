@@ -102,15 +102,8 @@ const AddLinks = ({ pid }) => {
   const handleLinksEdit = async (links) => {
     let updatedLinks = handleUpdateLinks(links);
     let newLinks;
-    if (updatedLinks !== null) {
-      newLinks = [...updatedLinks, ...links];
-    }
-    if (updatedLinks === null) {
-      newLinks = [...links];
-    }
-    newLinks = [
-      ...new Map(newLinks.map((link) => [link['value'], link])).values(),
-    ];
+
+    newLinks = [...updatedLinks, ...links];
 
     const { data, error } = await supabase
       .from('episodes')
