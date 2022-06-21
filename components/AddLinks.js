@@ -29,7 +29,7 @@ const AddLinks = ({ pid }) => {
   const [demoRepo, setDemoRepo] = useState(false);
   const router = useRouter();
 
-  const repoLinkRef = createRef();
+  const repoLinkRef = createRef('');
   const demoLinkRef = createRef('');
   let demoRepoObj;
 
@@ -63,7 +63,7 @@ const AddLinks = ({ pid }) => {
     let repoObj;
     let demoObj;
 
-    if (!repoLinkRef.current.value && !demoLinkRef.current.value) return null;
+    if (!repoLinkRef.current?.value && !demoLinkRef.current?.value) return null;
     let highlightedLinks;
 
     if (repoLinkRef.current.value !== '') {
@@ -103,16 +103,23 @@ const AddLinks = ({ pid }) => {
     let updatedLinks = handleUpdateLinks(links);
     let newLinks;
 
-    newLinks = [...updatedLinks, ...links];
-
-    const { data, error } = await supabase
-      .from('episodes')
-      .update({ links: newLinks })
-      .eq('id', pid);
-    if (error) {
-      console.log(error);
+    if (!updatedLinks) {
+      newLinks = [...links];
+    } else {
+      newLinks = [...updatedLinks, ...links];
     }
-    router.push('/');
+
+    console.log(newLinks);
+
+    // const { data, error } = await supabase
+    //   .from('episodes')
+    //   .update({ links: newLinks })
+    //   .eq('id', pid);
+
+    // if (error) {
+    //   console.log(error);
+    // }
+    // router.push('/');
   };
 
   const toggleDemoRepo = () => {
