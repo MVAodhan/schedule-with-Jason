@@ -109,17 +109,15 @@ const AddLinks = ({ pid }) => {
       newLinks = [...updatedLinks, ...links];
     }
 
-    console.log(newLinks);
+    const { data, error } = await supabase
+      .from('episodes')
+      .update({ links: newLinks })
+      .eq('id', pid);
 
-    // const { data, error } = await supabase
-    //   .from('episodes')
-    //   .update({ links: newLinks })
-    //   .eq('id', pid);
-
-    // if (error) {
-    //   console.log(error);
-    // }
-    // router.push('/');
+    if (error) {
+      console.log(error);
+    }
+    router.push('/');
   };
 
   const toggleDemoRepo = () => {
