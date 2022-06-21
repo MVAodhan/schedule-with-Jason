@@ -84,6 +84,11 @@ const Nav = ({ hProp }) => {
                 </Link>
               </ListItem>
             )}
+            <ListItem pr="30px" fontSize={linkFontSizeBreakpoints}>
+              <Link href="/upcoming">
+                <a>Upcoming Episodes</a>
+              </Link>
+            </ListItem>
           </UnorderedList>
         </Box>
       </Box>
