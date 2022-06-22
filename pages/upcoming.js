@@ -7,8 +7,10 @@ import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Nav from '../components/Nav';
 
+import Container from '../components/kanban/Container';
+import Column from '../components/kanban/Column';
+
 import { useSupabase } from '../hooks/useSupabase.js';
-import { sessionAtom } from '../atoms';
 import { useAtom } from 'jotai';
 
 export default function Home() {
@@ -24,7 +26,14 @@ export default function Home() {
 
     setEps(data);
   }, []);
-  console.log(eps);
+
+  let itemsTwo = [
+    { id: 5, name: 'gary' },
+    { id: 6, name: 'lil cado' },
+    { id: 7, name: 'kevin' },
+    { id: 8, name: 'quin' },
+  ];
+
   return (
     <Box h="100vh" w="100vw">
       <Head>
@@ -42,7 +51,7 @@ export default function Home() {
       #c1f3a1 ,
       #96fce4 )"
       />
-      <Header text="Scheduled with Jason" hProp="10vh" />
+      <Header text="Upcoming Episodes" hProp="10vh" />
 
       <Box
         as="main"
@@ -52,7 +61,15 @@ export default function Home() {
         justifyContent="center"
         alignItems="center"
         color="blue"
-      ></Box>
+      >
+        <Container>
+          <Column />
+          <Column />
+          <Column />
+          <Column />
+          <Column />
+        </Container>
+      </Box>
     </Box>
   );
 }

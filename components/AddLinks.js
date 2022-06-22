@@ -31,7 +31,6 @@ const AddLinks = ({ pid }) => {
 
   const repoLinkRef = createRef('');
   const demoLinkRef = createRef('');
-  let demoRepoObj;
 
   useEffect(async () => {
     let { data, error } = await supabase
