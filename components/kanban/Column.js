@@ -1,30 +1,69 @@
-import { Box, Text } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { Box, Text, Textarea } from '@chakra-ui/react';
+import React from 'react';
 
-import { ReactSortable } from 'react-sortablejs';
-
-const Column = ({ colHeader = 'Column header' }) => {
-  const [state, setState] = useState([
-    { id: 1, name: 'shrek' },
-    { id: 2, name: 'fiona' },
-  ]);
+const Column = ({ eps }) => {
+  console.log(eps);
   return (
     <Box
+      width="350px"
+      ml="10px"
       border="1px solid black"
-      h="100%"
-      width="300px"
       d="flex"
-      justifyContent="center"
-      alignItems="flex-start"
+      flexDir="column"
+      alignItems="center"
+      overflowY="scroll"
+      __css={{
+        '&::-webkit-scrollbar': {
+          w: '0',
+        },
+        '&::-webkit-scrollbar-track': {
+          w: '6',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          borderRadius: '10',
+          bg: `gray.100`,
+        },
+      }}
     >
-      <Text d="flex" justifyContent="center" flexDir="column" color="black">
-        {colHeader}
-        <ReactSortable list={state} setList={setState}>
-          {state.map((item) => (
-            <div key={item.id}>{item.name}</div>
-          ))}
-        </ReactSortable>
-      </Text>
+      {eps.map((ep) => (
+        <Box
+          minH="250px"
+          w="90%"
+          mt="10px"
+          mb="10px"
+          borderRadius="8px"
+          border="1px solid orange"
+          display="flex"
+          flexDir="column"
+          alignItems="center"
+        >
+          <Text
+            color="black"
+            border="1px solid black"
+            fontSize="16px"
+            mt="10px"
+            w="90%"
+          >
+            {ep.guest}
+          </Text>
+          <Text
+            color="black"
+            border="1px solid black"
+            fontSize="14px"
+            mt="10px"
+            mb="10px"
+            w="90%"
+          >
+            {ep.title}
+          </Text>
+          <Textarea
+            h="100%"
+            defaultValue={ep.description}
+            border="none"
+            w="90%"
+          ></Textarea>
+        </Box>
+      ))}
     </Box>
   );
 };

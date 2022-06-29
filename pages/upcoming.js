@@ -8,10 +8,10 @@ import Header from '../components/Header';
 import Nav from '../components/Nav';
 
 import Container from '../components/kanban/Container';
-import Column from '../components/kanban/Column';
 
 import { useSupabase } from '../hooks/useSupabase.js';
 import { useAtom } from 'jotai';
+import Column from '../components/kanban/Column';
 
 export default function Home() {
   const [eps, setEps] = useState([]);
@@ -26,13 +26,6 @@ export default function Home() {
 
     setEps(data);
   }, []);
-
-  let itemsTwo = [
-    { id: 5, name: 'gary' },
-    { id: 6, name: 'lil cado' },
-    { id: 7, name: 'kevin' },
-    { id: 8, name: 'quin' },
-  ];
 
   return (
     <Box h="100vh" w="100vw">
@@ -63,11 +56,7 @@ export default function Home() {
         color="blue"
       >
         <Container>
-          <Column />
-          <Column />
-          <Column />
-          <Column />
-          <Column />
+          <Column eps={eps} />
         </Container>
       </Box>
     </Box>
