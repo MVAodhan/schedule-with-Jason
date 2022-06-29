@@ -37,23 +37,10 @@ const Column = ({ eps }) => {
           flexDir="column"
           alignItems="center"
         >
-          <Text
-            color="black"
-            border="1px solid black"
-            fontSize="16px"
-            mt="10px"
-            w="90%"
-          >
+          <Text color="black" fontSize="16px" mt="10px" w="90%">
             {ep.guest}
           </Text>
-          <Text
-            color="black"
-            border="1px solid black"
-            fontSize="14px"
-            mt="10px"
-            mb="10px"
-            w="90%"
-          >
+          <Text color="black" fontSize="14px" mt="10px" mb="10px" w="90%">
             {ep.title}
           </Text>
           <Textarea
@@ -61,6 +48,7 @@ const Column = ({ eps }) => {
             defaultValue={ep.description}
             border="none"
             w="90%"
+            color="black"
           ></Textarea>
         </Box>
       ))}
