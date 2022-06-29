@@ -19,6 +19,7 @@ const Column = ({ eps }) => {
             flexDir="column"
             alignItems="center"
             overflowY="scroll"
+            pb="20px"
             __css={{
               '&::-webkit-scrollbar': {
                 w: '0',
