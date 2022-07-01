@@ -1,15 +1,12 @@
-import { Box, Text, Textarea } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import Episode from './Episode';
 
-const Column = ({ eps }) => {
-  const dropState = 'done';
-  const dropID = `drop-${dropState}`;
-
+const Column = ({ eps, columnName }) => {
   return (
     <>
-      <Droppable droppableId={dropID}>
+      <Droppable droppableId={`droplist`}>
         {(provided, snapshot) => (
           <Box
             width="350px"
@@ -35,6 +32,7 @@ const Column = ({ eps }) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
+            <Text color="black">{columnName}</Text>
             {eps.map((ep, index) => (
               <Episode ep={ep} key={ep.id} index={index} />
             ))}

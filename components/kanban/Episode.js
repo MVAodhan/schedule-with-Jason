@@ -2,7 +2,32 @@ import { Box, Text, Textarea } from '@chakra-ui/react';
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
+import { DateTime } from 'luxon';
+
 const Episode = ({ ep, index }) => {
+  // let dt = DateTime.fromISO(`${ep.default_date}T${ep.default_time}`);
+
+  // let zone = 'America/Los_Angeles';
+
+  // let zonedDt = DateTime.fromObject(
+  //   {
+  //     day: dt.c.day,
+  //     hour: dt.c.hour,
+  //     minute: dt.c.minute,
+  //     month: dt.c.month,
+  //     year: dt.c.year,
+  //   },
+  //   { zone }
+  // );
+
+  // let date = zonedDt.toFormat('ff');
+
+  // let dateISO = zonedDt.toLocaleString({
+  //   month: 'long',
+  // });
+
+  // console.log(ep.guest, dateISO);
+
   return (
     <>
       <Draggable draggableId={ep.id} index={index}>
@@ -24,6 +49,7 @@ const Episode = ({ ep, index }) => {
             <Text as="strong" color="black" fontSize="16px" mt="10px" w="90%">
               {ep.guest}
             </Text>
+            {/* <Text>{date}</Text> */}
             <Text color="black" fontSize="14px" mt="10px" mb="10px" w="90%">
               {ep.title}
             </Text>

@@ -10,11 +10,12 @@ import Nav from '../components/Nav';
 import Container from '../components/kanban/Container';
 
 import { useSupabase } from '../hooks/useSupabase.js';
-import { useAtom } from 'jotai';
-import Column from '../components/kanban/Column';
+
+import { DateTime } from 'luxon';
 
 export default function Home() {
   const [eps, setEps] = useState([]);
+  let julyEps = [];
 
   const supabase = useSupabase();
 
@@ -26,6 +27,28 @@ export default function Home() {
 
     setEps(data);
   }, []);
+
+  eps.forEach((ep, i) => {
+    let dt = DateTime.fromISO(`${ep.default_date}T${ep.default_time}`);
+    let zone = 'America/Los_Angeles';
+    let zonedDt = DateTime.fromObject(
+      {
+        day: dt.c.day,
+        hour: dt.c.hour,
+        minute: dt.c.minute,
+        month: dt.c.month,
+        year: dt.c.year,
+      },
+      { zone }
+    );
+    let dateISO = zonedDt.toLocaleString({
+      month: 'long',
+    });
+
+    if (dateISO.toLowerCase() === 'july') {
+      julyEps.push(ep);
+    }
+  });
 
   return (
     <Box h="100vh" w="100vw">
@@ -55,9 +78,7 @@ export default function Home() {
         alignItems="center"
         color="blue"
       >
-        <Container>
-          <Column eps={eps} />
-        </Container>
+        <Container eps={julyEps}></Container>
       </Box>
     </Box>
   );
