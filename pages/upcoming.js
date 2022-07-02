@@ -16,6 +16,14 @@ import { DateTime } from 'luxon';
 export default function Home() {
   const [eps, setEps] = useState([]);
   let julyEps = [];
+  let columnData = {
+    headers: [],
+    episodes: {},
+    data: [
+      { header: 'july', eps: [] },
+      { header: 'aug', eps: [] },
+    ],
+  };
 
   const supabase = useSupabase();
 
@@ -45,8 +53,8 @@ export default function Home() {
       month: 'long',
     });
 
-    if (dateISO.toLowerCase() === 'july') {
-      julyEps.push(ep);
+    if (!columnData.headers.includes(dateISO.toLowerCase())) {
+      columnData.headers.push(dateISO.toLowerCase());
     }
   });
 
