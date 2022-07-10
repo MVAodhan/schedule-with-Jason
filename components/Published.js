@@ -47,7 +47,13 @@ const Published = ({ pid }) => {
 
   let hightlightsTweet;
 
+  const handleCopyDesc = (textToCopy) => {
+    let stringToCopy = textToCopy.toString().replaceAll('undefined', '');
+    copy(stringToCopy);
+  };
+
   const handleCopy = (textToCopy) => {
+    console.log(textToCopy);
     let stringToCopy = textToCopy.toString();
     copy(stringToCopy);
   };
@@ -154,24 +160,19 @@ No worries! Watch highlights from the episode here, then check out the full epis
     let linkValues = linksMinusDemoRepo.map((link) => link.value);
 
     linksString = `
-${findRepo() !== undefined ? 'Repo:' + ' ' + findRepo() : ''}    
+${findRepo() !== undefined ? 'Repo:' + ' ' + findRepo() : findRepo()}    
 
-${findDemo() !== undefined ? 'Demo:' + ' ' + findDemo() : ''}
+${findDemo() !== undefined ? 'Demo:' + ' ' + findDemo() : findRepo()}
 
 Links
 
 ${linkValues.join('\n\n')}`;
   }
   let yTDesc;
-  if (
-    episode &&
-    episode[0] &&
-    episode[0].description &&
-    episode[0].extracted_chapters
-  ) {
+  if (episode && episode[0] && episode[0].description) {
     yTDesc = `${episode[0].description}
     
-${episode[0].extracted_chapters}
+${episode[0].extracted_chapters ? episode[0].extracted_chapters : ''}
 
 ${linksString ? linksString : ''}
 
@@ -255,8 +256,8 @@ ${credits}`;
             icon={<BiCopyAlt />}
             onClick={() =>
               yTDesc
-                ? handleCopy(yTDesc) //ytDescription
-                : handleCopy('No description available.')
+                ? handleCopyDesc(yTDesc) //ytDescription
+                : handleCopyDesc('No description available.')
             }
           />
         </Box>

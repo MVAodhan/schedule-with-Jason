@@ -86,7 +86,7 @@ export default function Home() {
         alignItems="center"
         color="blue"
       >
-        <Container eps={julyEps}></Container>
+        <Container eps={eps}></Container>
       </Box>
     </Box>
   );
