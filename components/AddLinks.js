@@ -101,6 +101,7 @@ const AddLinks = ({ pid }) => {
   const handleLinksEdit = async (links) => {
     let updatedLinks = handleUpdateLinks(links);
     let newLinks;
+    let uniqueLinks = [];
 
     if (!updatedLinks) {
       newLinks = [...links];
@@ -108,9 +109,27 @@ const AddLinks = ({ pid }) => {
       newLinks = [...updatedLinks, ...links];
     }
 
+    const newValuesSet = new Set();
+    const newIDsSet = new Set();
+    for (const link of newLinks) {
+      newIDsSet.add(link.id);
+      newValuesSet.add(link.value);
+    }
+
+    const iDsArray = Array.from(newIDsSet);
+    const valuesArray = Array.from(newValuesSet);
+
+    for (let i = 0; i < valuesArray.length; i++) {
+      const newLinkObject = {
+        id: iDsArray[i],
+        value: valuesArray[i],
+      };
+      uniqueLinks = [...uniqueLinks, newLinkObject];
+    }
+
     const { data, error } = await supabase
       .from('episodes')
-      .update({ links: newLinks })
+      .update({ links: uniqueLinks })
       .eq('id', pid);
 
     if (error) {
