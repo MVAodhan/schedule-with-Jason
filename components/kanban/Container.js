@@ -3,8 +3,6 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './Column';
 
 const Container = ({ eps }) => {
-  let currentEps = eps;
-
   const dragEnd = (result) => {
     const { destination, source } = result;
 
@@ -37,10 +35,10 @@ const Container = ({ eps }) => {
         w="80%"
         border="1px solid red"
         display="flex"
-        justifyContent="space-between"
+        justifyContent="flex-start"
       >
-        <Column eps={currentEps} columnName="July" />
-        <Column eps={currentEps} columnName="August" />
+        <Column eps={eps} columnName="July" />
+        <Column eps={eps} columnName="August" />
       </Box>
     </DragDropContext>
   );
