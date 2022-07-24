@@ -40,6 +40,7 @@ const Container = ({ eps }) => {
         justifyContent="space-between"
       >
         <Column eps={currentEps} columnName="July" />
+        <Column eps={currentEps} columnName="August" />
       </Box>
     </DragDropContext>
   );

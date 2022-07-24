@@ -2,8 +2,32 @@ import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import Episode from './Episode';
+import { DateTime } from 'luxon';
 
 const Column = ({ eps, columnName }) => {
+  let lowercaseColumnName = columnName.toLowerCase();
+  let columnEps = new Set();
+
+  let zone = 'America/Los_Angeles';
+  eps.forEach((ep) => {
+    let upcomingObjData = DateTime.fromISO(ep.default_date);
+    let monthDate = DateTime.fromObject(
+      {
+        day: upcomingObjData.c.day,
+        month: upcomingObjData.c.month,
+      },
+      { zone }
+    ).toLocaleString({ month: 'long', day: '2-digit' });
+
+    let month = monthDate.split(' ');
+    month = month[0].toLowerCase();
+
+    if (month === lowercaseColumnName) {
+      columnEps.add(ep);
+    }
+  });
+  let epsArray = [...columnEps];
+  console.log(columnName);
   return (
     <>
       <Droppable droppableId={`droplist`}>
@@ -33,7 +57,7 @@ const Column = ({ eps, columnName }) => {
             {...provided.droppableProps}
           >
             <Text color="black">{columnName}</Text>
-            {eps.map((ep, index) => (
+            {epsArray.map((ep, index) => (
               <Episode ep={ep} key={ep.id} index={index} />
             ))}
           </Box>
