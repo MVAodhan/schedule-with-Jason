@@ -4,6 +4,10 @@ import { Droppable } from 'react-beautiful-dnd';
 import Episode from './Episode';
 
 const Column = ({ epsArray, columnName, droppableId }) => {
+  epsArray = Object.fromEntries(epsArray);
+  epsArray = epsArray[columnName];
+
+  console.log('epsArray', epsArray);
   return (
     <>
       <Droppable droppableId={droppableId}>
