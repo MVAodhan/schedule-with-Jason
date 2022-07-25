@@ -1,8 +1,15 @@
 import { Box } from '@chakra-ui/react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { getColumns, getMonthsEps } from '../../utils/getMonthEps';
 import Column from './Column';
 
 const Container = ({ eps }) => {
+  let epsArray = getMonthsEps(eps, 'july');
+
+  let columnData = getColumns(eps);
+
+  console.log(columnData);
+
   const dragEnd = (result) => {
     const { destination, source } = result;
 
@@ -20,12 +27,12 @@ const Container = ({ eps }) => {
     let toChange;
 
     if (source.droppableId === 'droplist') {
-      toChange = currentEps[source.index];
-      currentEps.splice(source.index, 1);
+      toChange = epsArray[source.index];
+      epsArray.splice(source.index, 1);
     }
 
     if (destination.droppableId === 'droplist') {
-      currentEps.splice(destination.index, 0, toChange);
+      epsArray.splice(destination.index, 0, toChange);
     }
   };
   return (
@@ -37,8 +44,7 @@ const Container = ({ eps }) => {
         display="flex"
         justifyContent="flex-start"
       >
-        <Column eps={eps} columnName="July" />
-        <Column eps={eps} columnName="August" />
+        <Column epsArray={epsArray} columnName="July" droppableId="droplist" />
       </Box>
     </DragDropContext>
   );

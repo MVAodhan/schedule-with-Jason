@@ -24,3 +24,8 @@ export const getMonthsEps = (eps, columnName) => {
   let epsArray = [...columnEps];
   return epsArray;
 };
+
+export const getColumns = (eps) => {
+  let columns = 'columns';
+  return columns;
+};

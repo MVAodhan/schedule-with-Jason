@@ -2,17 +2,14 @@ import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import Episode from './Episode';
-import { getMonthsEps } from '../../utils/getMonth';
 
-const Column = ({ eps, columnName }) => {
-  let epsArray = getMonthsEps(eps, columnName);
-
+const Column = ({ epsArray, columnName, droppableId }) => {
   return (
     <>
-      <Droppable droppableId={`droplist`}>
+      <Droppable droppableId={droppableId}>
         {(provided, snapshot) => (
           <Box
-            width="350px"
+            width="400px"
             ml="10px"
             // border="1px solid black"
             d="flex"
