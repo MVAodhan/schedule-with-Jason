@@ -4,11 +4,23 @@ import { getColumns, getMonthsEps } from '../../utils/getMonthEps';
 import Column from './Column';
 
 const Container = ({ eps }) => {
-  let epsArray = getMonthsEps(eps, 'july');
+  let columnsObjMap = getColumns(eps);
 
-  let columnData = getColumns(eps);
+  // console.log(columnsObjMap.get('july'));
+  let columnEntries = Object.fromEntries(columnsObjMap);
+  // console.log(columnEntries);
+  let columnKeys = Object.keys(columnEntries);
+  // console.log(columnKeys);
+  let allMonths = [];
 
-  console.log(columnData);
+  for (let key in columnKeys) {
+    allMonths = [...allMonths, getMonthsEps(eps, columnKeys[key])];
+  }
+
+  console.log('all Months', allMonths);
+  for (let month in allMonths) {
+    console.log('month', allMonths[month]);
+  }
 
   const dragEnd = (result) => {
     const { destination, source } = result;
@@ -44,7 +56,7 @@ const Container = ({ eps }) => {
         display="flex"
         justifyContent="flex-start"
       >
-        <Column epsArray={epsArray} columnName="July" droppableId="droplist" />
+        {/* <Column epsArray={epsArray} columnName="July" droppableId="droplist" /> */}
       </Box>
     </DragDropContext>
   );
