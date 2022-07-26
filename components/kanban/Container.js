@@ -31,16 +31,15 @@ const Container = ({ eps }) => {
       return;
     }
 
-    let toChange;
-    let toChangeArray;
+    let originEp;
+    let originArray;
     for (let key in columnKeys) {
-      if (source.droppableId === columnKeys[key]) {
-        toChangeArray = columnsObjMap.get(columnKeys[key]);
-        toChange = toChangeArray[source.index];
-        toChangeArray.splice(source.index, 1);
-      }
       if (destination.droppableId === columnKeys[key]) {
-        toChangeArray.splice(destination.index, 0, toChange);
+        originArray = columnsObjMap.get(source.droppableId);
+        originEp = originArray[source.index];
+        let destinationArray = columnsObjMap.get(columnKeys[key]);
+        originArray.splice(source.index, 1);
+        destinationArray.splice(destination.index, 0, originEp);
       }
     }
   };
