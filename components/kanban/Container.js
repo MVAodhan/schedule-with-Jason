@@ -5,21 +5,16 @@ import Column from './Column';
 
 const Container = ({ eps }) => {
   let columnsObjMap = getColumns(eps);
+  console.log('columnsObjMap', columnsObjMap);
 
-  // console.log(columnsObjMap.get('july'));
   let columnEntries = Object.fromEntries(columnsObjMap);
-  // console.log(columnEntries);
+
   let columnKeys = Object.keys(columnEntries);
-  // console.log(columnKeys);
+
   let allMonths = [];
 
   for (let key in columnKeys) {
     allMonths = [...allMonths, getMonthsEps(eps, columnKeys[key])];
-  }
-
-  console.log('all Months', allMonths);
-  for (let month in allMonths) {
-    console.log('month', allMonths[month]);
   }
 
   const dragEnd = (result) => {
@@ -37,14 +32,16 @@ const Container = ({ eps }) => {
     }
 
     let toChange;
-
-    if (source.droppableId === 'droplist') {
-      toChange = epsArray[source.index];
-      epsArray.splice(source.index, 1);
-    }
-
-    if (destination.droppableId === 'droplist') {
-      epsArray.splice(destination.index, 0, toChange);
+    let toChangeArray;
+    for (let key in columnKeys) {
+      if (source.droppableId === columnKeys[key]) {
+        toChangeArray = columnsObjMap.get(columnKeys[key]);
+        toChange = toChangeArray[source.index];
+        toChangeArray.splice(source.index, 1);
+      }
+      if (destination.droppableId === columnKeys[key]) {
+        toChangeArray.splice(destination.index, 0, toChange);
+      }
     }
   };
   return (
