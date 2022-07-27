@@ -79,8 +79,8 @@ export default function Home() {
 
       <Box
         as="main"
-        h="100%"
         w="100vw"
+        pt="50px"
         d="flex"
         justifyContent="center"
         alignItems="center"

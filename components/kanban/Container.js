@@ -46,11 +46,11 @@ const Container = ({ eps }) => {
   return (
     <DragDropContext onDragEnd={dragEnd}>
       <Box
-        h="80%"
         w="80%"
-        border="1px solid red"
         display="flex"
         justifyContent="flex-start"
+        boxShadow="-15px -10px 10px -1px #bab8b1"
+        borderRadius="25px"
       >
         {columnKeys.map((key) => (
           <Column

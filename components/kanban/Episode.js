@@ -59,6 +59,7 @@ const Episode = ({ ep, index }) => {
               border="none"
               w="90%"
               color="black"
+              overflow="hidden"
             ></Textarea>
           </Box>
         )}
