@@ -12,10 +12,11 @@ import Container from '../components/kanban/Container';
 import { useSupabase } from '../hooks/useSupabase.js';
 
 import { DateTime } from 'luxon';
+// import ChakraModal from '../components/kanban/ChakraModal';
 
 export default function Home() {
   const [eps, setEps] = useState([]);
-  let julyEps = [];
+
   let columnData = {
     headers: [],
     episodes: {},

@@ -1,11 +1,10 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { getColumns, getMonthsEps } from '../../utils/getMonthEps';
 import Column from './Column';
 
 const Container = ({ eps }) => {
   let columnsObjMap = getColumns(eps);
-  console.log('columnsObjMap', columnsObjMap);
 
   let columnEntries = Object.fromEntries(columnsObjMap);
 
@@ -50,7 +49,6 @@ const Container = ({ eps }) => {
         display="flex"
         justifyContent="flex-start"
         boxShadow="-15px -10px 10px -1px #bab8b1"
-        borderRadius="25px"
       >
         {columnKeys.map((key) => (
           <Column

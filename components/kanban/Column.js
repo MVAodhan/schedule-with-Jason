@@ -46,8 +46,8 @@ const Column = ({ epsArray, columnName, droppableId }) => {
                 </Text>
                 <Text
                   padding="2px"
-                  h="80%"
-                  borderRadius="12px"
+                  // h="80%"
+                  // borderRadius="3px"
                   boxShadow="-2px 1px 2px 2px #bab8b1"
                   color="black"
                   d="flex"
@@ -68,8 +68,10 @@ const Column = ({ epsArray, columnName, droppableId }) => {
                   aria-label="add episode to column"
                   icon={<BiPlus m="0px" />}
                   bg="none"
+                  _focus={{ boxShadow: '-2px 1px 2px 2px #bab8b1' }}
                   boxShadow="-2px 1px 2px 2px #bab8b1"
                   borderRadius="12px"
+                  size="sm"
                 ></IconButton>
               </Box>
             </Box>
