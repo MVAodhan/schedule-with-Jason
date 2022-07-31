@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { getColumns, getMonthsEps } from '../../utils/getMonthEps';
+import ChakraModal from './ChakraModal';
 import Column from './Column';
 
 const Container = ({ eps }) => {
@@ -50,6 +51,7 @@ const Container = ({ eps }) => {
         justifyContent="flex-start"
         boxShadow="-15px -10px 10px -1px #bab8b1"
       >
+        {/* <ChakraModal /> */}
         {columnKeys.map((key) => (
           <Column
             epsArray={columnsObjMap}
