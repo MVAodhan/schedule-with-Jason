@@ -4,7 +4,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import Episode from './Episode';
 import { BiPlus } from 'react-icons/bi';
 
-const Column = ({ epsArray, columnName, droppableId }) => {
+const Column = ({ epsArray, columnName, droppableId, onOpen }) => {
   epsArray = Object.fromEntries(epsArray);
   epsArray = epsArray[columnName];
 
@@ -65,6 +65,7 @@ const Column = ({ epsArray, columnName, droppableId }) => {
                 alignItems="center"
               >
                 <IconButton
+                  onClick={onOpen}
                   aria-label="add episode to column"
                   icon={<BiPlus m="0px" />}
                   bg="none"

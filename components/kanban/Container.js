@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, useDisclosure } from '@chakra-ui/react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { getColumns, getMonthsEps } from '../../utils/getMonthEps';
 import ChakraModal from './ChakraModal';
@@ -43,6 +43,8 @@ const Container = ({ eps }) => {
       }
     }
   };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <DragDropContext onDragEnd={dragEnd}>
       <Box
@@ -51,9 +53,10 @@ const Container = ({ eps }) => {
         justifyContent="flex-start"
         boxShadow="-15px -10px 10px -1px #bab8b1"
       >
-        {/* <ChakraModal /> */}
+        <ChakraModal isOpen={isOpen} onClose={onClose} />
         {columnKeys.map((key) => (
           <Column
+            onOpen={onOpen}
             epsArray={columnsObjMap}
             columnName={key}
             key={key}
