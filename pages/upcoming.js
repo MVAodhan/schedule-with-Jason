@@ -38,24 +38,26 @@ export default function Home() {
   }, []);
 
   eps.forEach((ep, i) => {
-    let dt = DateTime.fromISO(`${ep.default_date}T${ep.default_time}`);
-    let zone = 'America/Los_Angeles';
-    let zonedDt = DateTime.fromObject(
-      {
-        day: dt.c.day,
-        hour: dt.c.hour,
-        minute: dt.c.minute,
-        month: dt.c.month,
-        year: dt.c.year,
-      },
-      { zone }
-    );
-    let dateISO = zonedDt.toLocaleString({
-      month: 'long',
-    });
+    if (ep.default_date && ep.default_time) {
+      let dt = DateTime.fromISO(`${ep.default_date}T${ep.default_time}`);
+      let zone = 'America/Los_Angeles';
+      let zonedDt = DateTime.fromObject(
+        {
+          day: dt.c.day,
+          hour: dt.c.hour,
+          minute: dt.c.minute,
+          month: dt.c.month,
+          year: dt.c.year,
+        },
+        { zone }
+      );
+      let dateISO = zonedDt.toLocaleString({
+        month: 'long',
+      });
 
-    if (!columnData.headers.includes(dateISO.toLowerCase())) {
-      columnData.headers.push(dateISO.toLowerCase());
+      if (!columnData.headers.includes(dateISO.toLowerCase())) {
+        columnData.headers.push(dateISO.toLowerCase());
+      }
     }
   });
 

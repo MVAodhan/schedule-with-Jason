@@ -61,9 +61,6 @@ const AddEpisode = ({ pid, marginLeft }) => {
   let zoneISO;
   let bufferTwoWeeks;
   let bufferNinetyMinutes;
-  let hightlightsTweet;
-  let chapters;
-  let ytDescription;
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
@@ -124,13 +121,15 @@ Additional sound effects obtained from https://www.zapsplat.com
 
     setEpisode(data);
   }, []);
+  if (episode && episode[0] && episode[0].title && episode[0].guest) {
+    altText = `${episode[0].title} with ${episode[0].guest}`;
+  }
 
-  if (episode && episode[0]) {
+  if (episode && episode[0] && episode[0].default_date && episode[0].default) {
     zone = episode[0].is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
 
     if (episode[0].title && episode[0].guest) {
       slug = convertToSlug(episode[0].title);
-      altText = `${episode[0].title} with ${episode[0].guest}`;
     }
 
     chapters = episode && episode[0].extracted_chapters;

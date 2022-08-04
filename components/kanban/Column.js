@@ -8,7 +8,6 @@ const Column = ({ epsArray, columnName, droppableId, onOpen }) => {
   epsArray = Object.fromEntries(epsArray);
   epsArray = epsArray[columnName];
 
-  console.log('epsArray', epsArray);
   return (
     <>
       <Droppable droppableId={droppableId}>
@@ -46,8 +45,6 @@ const Column = ({ epsArray, columnName, droppableId, onOpen }) => {
                 </Text>
                 <Text
                   padding="2px"
-                  // h="80%"
-                  // borderRadius="3px"
                   boxShadow="-2px 1px 2px 2px #bab8b1"
                   color="black"
                   d="flex"
@@ -78,7 +75,7 @@ const Column = ({ epsArray, columnName, droppableId, onOpen }) => {
             </Box>
             {provided.placeholder}
             {epsArray.map((ep, index) => (
-              <Episode ep={ep} key={ep.id} index={index} />
+              <Episode ep={ep} epsArray={epsArray} key={ep.id} index={index} />
             ))}
           </Box>
         )}

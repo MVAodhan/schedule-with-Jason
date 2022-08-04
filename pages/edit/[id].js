@@ -16,9 +16,6 @@ import Published from '../../components/Published';
 import AddLinks from '../../components/AddLinks.js';
 
 export default function Home() {
-  // const [session, setSession] = useAtom(sessionAtom);
-  // const supabase = useSupabase();
-
   const router = useRouter();
   const { id: pid } = router.query;
 

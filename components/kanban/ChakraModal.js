@@ -9,6 +9,7 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react';
+import InnerModal from './InnerModal';
 
 const ChakraModal = ({ isOpen, onClose }) => {
   return (
@@ -19,14 +20,9 @@ const ChakraModal = ({ isOpen, onClose }) => {
           <ModalHeader>Add Episode</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>Lorem Ipsum</Text>
+            <InnerModal />
           </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant="ghost">Secondary Action</Button>
-          </ModalFooter>
+          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </>

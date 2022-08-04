@@ -41,7 +41,6 @@ const AddEpisode = () => {
         duration: 3000,
         isClosable: true,
       });
-
       return;
     }
 

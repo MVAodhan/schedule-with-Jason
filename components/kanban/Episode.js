@@ -2,31 +2,12 @@ import { Box, Text, Textarea } from '@chakra-ui/react';
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { DateTime } from 'luxon';
+import { getDate } from '../../utils/getDate';
 
 const Episode = ({ ep, index }) => {
-  let dt = DateTime.fromISO(`${ep.default_date}T${ep.default_time}`);
-
-  let zone = ep.is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
   let usDate;
-
-  let zonedDt = DateTime.fromObject(
-    {
-      day: dt.c.day,
-      hour: dt.c.hour,
-      minute: dt.c.minute,
-      month: dt.c.month,
-      year: dt.c.year,
-    },
-    { zone }
-  );
-  console.log(zonedDt.zone.zoneName);
-
-  if (zonedDt.zone.zoneName !== 'America/Los_Angeles') {
-    usDate = zonedDt.setZone('America/Los_Angeles').toLocaleString({
-      day: 'numeric',
-      month: 'short',
-    });
+  if (ep.default_date && ep.default_time) {
+    usDate = getDate(ep);
   }
 
   return (
@@ -83,7 +64,6 @@ const Episode = ({ ep, index }) => {
                 </Text>
               </Box>
             </Box>
-
             <Text color="black" fontSize="14px" mt="10px" mb="10px" w="90%">
               {ep.title}
             </Text>
