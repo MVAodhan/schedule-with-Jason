@@ -39,6 +39,9 @@ const AddEpisode = ({ pid, marginLeft }) => {
   const dateRef = useRef('');
   const timeRef = useRef('');
 
+  const updateDateRef = useRef('');
+  const updateTimeRef = useRef('');
+
   const titleRef = useRef('');
   const technologyRef = useRef('');
   const descriptionRef = useRef('');
@@ -61,6 +64,8 @@ const AddEpisode = ({ pid, marginLeft }) => {
   let zoneISO;
   let bufferTwoWeeks;
   let bufferNinetyMinutes;
+  let chapters;
+  let hightlightsTweet;
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
@@ -125,7 +130,12 @@ Additional sound effects obtained from https://www.zapsplat.com
     altText = `${episode[0].title} with ${episode[0].guest}`;
   }
 
-  if (episode && episode[0] && episode[0].default_date && episode[0].default) {
+  if (
+    episode &&
+    episode[0] &&
+    episode[0].default_date &&
+    episode[0].default_time
+  ) {
     zone = episode[0].is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
 
     if (episode[0].title && episode[0].guest) {
@@ -203,6 +213,30 @@ https://twitch.tv/jlengstorf`;
   if (
     episode &&
     episode[0] &&
+    episode[0].default_date &&
+    !episode[0].default_time
+  ) {
+    let dt = DateTime.fromISO(episode[0].default_date);
+
+    let zone = 'America/Los_Angeles';
+
+    let zonedDt = DateTime.fromObject(
+      {
+        day: dt.c.day,
+        month: dt.c.month,
+      },
+      { zone }
+    );
+
+    usDate = zonedDt.toLocaleString({
+      day: 'numeric',
+      month: 'short',
+    });
+  }
+
+  if (
+    episode &&
+    episode[0] &&
     episode[0].description &&
     episode[0].extracted_chapters
   ) {
@@ -244,6 +278,39 @@ ${credits}`;
       isClosable: true,
     });
   };
+
+  const addMissingData = async () => {
+    const { data, error } = await supabase
+      .from('episodes')
+      .update({
+        guest: guestRef.current.value,
+        default_date: dateRef.current.value,
+        default_time: updateTimeRef.current.value,
+        is_pt: isPt,
+        title: titleRef.current.value,
+        description: descriptionRef.current.value,
+        twitter: twitterRef.current.value,
+        technology: technologyRef.current.value,
+        extracted_chapters: chaptersRef.current.value,
+        twitch_links: twitchRef.current.value,
+        twitter_description: twitterDescriptionRef.current.value,
+      })
+      .eq('guest', episode?.[0].guest);
+
+    if (error) {
+      console.log(error);
+    }
+
+    toast({
+      title: 'Missing Data Added.',
+      description: 'Edit successful.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
+  console.log(episode);
 
   return (
     <FormControl
@@ -352,13 +419,53 @@ ${credits}`;
           }}
         />
       </Box>
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <FormLabel>Aring times</FormLabel>
-      </Box>
-      <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
-        <Text>PST: {usDate}</Text>
-        <Text>NZST: {nzDate}</Text>
-      </Box>
+      {!episode[0]?.default_time ? (
+        <>
+          <FormLabel>Add a Date & Time</FormLabel>
+          <Box
+            w="100%"
+            d="flex"
+            justifyContent="space-around"
+            alignItems="center"
+            mb="10px"
+          >
+            <Box w="35%">
+              <FormLabel
+                id="date"
+                htmlFor="date"
+                d="flex"
+                justifyContent="center"
+                w="40%"
+              >
+                Date
+              </FormLabel>
+              {usDate}
+            </Box>
+
+            <Box w="35%">
+              <FormLabel
+                id="time"
+                htmlFor="time"
+                d="flex"
+                justifyContent="center"
+              >
+                Time
+              </FormLabel>
+              <Input id="time" type="time" ref={updateTimeRef} />
+            </Box>
+          </Box>
+        </>
+      ) : (
+        <>
+          <Box w="100%" d="flex" justifyContent="center" mb="10px">
+            <FormLabel>Aring times</FormLabel>
+          </Box>
+          <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
+            <Text>PST: {usDate}</Text>
+            <Text>NZST: {nzDate}</Text>
+          </Box>
+        </>
+      )}
 
       <FormLabel
         id="description"
@@ -415,86 +522,115 @@ ${credits}`;
 
       <HelperText />
 
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <FormLabel>Tweets</FormLabel>
-      </Box>
-
-      <Box
-        w="100%"
-        d="flex"
-        justifyContent="space-around"
-        mb="10px"
-        alignItems="center"
-      >
-        <Box d="flex" alignItems="center">
-          <Text>Two Weeks</Text>
-          <IconButton
-            aria-label="Copy tweet"
-            icon={<BiCopyAlt />}
-            onClick={() => {
-              handleCopy(twoWeekTweet);
-              toast({
-                title: 'Text copied.',
-                description: 'Copied two week tweet to your clipboard.',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          />
-        </Box>
-        <Box d="flex" alignItems="center">
-          <Text>Ninety minutes</Text>
-          <IconButton
-            aria-label="Copy tweet"
-            icon={<BiCopyAlt />}
-            onClick={() => {
-              handleCopy(ninetyMinTweet);
-              toast({
-                title: 'Text copied.',
-                description: 'Copied ninety minute tweet to your clipboard.',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          />
-        </Box>
-        <Box d="flex" alignItems="center">
-          <Text>Live</Text>
-          <IconButton
-            aria-label="Copy tweet"
-            icon={<BiCopyAlt />}
-            onClick={() => {
-              handleCopy(liveTweet);
-              toast({
-                title: 'Text copied.',
-                description: 'Copied live tweet to your clipboard.',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          />
-        </Box>
-      </Box>
-      <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
-        <Text>{bufferTwoWeeks}</Text>
-        <Text>{bufferNinetyMinutes}</Text>
-        <Text>{usDate}</Text>
-      </Box>
-      <Box w="100%" d="flex" justifyContent="center" mb="10px">
-        <Button
-          w="fit-content"
-          bgColor="limegreen"
-          color="white"
-          mt="20px"
-          onClick={handleEdit}
-          disabled={!session ? true : false}
-        >
-          Edit Episode
-        </Button>
-      </Box>
+      {episode &&
+        episode[0] &&
+        episode[0].default_date &&
+        episode[0].default_time && (
+          <>
+            <Box w="100%" d="flex" justifyContent="center" mb="10px">
+              <FormLabel>Tweets</FormLabel>
+            </Box>
+            <Box
+              w="100%"
+              d="flex"
+              justifyContent="space-around"
+              mb="10px"
+              alignItems="center"
+            >
+              <Box d="flex" alignItems="center">
+                <Text>Two Weeks</Text>
+                <IconButton
+                  aria-label="Copy tweet"
+                  icon={<BiCopyAlt />}
+                  onClick={() => {
+                    handleCopy(twoWeekTweet);
+                    toast({
+                      title: 'Text copied.',
+                      description: 'Copied two week tweet to your clipboard.',
+                      status: 'success',
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }}
+                />
+              </Box>
+              <Box d="flex" alignItems="center">
+                <Text>Ninety minutes</Text>
+                <IconButton
+                  aria-label="Copy tweet"
+                  icon={<BiCopyAlt />}
+                  onClick={() => {
+                    handleCopy(ninetyMinTweet);
+                    toast({
+                      title: 'Text copied.',
+                      description:
+                        'Copied ninety minute tweet to your clipboard.',
+                      status: 'success',
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }}
+                />
+              </Box>
+              <Box d="flex" alignItems="center">
+                <Text>Live</Text>
+                <IconButton
+                  aria-label="Copy tweet"
+                  icon={<BiCopyAlt />}
+                  onClick={() => {
+                    handleCopy(liveTweet);
+                    toast({
+                      title: 'Text copied.',
+                      description: 'Copied live tweet to your clipboard.',
+                      status: 'success',
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }}
+                />
+              </Box>
+            </Box>
+            <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
+              <Text>{bufferTwoWeeks}</Text>
+              <Text>{bufferNinetyMinutes}</Text>
+              <Text>{usDate}</Text>
+            </Box>
+          </>
+        )}
+      {episode &&
+      episode[0] &&
+      episode[0].default_date &&
+      episode[0].default_time ? (
+        <>
+          <Box w="100%" d="flex" justifyContent="center" mb="10px">
+            <Button
+              w="fit-content"
+              bgColor="limegreen"
+              color="white"
+              mt="20px"
+              onClick={handleEdit}
+              disabled={!session ? true : false}
+            >
+              Update Episode
+            </Button>
+          </Box>
+        </>
+      ) : (
+        <>
+          <Box w="100%" d="flex" justifyContent="center" mb="10px">
+            <Button
+              w="fit-content"
+              bgColor="limegreen"
+              color="white"
+              mt="20px"
+              onClick={addMissingData}
+              disabled={!session ? true : false}
+            >
+              Add Missing Data
+            </Button>
+          </Box>
+        </>
+      )}
     </FormControl>
   );
 };

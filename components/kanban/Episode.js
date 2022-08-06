@@ -1,4 +1,5 @@
 import { Box, Text, Textarea } from '@chakra-ui/react';
+import { DateTime } from 'luxon';
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
@@ -8,6 +9,23 @@ const Episode = ({ ep, index }) => {
   let usDate;
   if (ep.default_date && ep.default_time) {
     usDate = getDate(ep);
+  } else {
+    let dt = DateTime.fromISO(ep.default_date);
+
+    let zone = 'America/Los_Angeles';
+
+    let zonedDt = DateTime.fromObject(
+      {
+        day: dt.c.day,
+        month: dt.c.month,
+      },
+      { zone }
+    );
+
+    usDate = zonedDt.toLocaleString({
+      day: 'numeric',
+      month: 'short',
+    });
   }
 
   return (

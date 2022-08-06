@@ -160,9 +160,9 @@ No worries! Watch highlights from the episode here, then check out the full epis
     let linkValues = linksMinusDemoRepo.map((link) => link.value);
 
     linksString = `
-${findRepo() !== undefined ? 'Repo:' + ' ' + findRepo() : findRepo()}    
+${findRepo() !== undefined ? 'Repo:' + ' ' + findRepo() : ''}    
 
-${findDemo() !== undefined ? 'Demo:' + ' ' + findDemo() : findRepo()}
+${findDemo() !== undefined ? 'Demo:' + ' ' + findDemo() : ''}
 
 Links
 
