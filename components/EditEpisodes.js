@@ -66,6 +66,7 @@ const AddEpisode = ({ pid, marginLeft }) => {
   let bufferNinetyMinutes;
   let chapters;
   let hightlightsTweet;
+  let ytDescription;
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
@@ -309,8 +310,6 @@ ${credits}`;
       isClosable: true,
     });
   };
-
-  console.log(episode);
 
   return (
     <FormControl

@@ -256,7 +256,7 @@ ${credits}`;
             icon={<BiCopyAlt />}
             onClick={() =>
               yTDesc
-                ? handleCopyDesc(yTDesc) //ytDescription
+                ? handleCopyDesc(yTDesc)
                 : handleCopyDesc('No description available.')
             }
           />
