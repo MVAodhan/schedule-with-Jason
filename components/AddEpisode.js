@@ -14,11 +14,15 @@ import {
 import { useSupabase } from '../hooks/useSupabase.js';
 
 import { useRouter } from 'next/router';
+import { useAtom } from 'jotai';
+import { sessionAtom } from '../atoms.js';
 
 const AddEpisode = () => {
   const router = useRouter();
 
   const toast = useToast();
+
+  const [session, setSession] = useAtom(sessionAtom);
 
   const guestRef = useRef('');
   const dateRef = useRef('');
@@ -201,7 +205,11 @@ const AddEpisode = () => {
         Technology
       </FormLabel>
       <Input id="technology" type="text" ref={techRef} />
-      <Button bgColor="limegreen" onClick={handleSubmit}>
+      <Button
+        bgColor="limegreen"
+        onClick={handleSubmit}
+        disabled={!session ? true : false}
+      >
         Add Episode
       </Button>
     </FormControl>

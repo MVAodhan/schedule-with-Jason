@@ -77,16 +77,21 @@ const Nav = ({ hProp }) => {
                 <a>Home</a>
               </Link>
             </ListItem>
-            {session && (
-              <ListItem pr="30px" fontSize={linkFontSizeBreakpoints}>
-                <Link href="/add-episode">
-                  <a>Add Episode</a>
-                </Link>
-              </ListItem>
-            )}
+
+            <ListItem pr="30px" fontSize={linkFontSizeBreakpoints}>
+              <Link href="/add-episode">
+                <a>Add Episode</a>
+              </Link>
+            </ListItem>
+
             <ListItem pr="30px" fontSize={linkFontSizeBreakpoints}>
               <Link href="/upcoming">
                 <a>Upcoming Episodes</a>
+              </Link>
+            </ListItem>
+            <ListItem pr="30px" fontSize={linkFontSizeBreakpoints}>
+              <Link href="/reschedule">
+                <a>Reschedule Episodes</a>
               </Link>
             </ListItem>
           </UnorderedList>

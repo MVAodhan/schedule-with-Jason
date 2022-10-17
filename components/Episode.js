@@ -17,19 +17,19 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
   PopoverCloseButton,
-  PopoverAnchor,
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { BiEditAlt, BiTrash } from 'react-icons/bi';
+import { BiEditAlt, BiTrash, BiCalendarEdit } from 'react-icons/bi';
 
 import copy from 'copy-to-clipboard';
 
 import styles from '../styles/Episode.module.css';
+
+import ChakraModal from './reschedule/ChakraModal';
 
 const Episode = ({ data, usDate, nzDate, title }) => {
   const router = useRouter();
@@ -73,7 +73,6 @@ const Episode = ({ data, usDate, nzDate, title }) => {
           d="flex"
           flexDir="column"
         >
-          {' '}
           {data && (
             <>
               <Box w="100%" d="flex">
@@ -110,6 +109,17 @@ const Episode = ({ data, usDate, nzDate, title }) => {
                       </PopoverBody>
                     </PopoverContent>
                   </Popover>
+                  <ChakraModal isOpen={isOpen} onClose={onClose} data={data} />
+                  <IconButton
+                    aria-label="Mark for Reschedule"
+                    icon={<BiCalendarEdit fill="white" />}
+                    bgColor="transparent"
+                    fontSize="20px"
+                    _hover={{ bg: 'transparent' }}
+                    mt="2px"
+                    onClick={onOpen}
+                    disabled={!session ? true : false}
+                  />
                   <IconButton
                     aria-label="Expand episode"
                     icon={<BiEditAlt fill="white" />}

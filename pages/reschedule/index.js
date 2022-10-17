@@ -4,14 +4,14 @@ import { Box } from '@chakra-ui/react';
 
 import { useEffect, useState } from 'react';
 
-import { useSupabase } from '../hooks/useSupabase.js';
+import { useSupabase } from '../../hooks/useSupabase.js';
 
-import Header from '../components/Header';
-import Nav from '../components/Nav';
-import Hero from '../components/Hero';
-import Container from '../components/Container';
+import Header from '../../components/Header';
+import Nav from '../../components/Nav';
+import Hero from '../../components/Hero';
+import Container from '../../components/reschedule/Container';
 
-import { sessionAtom } from '../atoms';
+import { sessionAtom } from '../../atoms';
 import { useAtom } from 'jotai';
 
 export default function Home() {
@@ -39,7 +39,7 @@ export default function Home() {
       .select()
       .order('default_date', { ascending: true });
 
-    setEps(data.filter((episode) => episode.reschedule !== true));
+    setEps(data.filter((episode) => episode.reschedule == true));
   }, []);
   return (
     <Box h="100vh" w="100vw">
@@ -58,8 +58,8 @@ export default function Home() {
       #c1f3a1 ,
       #96fce4 )"
       />
-      <Header text="Scheduled with Jason" hProp="10vh" />
-      <Hero hProp="auto" />
+      <Header text="Reschedule Episodes" hProp="10vh" />
+
       <Box
         as="main"
         h="auto"

@@ -1,8 +1,11 @@
 import { Box, Button, Input, Textarea } from '@chakra-ui/react';
+import { useAtom } from 'jotai';
 import { useRef } from 'react';
+import { sessionAtom } from '../../atoms';
 import { useSupabase } from '../../hooks/useSupabase';
 
 const InnerModal = () => {
+  const [session, setSession] = useAtom(sessionAtom);
   const dateRef = useRef();
   const guestRef = useRef();
   const titleRef = useRef();
@@ -36,9 +39,7 @@ const InnerModal = () => {
   return (
     <Box>
       <Input placeholder="Guest Name" ref={guestRef} />
-      <Box w="100%" display="flex" flexDir="row" mt="10px">
-        <Input type="date" w="100%" ref={dateRef} />
-      </Box>
+
       <Input placeholder="Episode Title" mt="10px" ref={titleRef} />
       <Textarea placeholder="Episode Description" mt="10px" ref={descRef} />
       <Box display="flex" justifyContent="center">
@@ -47,6 +48,7 @@ const InnerModal = () => {
           colorScheme="blue"
           mr={3}
           onClick={handleAdd}
+          disabled={!session ? true : false}
           bgColor="limegreen"
         >
           Add Episode
