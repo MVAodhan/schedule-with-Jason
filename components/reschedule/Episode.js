@@ -13,12 +13,17 @@ import {
   useDisclosure,
   Checkbox,
   FormLabel,
+  IconButton,
 } from '@chakra-ui/react';
+
+import { DateTime } from 'luxon';
 
 import copy from 'copy-to-clipboard';
 
 import styles from '../../styles/Episode.module.css';
 import { useSupabase } from '../../hooks/useSupabase';
+
+import { BiCopyAlt } from 'react-icons/bi';
 
 const Episode = ({ data, usDate, nzDate }) => {
   const router = useRouter();
@@ -35,11 +40,15 @@ const Episode = ({ data, usDate, nzDate }) => {
   const newNinetyRef = useRef();
   const newLiveRef = useRef();
 
+  let zone;
+  let objFromData;
+  let slug;
   let twoWeekTweet;
   let ninetyMinTweet;
   let liveTweet;
-
-  console.log('data from ep to reschedule', data);
+  let zoneISO;
+  let bufferTwoWeeks;
+  let bufferNinetyMinutes;
 
   const handleCopy = (textToCopy) => {
     let stringToCopy = textToCopy.toString();
@@ -63,6 +72,62 @@ const Episode = ({ data, usDate, nzDate }) => {
       router.push('/');
     }
   };
+  objFromData = DateTime.fromISO(`${data.default_date}T${data.default_time}`);
+
+  zoneISO = DateTime.fromObject(
+    {
+      day: objFromData.c.day,
+      hour: objFromData.c.hour,
+      minute: objFromData.c.minute,
+      month: objFromData.c.month,
+      year: objFromData.c.year,
+    },
+    { zone }
+  );
+
+  bufferTwoWeeks = zoneISO
+    .setZone('America/Los_Angeles')
+    .minus({ weeks: 2 })
+    .toFormat('ff');
+
+  bufferNinetyMinutes = zoneISO
+    .setZone('America/Los_Angeles')
+    .minus({ minutes: 90 })
+    .toFormat('ff');
+
+  const convertToSlug = (text) => {
+    return text
+      .toLowerCase()
+      .replace(/[^\w!-]+/g, '-')
+      .replace(/[!]/g, '');
+  };
+
+  if (data.title && data.guest) {
+    slug = convertToSlug(data.title);
+  }
+
+  if (data.description) {
+    twoWeekTweet = `📣 Just Scheduled! 📣
+
+${data.twitter_description}
+
+⬇️ Details Here ⬇️
+https://www.learnwithjason.dev/${slug}`;
+
+    ninetyMinTweet = `⚠️ Starting in 90 Minutes! ⚠️
+
+${data.twitter_description}
+
+⬇️ Details Here ⬇️
+https://www.learnwithjason.dev/${slug}`;
+
+    liveTweet = `🔴 We're Live! 🔴  
+
+${data.twitter_description} 
+
+⬇️  Watch Live Here  👀 
+https://twitch.tv/jlengstorf`;
+  }
 
   return (
     <Box display="flex" justifyContent="center">
@@ -85,7 +150,6 @@ const Episode = ({ data, usDate, nzDate }) => {
           d="flex"
           flexDir="column"
         >
-          {' '}
           {data && (
             <>
               <Box w="100%" d="flex" mb="10px"></Box>
@@ -197,6 +261,78 @@ const Episode = ({ data, usDate, nzDate }) => {
             <Box w="100%" d="flex" justifyContent="center">
               <Text>Buffer</Text>
             </Box>
+            <>
+              <Box w="100%" d="flex" justifyContent="center" mb="10px">
+                <FormLabel>Tweets</FormLabel>
+              </Box>
+              <Box
+                w="100%"
+                d="flex"
+                justifyContent="space-around"
+                mb="10px"
+                alignItems="center"
+              >
+                <Box d="flex" alignItems="center">
+                  <Text>Two Weeks</Text>
+                  <IconButton
+                    aria-label="Copy tweet"
+                    icon={<BiCopyAlt />}
+                    onClick={() => {
+                      handleCopy(twoWeekTweet);
+                      toast({
+                        title: 'Text copied.',
+                        description: 'Copied two week tweet to your clipboard.',
+                        status: 'success',
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    }}
+                  />
+                </Box>
+                <Box d="flex" alignItems="center">
+                  <Text>Ninety minutes</Text>
+                  <IconButton
+                    aria-label="Copy tweet"
+                    icon={<BiCopyAlt />}
+                    onClick={() => {
+                      handleCopy(ninetyMinTweet);
+                      toast({
+                        title: 'Text copied.',
+                        description:
+                          'Copied ninety minute tweet to your clipboard.',
+                        status: 'success',
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    }}
+                  />
+                </Box>
+                <Box d="flex" alignItems="center">
+                  <Text>Live</Text>
+                  <IconButton
+                    aria-label="Copy tweet"
+                    icon={<BiCopyAlt />}
+                    onClick={() => {
+                      handleCopy(liveTweet);
+                      toast({
+                        title: 'Text copied.',
+                        description: 'Copied live tweet to your clipboard.',
+                        status: 'success',
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
+                <Box w="100%" d="flex" justifyContent="space-around" mb="10px">
+                  <Text>{bufferTwoWeeks}</Text>
+                  <Text>{bufferNinetyMinutes}</Text>
+                  <Text>{usDate}</Text>
+                </Box>
+              </Box>
+            </>
             <Box w="100%" d="flex">
               <Box
                 w="25%"
@@ -290,7 +426,7 @@ const Episode = ({ data, usDate, nzDate }) => {
                 onClick={handleSubmit}
                 disabled={!session ? true : false}
               >
-                Add Episode
+                Update Reschedule
               </Button>
             </Box>
           </Box>
