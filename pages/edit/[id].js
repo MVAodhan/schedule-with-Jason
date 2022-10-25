@@ -9,10 +9,6 @@ import Nav from '../../components/Nav';
 import EditEpisodes from '../../components/EditEpisodes';
 import Published from '../../components/Published';
 
-// import { useSupabase } from '../../hooks/useSupabase.js';
-// import { sessionAtom } from '../../atoms';
-// import { useAtom } from 'jotai';
-
 import AddLinks from '../../components/AddLinks.js';
 
 export default function Home() {

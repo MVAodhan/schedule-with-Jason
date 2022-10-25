@@ -72,6 +72,8 @@ const Episode = ({ data, usDate, nzDate }) => {
       router.push('/');
     }
   };
+  zone = data.is_pt ? 'America/Los_Angeles' : 'Pacific/Auckland';
+
   objFromData = DateTime.fromISO(`${data.default_date}T${data.default_time}`);
 
   zoneISO = DateTime.fromObject(
@@ -277,6 +279,8 @@ https://twitch.tv/jlengstorf`;
                   <IconButton
                     aria-label="Copy tweet"
                     icon={<BiCopyAlt />}
+                    color="white"
+                    bgColor="transparent"
                     onClick={() => {
                       handleCopy(twoWeekTweet);
                       toast({
@@ -294,6 +298,8 @@ https://twitch.tv/jlengstorf`;
                   <IconButton
                     aria-label="Copy tweet"
                     icon={<BiCopyAlt />}
+                    color="white"
+                    bgColor="transparent"
                     onClick={() => {
                       handleCopy(ninetyMinTweet);
                       toast({
@@ -312,6 +318,8 @@ https://twitch.tv/jlengstorf`;
                   <IconButton
                     aria-label="Copy tweet"
                     icon={<BiCopyAlt />}
+                    color="white"
+                    bgColor="transparent"
                     onClick={() => {
                       handleCopy(liveTweet);
                       toast({
@@ -426,7 +434,7 @@ https://twitch.tv/jlengstorf`;
                 onClick={handleSubmit}
                 disabled={!session ? true : false}
               >
-                Update Reschedule
+                Update Episode
               </Button>
             </Box>
           </Box>
