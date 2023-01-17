@@ -1,5 +1,5 @@
 import { Box, Input, Text } from '@chakra-ui/react';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 const Link = ({ defaultValue, links, id, heading = 'Url' }) => {
   const [value, setValue] = useState('');

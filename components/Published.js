@@ -68,8 +68,10 @@ This episode was sponsored by:
 - Netlify (https://lwj.dev/netlify)
 - Nx (https://lwj.dev/nx)
 - Backlight (https://lwj.dev/backlight)
+- Pluralsight (https://lwj.dev/pluralsight)
 
 Live transcription by White Coat Captioning (https://whitecoatcaptioning.com/)
+
 
 Credits:
 
